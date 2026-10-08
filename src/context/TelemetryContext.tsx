@@ -24,6 +24,9 @@ interface TelemetryContextType {
   setViewMode: (mode: 'app' | 'landing') => void;
   selectedBuildingId: string;
   setSelectedBuildingId: (id: string) => void;
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (open: boolean) => void;
+  toggleMobileMenu: () => void;
 }
 
 const INITIAL_LOADS: SmartLoad[] = [
@@ -79,6 +82,8 @@ export const TelemetryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [isCompetitionModeOpen, setIsCompetitionModeOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<'app' | 'landing'>('app');
   const [selectedBuildingId, setSelectedBuildingId] = useState<string>('gulshan-tower');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
 
   const [loads, setLoads] = useState<SmartLoad[]>(INITIAL_LOADS);
   const [notifications, setNotifications] = useState<SystemNotification[]>(INITIAL_NOTIFICATIONS);
@@ -307,6 +312,9 @@ export const TelemetryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setViewMode,
       selectedBuildingId,
       setSelectedBuildingId,
+      isMobileMenuOpen,
+      setIsMobileMenuOpen,
+      toggleMobileMenu,
     }}>
       {children}
     </TelemetryContext.Provider>

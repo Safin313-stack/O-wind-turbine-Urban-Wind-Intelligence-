@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTelemetry } from '../../context/TelemetryContext';
-import { Wind, RotateCw, Cog, Zap, BatteryCharging, ArrowRight } from 'lucide-react';
+import { Wind, RotateCw, Cog, Zap, BatteryCharging, ArrowRight, ArrowDown } from 'lucide-react';
 
 export const EnergyFlowPipeline: React.FC = () => {
   const { telemetry } = useTelemetry();
@@ -90,11 +90,16 @@ export const EnergyFlowPipeline: React.FC = () => {
               </div>
             </div>
 
-            {/* Connecting Chevron arrow between stages on desktop */}
+            {/* Connecting Chevron arrow between stages: right on desktop, down on mobile */}
             {idx < stages.length - 1 && (
-              <div className="hidden sm:flex absolute -right-2.5 top-1/2 -translate-y-1/2 z-10 text-slate-600">
-                <ArrowRight className="w-4 h-4 text-slate-400 animate-pulse" />
-              </div>
+              <>
+                <div className="hidden sm:flex absolute -right-2.5 top-1/2 -translate-y-1/2 z-10 text-slate-600">
+                  <ArrowRight className="w-4 h-4 text-cyan-400/80 animate-pulse" />
+                </div>
+                <div className="flex sm:hidden justify-center my-1 text-slate-600">
+                  <ArrowDown className="w-3.5 h-3.5 text-cyan-400/80 animate-pulse" />
+                </div>
+              </>
             )}
           </div>
         ))}

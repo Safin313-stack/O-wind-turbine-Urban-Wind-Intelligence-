@@ -343,6 +343,31 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
       isDragging = false;
     };
 
+    // Mobile touch controls for 3D turbine rotation
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        prevMouseX = e.touches[0].clientX;
+        prevMouseY = e.touches[0].clientY;
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isDragging || e.touches.length !== 1) return;
+      const deltaX = e.touches[0].clientX - prevMouseX;
+      const deltaY = e.touches[0].clientY - prevMouseY;
+      prevMouseX = e.touches[0].clientX;
+      prevMouseY = e.touches[0].clientY;
+
+      targetRotationY += deltaX * 0.008;
+      targetRotationX += deltaY * 0.008;
+      targetRotationX = Math.max(-0.6, Math.min(1.0, targetRotationX));
+    };
+
+    const onTouchEnd = () => {
+      isDragging = false;
+    };
+
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       if (!cameraRef.current) return;
@@ -356,6 +381,9 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
     dom.addEventListener('wheel', onWheel, { passive: false });
+    dom.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('touchend', onTouchEnd);
 
     // 9. Animation Loop
     let animationFrameId: number;
@@ -420,6 +448,9 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
       dom.removeEventListener('wheel', onWheel);
+      dom.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
       renderer.dispose();
       materialsRef.current.forEach(m => m.dispose());
     };

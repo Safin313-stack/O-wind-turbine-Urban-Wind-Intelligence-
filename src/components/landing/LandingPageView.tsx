@@ -101,18 +101,18 @@ export const LandingPageView: React.FC = () => {
             </div>
 
             {/* Micro Benchmark Stats */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80 font-mono">
-              <div>
-                <span className="text-2xl font-bold text-white">1.48 m/s</span>
-                <span className="text-xs text-slate-400 block mt-0.5">Ultra-Low Cut-in</span>
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-6 border-t border-slate-800/80 font-mono">
+              <div className="p-2 sm:p-0 bg-space-900/60 sm:bg-transparent rounded-lg">
+                <span className="text-base sm:text-2xl font-bold text-white block">1.48 m/s</span>
+                <span className="text-[10px] sm:text-xs text-slate-400 block mt-0.5 truncate">Ultra-Low Cut-in</span>
               </div>
-              <div>
-                <span className="text-2xl font-bold text-emerald-400">0.496 W</span>
-                <span className="text-xs text-slate-400 block mt-0.5">Peak Output (Ref.)</span>
+              <div className="p-2 sm:p-0 bg-space-900/60 sm:bg-transparent rounded-lg">
+                <span className="text-base sm:text-2xl font-bold text-emerald-400 block">0.496 W</span>
+                <span className="text-[10px] sm:text-xs text-slate-400 block mt-0.5 truncate">Peak Output (Ref.)</span>
               </div>
-              <div>
-                <span className="text-2xl font-bold text-purple-400">92%</span>
-                <span className="text-xs text-slate-400 block mt-0.5">AI Siting Accuracy</span>
+              <div className="p-2 sm:p-0 bg-space-900/60 sm:bg-transparent rounded-lg">
+                <span className="text-base sm:text-2xl font-bold text-purple-400 block">92%</span>
+                <span className="text-[10px] sm:text-xs text-slate-400 block mt-0.5 truncate">AI Siting Acc.</span>
               </div>
             </div>
           </div>

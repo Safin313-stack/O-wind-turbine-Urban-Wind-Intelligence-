@@ -102,8 +102,11 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`group relative bg-space-900/80 backdrop-blur-md rounded-xl p-4 border border-slate-800/80 transition-all duration-200 ${accentStyles.border} ${accentStyles.glow} ${onClick ? 'cursor-pointer' : ''} ${className}`}
+      className={`group relative bg-space-900/80 backdrop-blur-md rounded-xl p-4 border border-slate-800/80 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg ${accentStyles.border} ${accentStyles.glow} ${onClick ? 'cursor-pointer' : ''} ${className}`}
     >
+      {/* Top subtle ambient glow line */}
+      <div className="absolute top-0 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-slate-700/60 to-transparent group-hover:via-cyan-500/50 transition-colors pointer-events-none" />
+
       {/* Header: Label & Icon */}
       <div className="flex items-center justify-between gap-2 mb-2">
         <span className="stat-label truncate">{label}</span>

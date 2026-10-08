@@ -42,8 +42,8 @@ const AppContent: React.FC = () => {
       {/* Permanent Left Sidebar on Desktop */}
       <Sidebar />
 
-      {/* Main Content Area (Offset by 64px on desktop, offset by 56px top on mobile/split-screen) */}
-      <div className="lg:pl-64 flex flex-col flex-1 min-w-0 pt-14 lg:pt-0">
+      {/* Main Content Area (Offset by 64px on desktop) */}
+      <div className="lg:pl-64 flex flex-col flex-1 min-w-0">
         {/* Sticky Header with Dhaka Location, Audio Toggle, Telemetry Controls */}
         <Header />
 

@@ -20,7 +20,8 @@ import {
   Volume2,
   VolumeX,
   Keyboard,
-  X
+  X,
+  Menu
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
@@ -36,6 +37,8 @@ export const Header: React.FC = () => {
     setIsCompetitionModeOpen,
     viewMode,
     setViewMode,
+    isMobileMenuOpen,
+    toggleMobileMenu,
   } = useTelemetry();
 
   const [isNotifOpen, setIsNotifOpen] = useState(false);
@@ -50,18 +53,40 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full h-16 bg-space-950/85 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-6 flex items-center justify-between gap-4">
-      {/* Left: Location & System Status */}
-      <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-        <div className="flex items-center gap-2 bg-space-900/90 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-200">
+    <header className="sticky top-0 z-30 w-full h-16 bg-space-950/85 backdrop-blur-md border-b border-slate-800/80 px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
+      {/* Left: Hamburger menu on mobile/split-screen + Location & System Status */}
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <button
+          onClick={toggleMobileMenu}
+          className="lg:hidden p-2 text-slate-300 hover:text-white rounded-lg bg-space-900 border border-slate-800 transition hover:border-slate-700"
+          aria-label="Toggle navigation drawer"
+          title="Open Navigation Menu"
+        >
+          {isMobileMenuOpen ? <X className="w-4 h-4 text-cyan-400" /> : <Menu className="w-4 h-4" />}
+        </button>
+
+        {/* Small Brand Emblem on Mobile */}
+        <div className="lg:hidden flex items-center gap-1.5 shrink-0">
+          <div className="relative w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 p-[1px] shadow-glow-cyan">
+            <div className="w-full h-full bg-space-950 rounded-[7px] flex items-center justify-center">
+              <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin-slow" />
+            </div>
+          </div>
+          <span className="font-mono font-bold text-xs tracking-wider text-white hidden xs:inline">
+            O-WIND
+          </span>
+        </div>
+
+        <div className="flex items-center gap-1.5 sm:gap-2 bg-space-900/90 border border-slate-800 px-2 sm:px-3 py-1.5 rounded-lg text-xs font-mono text-slate-200">
           <MapPin className="w-3.5 h-3.5 text-wind-cyan shrink-0" />
-          <span className="font-semibold text-white truncate">Dhaka, Bangladesh</span>
+          <span className="font-semibold text-white truncate">Dhaka</span>
+          <span className="hidden sm:inline font-semibold text-white">, BD</span>
           <span className="hidden md:inline text-slate-400">·</span>
-          <span className="hidden md:inline text-[11px] text-slate-400">Gulshan Site #1</span>
+          <span className="hidden md:inline text-[11px] text-slate-400">Gulshan #1</span>
         </div>
 
         {/* Live Hardware/Telemetry Heartbeat */}
-        <div className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/25 text-[11px] font-mono text-emerald-400">
+        <div className="hidden xl:flex items-center gap-2 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/25 text-[11px] font-mono text-emerald-400">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />

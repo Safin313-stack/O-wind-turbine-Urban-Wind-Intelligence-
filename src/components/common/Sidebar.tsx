@@ -31,8 +31,14 @@ interface NavItem {
 }
 
 export const Sidebar: React.FC = () => {
-  const { activePage, setActivePage, isLiveMode, setIsCompetitionModeOpen, viewMode, setViewMode } = useTelemetry();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { 
+    activePage, 
+    setActivePage, 
+    isLiveMode, 
+    setIsCompetitionModeOpen, 
+    isMobileMenuOpen, 
+    setIsMobileMenuOpen 
+  } = useTelemetry();
 
   const NAV_ITEMS: NavItem[] = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
@@ -51,49 +57,23 @@ export const Sidebar: React.FC = () => {
 
   const handleNavClick = (id: NavPage) => {
     setActivePage(id);
-    setMobileMenuOpen(false);
+    setIsMobileMenuOpen(false);
   };
 
   return (
     <>
-      {/* Mobile / Split-Screen Top App Bar with Animated Toggle */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-space-950/95 backdrop-blur-md border-b border-slate-800/80 px-3 flex items-center justify-between z-40">
-        <div className="flex items-center gap-2">
-          <div className="relative w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 p-[1.5px] shadow-glow-cyan">
-            <div className="w-full h-full bg-space-950 rounded-[7px] flex items-center justify-center">
-              <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin-slow" />
-            </div>
-          </div>
-          <span className="font-mono font-bold text-xs tracking-wider text-white hidden sm:inline">
-            O-WIND <span className="text-wind-cyan">AI</span>
-          </span>
-        </div>
-
-        {/* ALWAYS-VISIBLE ANIMATED WEBSITE TOGGLE ON NARROW SCREENS */}
-        <div className="flex items-center gap-2">
-          <WebsiteModeToggle variant="standard" />
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 text-slate-300 hover:text-white rounded-lg bg-space-900 border border-slate-800"
-            aria-label="Toggle navigation drawer"
-          >
-            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Backdrop for mobile */}
-      {mobileMenuOpen && (
+      {/* Backdrop for mobile drawer */}
+      {isMobileMenuOpen && (
         <div
-          onClick={() => setMobileMenuOpen(false)}
-          className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40 transition-opacity"
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-40 transition-opacity"
         />
       )}
 
       {/* Permanent Desktop Sidebar & Mobile Drawer */}
       <aside
         className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-space-950 border-r border-slate-800/80 flex flex-col transition-transform duration-300 ease-in-out ${
-          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          isMobileMenuOpen ? "translate-x-0 shadow-2xl shadow-cyan-950/60" : "-translate-x-full lg:translate-x-0"
         }`}
       >
         {/* Brand Header */}
@@ -124,7 +104,7 @@ export const Sidebar: React.FC = () => {
 
           {/* Close button for mobile inside drawer */}
           <button
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={() => setIsMobileMenuOpen(false)}
             className="lg:hidden p-1.5 text-slate-400 hover:text-white rounded-md"
             aria-label="Close menu"
           >
@@ -194,7 +174,7 @@ export const Sidebar: React.FC = () => {
           <button
             onClick={() => {
               setIsCompetitionModeOpen(true);
-              setMobileMenuOpen(false);
+              setIsMobileMenuOpen(false);
             }}
             className="w-full py-1.5 px-2.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/40 border border-purple-500/40 text-purple-200 text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition"
           >
