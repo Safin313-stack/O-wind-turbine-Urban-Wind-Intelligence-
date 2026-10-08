@@ -6,77 +6,94 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
   }
   
   body {
-    @apply bg-space-950 text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-wind-cyan/30 selection:text-wind-cyan;
+    background-color: #FAF9F6;
+    color: #1C1917;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
     background-image: 
-      radial-gradient(circle at 50% 0%, rgba(14, 28, 59, 0.45) 0%, transparent 60%),
-      radial-gradient(circle at 100% 100%, rgba(8, 20, 44, 0.3) 0%, transparent 50%);
+      radial-gradient(circle at 50% 0%, rgba(2, 132, 199, 0.04) 0%, transparent 60%),
+      radial-gradient(circle at 95% 85%, rgba(240, 100, 13, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 5% 45%, rgba(16, 185, 129, 0.03) 0%, transparent 40%);
     background-attachment: fixed;
     min-height: 100vh;
   }
 
-  /* Custom scientific sleek scrollbar */
+  /* Custom sleek scrollbar for light theme */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
   }
   ::-webkit-scrollbar-track {
-    background: #040711;
+    background: #F5F3EF;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1c2b4d;
+    background: #D6D3D1;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #00E5FF88;
+    background: #A8A29E;
   }
 }
 
 @layer components {
-  .panel-glass {
-    @apply bg-space-900/80 backdrop-blur-md border border-slate-800/80 rounded-xl transition-all duration-200;
-  }
-  
-  .panel-glass-hover {
-    @apply panel-glass hover:border-slate-700/80 hover:bg-space-850/80 hover:shadow-lg hover:shadow-cyan-950/20;
-  }
-
-  .stat-label {
-    @apply text-[11px] font-semibold uppercase tracking-wider text-slate-400 font-mono flex items-center gap-1.5;
-  }
-
-  .stat-value {
-    @apply font-mono font-bold tracking-tight text-white;
-  }
-
-  .badge-data-trust {
-    @apply text-[10px] uppercase font-mono px-2 py-0.5 rounded-full border font-medium;
-  }
-  
-  .glow-cyan-sm {
-    text-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
-  }
-
-  .glow-green-sm {
-    text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-  }
-
-  .glow-purple-sm {
-    text-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
-  }
-  .glass-panel {
-    @apply bg-slate-900/50 backdrop-blur-2xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.4)];
-  }
-
+  /* Elena Voss Inspired Light Glassmorphism Cards */
   .glass-card {
-    @apply bg-white/[0.03] hover:bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] hover:border-cyan-400/30 transition-all duration-300 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(231, 229, 228, 0.85);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .glass-card:hover {
+    border-color: rgba(2, 132, 199, 0.35);
+    box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+  }
+
+  .glass-panel {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(228, 228, 231, 0.9);
+    box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.04);
   }
 
   .glass-pill {
-    @apply bg-white/[0.04] backdrop-blur-lg border border-white/[0.1] hover:border-white/[0.2] transition-all;
+    background-color: rgba(245, 243, 239, 0.8);
+    border: 1px solid rgba(231, 229, 228, 0.9);
+    color: #292524;
+    transition: all 0.25s ease-out;
+  }
+
+  .glass-pill:hover {
+    background-color: #FFFFFF;
+    border-color: #D6D3D1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Elena Voss Magnetic Action Pill Button */
+  .btn-magnetic {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-magnetic:hover {
+    transform: translateY(-1px) scale(1.02);
+  }
+
+  .btn-magnetic:active {
+    transform: translateY(0) scale(0.98);
   }
 }
 
@@ -84,57 +101,12 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Radar pulse animation for map and sensor nodes */
-@keyframes ping-slow {
-  0% { transform: scale(0.9); opacity: 0.8; }
-  50% { transform: scale(1.4); opacity: 0.2; }
-  100% { transform: scale(1.8); opacity: 0; }
-}
-
-.animate-ping-slow {
-  animation: ping-slow 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
 /* Page fade transition */
 @keyframes fadeInPage {
-  0% { opacity: 0; transform: translateY(6px); }
+  0% { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fadeInPage 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeInPage 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-
-/* Toggle glow pulse */
-@keyframes toggleGlow {
-  0%, 100% { box-shadow: 0 0 15px -3px rgba(0, 229, 255, 0.4), inset 0 0 10px rgba(0, 229, 255, 0.2); }
-  50% { box-shadow: 0 0 25px 0px rgba(0, 229, 255, 0.65), inset 0 0 16px rgba(0, 229, 255, 0.35); }
-}
-
-.animate-toggle-glow {
-  animation: toggleGlow 2.5s ease-in-out infinite;
-}
-
-/* Shimmer highlight for toggle switch */
-@keyframes toggleShimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(200%); }
-}
-
-.shimmer-mask {
-  position: relative;
-  overflow: hidden;
-}
-
-.shimmer-mask::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-  transform: translateX(-100%);
-  animation: toggleShimmer 3s infinite;
-}
-

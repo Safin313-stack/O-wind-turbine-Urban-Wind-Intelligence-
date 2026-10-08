@@ -69,12 +69,11 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     // 1. Scene setup
     const scene = new THREE.Scene();
     sceneRef.current = scene;
-    scene.background = new THREE.Color(0x060a16);
-    scene.fog = new THREE.FogExp2(0x060a16, 0.035);
+    scene.background = null;
 
     // 2. Camera setup
-    const camera = new THREE.PerspectiveCamera(42, width / heightPx, 0.1, 100);
-    camera.position.set(0, 1.2, 3.8);
+    const camera = new THREE.PerspectiveCamera(40, width / heightPx, 0.1, 100);
+    camera.position.set(0, 1.1, 3.7);
     cameraRef.current = camera;
 
     // 3. Renderer setup
@@ -83,7 +82,7 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.18;
     rendererRef.current = renderer;
 
     while (container.firstChild) {
@@ -91,24 +90,27 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     }
     container.appendChild(renderer.domElement);
 
-    // 4. Lighting setup
-    const ambientLight = new THREE.AmbientLight(0x94a3b8, 1.3);
+    // 4. Studio Lighting setup (Optimized for maximum visual clarity & edge definition)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.2);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0x00e5ff, 2.8);
-    dirLight1.position.set(4, 5, 4);
-    scene.add(dirLight1);
+    // Key front light
+    const keyLight = new THREE.DirectionalLight(0xffffff, 3.8);
+    keyLight.position.set(5, 7, 5);
+    scene.add(keyLight);
 
-    const dirLight2 = new THREE.DirectionalLight(0x818cf8, 1.8);
-    dirLight2.position.set(-4, -2, -3);
-    scene.add(dirLight2);
+    // Electric cyan rim light for crisp spherical silhouette
+    const rimLight = new THREE.DirectionalLight(0x0284c7, 3.5);
+    rimLight.position.set(-5, -2, -4);
+    scene.add(rimLight);
 
-    const pointLightCore = new THREE.PointLight(0x10b981, 2.0, 4);
-    pointLightCore.position.set(0, 0, 0);
-    scene.add(pointLightCore);
+    // Warm bounce fill light
+    const fillLight = new THREE.DirectionalLight(0xf59e0b, 1.2);
+    fillLight.position.set(4, -3, -2);
+    scene.add(fillLight);
 
-    // Grid Floor
-    const gridHelper = new THREE.GridHelper(6, 24, 0x1e293b, 0x0f172a);
+    // Subtle light studio grid
+    const gridHelper = new THREE.GridHelper(6, 24, 0xd6d3d1, 0xe7e5e4);
     gridHelper.position.y = -1.2;
     scene.add(gridHelper);
 
@@ -251,12 +253,13 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
         const maxDim = Math.max(sizeX, sizeY, sizeZ);
         const scaleFactor = 1.82 / maxDim; // Normalize to ~1.82 units
 
-        const cadMat = new THREE.MeshStandardMaterial({
-          color: 0x0f2a48,
-          metalness: 0.75,
+        const cadMat = new THREE.MeshPhysicalMaterial({
+          color: 0xfafafa, // Pure lustrous aerospace pearl white for maximum visual clarity
+          metalness: 0.18,
           roughness: 0.22,
-          emissive: 0x021a30,
-          emissiveIntensity: 0.3,
+          clearcoat: 0.85,
+          clearcoatRoughness: 0.1,
+          reflectivity: 0.9,
         });
         materialsRef.current.push(cadMat);
 
@@ -303,11 +306,10 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
 
     const particleMat = new THREE.PointsMaterial({
-      color: 0x00e5ff,
+      color: 0x0284c7,
       size: 0.045,
       transparent: true,
-      opacity: 0.75,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.85,
     });
 
     const windParticles = new THREE.Points(particleGeo, particleMat);
@@ -559,40 +561,40 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
 
   return (
     <div 
-      className="relative w-full rounded-xl overflow-hidden border border-slate-800/80 bg-space-950 shadow-2xl group"
+      className="relative w-full rounded-2xl overflow-hidden border border-stone-200/90 bg-gradient-to-b from-[#FCFBF9] via-[#F7F5F0] to-[#EBE7DF] shadow-[0_8px_30px_rgb(0,0,0,0.04)] group"
       style={{ height }}
     >
       <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
 
       {/* Top Floating Badge with SolidWorks Source Badge */}
       <div className="absolute top-3 left-3 flex flex-wrap items-center gap-2 pointer-events-none z-10">
-        <div className="bg-space-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-cyan-500/30 flex items-center gap-2 text-xs font-mono text-cyan-300 shadow-lg">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+        <div className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-stone-200 flex items-center gap-2 text-xs font-mono text-stone-800 shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-cyan-500 animate-ping" />
           <span className="font-semibold tracking-wide">
             {cadModelLoaded && useActualCad ? 'PHYSICAL CAD ROTOR' : 'O-WIND 3D ROTOR'}
           </span>
-          <span className="text-slate-400">|</span>
-          <span className="text-white font-bold">{effectiveRPM} RPM</span>
+          <span className="text-stone-300">|</span>
+          <span className="text-stone-900 font-bold">{effectiveRPM} RPM</span>
         </div>
 
         {cadModelLoaded && useActualCad && (
-          <div className="bg-emerald-950/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-emerald-500/50 text-[10px] font-mono text-emerald-300 flex items-center gap-1.5 shadow-md">
-            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+          <div className="bg-emerald-50/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-emerald-300/80 text-[10px] font-mono text-emerald-800 flex items-center gap-1.5 shadow-sm">
+            <CheckCircle2 className="w-3 h-3 text-emerald-600" />
             <span>SOLIDWORKS CAD MESH (17,503 POLYS)</span>
           </div>
         )}
 
         {isExploded && (
-          <div className="bg-purple-900/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-purple-500/50 text-[10px] font-mono text-purple-200">
+          <div className="bg-purple-50/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-purple-300 text-[10px] font-mono text-purple-800 shadow-sm">
             EXPLODED CAD ASSEMBLY ACTIVE
           </div>
         )}
       </div>
 
-      {/* Manual Wind Velocity Slider overlay (Judge Interactive Demonstration) */}
-      <div className="absolute top-3 right-3 z-10 bg-space-900/90 backdrop-blur-md p-2 rounded-xl border border-slate-800 font-mono text-xs text-slate-300 flex items-center gap-2 shadow-xl">
-        <Wind className="w-3.5 h-3.5 text-wind-cyan animate-pulse" />
-        <span className="text-[11px] text-slate-400">Wind:</span>
+      {/* Manual Wind Velocity Slider overlay */}
+      <div className="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-md p-2 rounded-full border border-stone-200 font-mono text-xs text-stone-700 flex items-center gap-2 shadow-sm">
+        <Wind className="w-3.5 h-3.5 text-cyan-600 animate-pulse ml-1" />
+        <span className="text-[11px] text-stone-500">Wind:</span>
         <input
           type="range"
           min="1.0"
@@ -602,17 +604,17 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
           onChange={(e) => {
             setManualWindOverride(parseFloat(e.target.value));
           }}
-          className="w-20 accent-cyan-400 h-1.5 bg-slate-700 rounded-lg cursor-pointer"
+          className="w-20 accent-stone-900 h-1.5 bg-stone-200 rounded-lg cursor-pointer"
           title="Drag to simulate wind velocity changes"
         />
-        <strong className="text-wind-cyan text-xs w-14 text-right">
+        <strong className="text-stone-900 text-xs w-12 text-right font-bold">
           {activeWindSpeed.toFixed(1)} m/s
         </strong>
         {manualWindOverride !== null && (
           <button
             onClick={() => setManualWindOverride(null)}
-            className="text-[10px] text-slate-400 hover:text-white px-1.5 py-0.5 rounded bg-space-850"
-            title="Reset to live simulation stream"
+            className="text-[10px] text-stone-600 hover:text-stone-900 px-2 py-0.5 rounded-full bg-stone-100 hover:bg-stone-200 mr-0.5 transition"
+            title="Reset to default stream"
           >
             Auto
           </button>
@@ -623,16 +625,16 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
       {showControls && (
         <div className="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 z-10 pointer-events-auto">
           {/* Mode Switchers */}
-          <div className="flex items-center gap-1 bg-space-900/90 backdrop-blur-md p-1 rounded-lg border border-slate-800 shadow-xl">
+          <div className="flex items-center gap-1 bg-white/90 backdrop-blur-md p-1 rounded-full border border-stone-200 shadow-md">
             <button
               onClick={() => {
                 soundFx.playClick();
                 setViewMode('solid');
               }}
-              className={`px-2.5 py-1 text-xs rounded font-medium transition-all ${
+              className={`px-3 py-1 text-xs rounded-full font-medium transition-all ${
                 viewMode === 'solid'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-stone-900 text-white shadow-sm'
+                  : 'text-stone-600 hover:text-stone-900'
               }`}
             >
               Solid
@@ -642,10 +644,10 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
                 soundFx.playClick();
                 setViewMode('aerodynamic');
               }}
-              className={`px-2.5 py-1 text-xs rounded font-medium transition-all ${
+              className={`px-3 py-1 text-xs rounded-full font-medium transition-all ${
                 viewMode === 'aerodynamic'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-stone-900 text-white shadow-sm'
+                  : 'text-stone-600 hover:text-stone-900'
               }`}
             >
               Aero Vents
@@ -655,10 +657,10 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
                 soundFx.playClick();
                 setViewMode('wireframe');
               }}
-              className={`px-2.5 py-1 text-xs rounded font-medium transition-all ${
+              className={`px-3 py-1 text-xs rounded-full font-medium transition-all ${
                 viewMode === 'wireframe'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-stone-900 text-white shadow-sm'
+                  : 'text-stone-600 hover:text-stone-900'
               }`}
             >
               Wireframe
@@ -667,42 +669,42 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
             {/* Toggle Actual CAD Mesh vs Procedural */}
             {cadModelLoaded && (
               <>
-                <div className="w-px h-4 bg-slate-700 mx-1" />
+                <div className="w-px h-4 bg-stone-300 mx-1" />
                 <button
                   onClick={() => {
                     soundFx.playClick();
                     setUseActualCad(!useActualCad);
                     if (isExploded) setIsExploded(false);
                   }}
-                  className={`px-2.5 py-1 text-xs rounded font-mono font-medium transition-all ${
+                  className={`px-3 py-1 text-xs rounded-full font-mono font-medium transition-all ${
                     useActualCad && !isExploded
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-stone-600 hover:text-stone-900'
                   }`}
                   title="Toggle Actual SolidWorks STL Mesh vs Procedural Model"
                 >
-                  {useActualCad && !isExploded ? 'CAD STL' : 'CAD STL'}
+                  CAD STL
                 </button>
               </>
             )}
           </div>
 
           {/* Exploded View Toggle & Streamlines & Camera */}
-          <div className="flex items-center gap-1.5 bg-space-900/90 backdrop-blur-md p-1 rounded-lg border border-slate-800 shadow-xl">
+          <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md p-1 rounded-full border border-stone-200 shadow-md">
             <button
               onClick={() => {
                 soundFx.playClick();
                 setIsExploded(!isExploded);
               }}
-              className={`flex items-center gap-1.5 px-2.5 py-1 text-xs rounded font-medium transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1 text-xs rounded-full font-medium transition-all ${
                 isExploded
-                  ? 'bg-purple-600/30 text-purple-200 border border-purple-500/50 shadow-glow-purple font-bold'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-purple-600 text-white shadow-sm font-semibold'
+                  : 'text-stone-600 hover:text-stone-900'
               }`}
               title="Toggle Exploded CAD Assembly View"
             >
               <Box className="w-3.5 h-3.5" />
-              <span>Exploded CAD</span>
+              <span>Exploded</span>
             </button>
 
             <button
@@ -710,10 +712,10 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
                 soundFx.playClick();
                 setShowAirflow(!showAirflow);
               }}
-              className={`flex items-center gap-1.5 px-2.5 py-1 text-xs rounded font-medium transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1 text-xs rounded-full font-medium transition-all ${
                 showAirflow
-                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-cyan-600 text-white shadow-sm'
+                  : 'text-stone-600 hover:text-stone-900'
               }`}
               title="Toggle multi-directional wind streamlines"
             >
@@ -721,11 +723,11 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
               <span className="hidden sm:inline">Streamlines</span>
             </button>
 
-            <div className="w-px h-4 bg-slate-700 mx-0.5" />
+            <div className="w-px h-4 bg-stone-300 mx-0.5" />
 
             <button
               onClick={() => handleZoom('in')}
-              className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition"
+              className="p-1.5 text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-full transition"
               title="Zoom In"
               aria-label="Zoom in"
             >
@@ -733,7 +735,7 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
             </button>
             <button
               onClick={() => handleZoom('out')}
-              className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition"
+              className="p-1.5 text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-full transition"
               title="Zoom Out"
               aria-label="Zoom out"
             >
@@ -741,7 +743,7 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
             </button>
             <button
               onClick={handleResetCamera}
-              className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition"
+              className="p-1.5 text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-full transition"
               title="Reset Camera Angle"
               aria-label="Reset angle"
             >

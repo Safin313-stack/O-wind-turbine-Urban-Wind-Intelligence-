@@ -17,34 +17,34 @@ export const ShowcaseFooter: React.FC = () => {
   };
 
   return (
-    <footer className="border-t border-white/[0.08] bg-space-950/80 backdrop-blur-xl py-12 px-4 sm:px-6 lg:px-8">
+    <footer className="border-t border-stone-200/80 bg-[#FAF9F6]/90 backdrop-blur-xl py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left: Brand & Tagline */}
         <div className="space-y-2 text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-2.5">
             <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-500 p-[1px]">
-              <div className="w-full h-full bg-space-950 rounded-[7px] flex items-center justify-center">
-                <Wind className="w-3.5 h-3.5 text-cyan-400" />
+              <div className="w-full h-full bg-white rounded-[7px] flex items-center justify-center">
+                <Wind className="w-3.5 h-3.5 text-cyan-600" />
               </div>
             </div>
-            <span className="font-sans font-extrabold text-base text-white tracking-tight">
-              O-WIND <span className="text-cyan-400">AI</span>
+            <span className="font-sans font-black text-base text-stone-900 tracking-tight">
+              O-WIND <span className="text-cyan-600">AI</span>
             </span>
           </div>
-          <p className="text-xs text-slate-400 font-sans max-w-sm">
+          <p className="text-xs text-stone-500 font-sans max-w-sm">
             AI-Assisted O-Wind Turbine Placement & Clean Energy Optimization for High-Density Urban Buildings.
           </p>
         </div>
 
         {/* Center: Clean Nav Links */}
-        <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-slate-400">
-          <a href="#overview" className="hover:text-cyan-300 transition-colors">Overview</a>
-          <a href="#prototype" className="hover:text-cyan-300 transition-colors">3D Prototype</a>
-          <a href="#aerodynamics" className="hover:text-cyan-300 transition-colors">Aerodynamics</a>
-          <a href="#technology" className="hover:text-cyan-300 transition-colors">Pillars</a>
-          <a href="#simulation" className="hover:text-cyan-300 transition-colors">Simulation</a>
-          <a href="#specs" className="hover:text-cyan-300 transition-colors">Specs</a>
-          <a href="#about" className="hover:text-cyan-300 transition-colors">About</a>
+        <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-stone-600">
+          <a href="#overview" className="hover:text-stone-950 transition-colors">Overview</a>
+          <a href="#prototype" className="hover:text-stone-950 transition-colors">3D Prototype</a>
+          <a href="#aerodynamics" className="hover:text-stone-950 transition-colors">Aerodynamics</a>
+          <a href="#technology" className="hover:text-stone-950 transition-colors">Pillars</a>
+          <a href="#simulation" className="hover:text-stone-950 transition-colors">Simulation</a>
+          <a href="#specs" className="hover:text-stone-950 transition-colors">Specs</a>
+          <a href="#about" className="hover:text-stone-950 transition-colors">About</a>
         </div>
 
         {/* Right: GitHub & Back to top */}
@@ -53,15 +53,15 @@ export const ShowcaseFooter: React.FC = () => {
             href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-mono text-slate-300 hover:text-white transition"
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-mono text-stone-700 hover:text-stone-950 transition shadow-sm"
           >
-            <GithubIcon className="w-3.5 h-3.5 text-cyan-400" />
+            <GithubIcon className="w-3.5 h-3.5 text-stone-900" />
             <span>GitHub Repository</span>
           </a>
 
           <button
             onClick={scrollToTop}
-            className="p-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-slate-300 hover:text-white transition"
+            className="p-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-stone-600 hover:text-stone-900 transition shadow-sm"
             aria-label="Back to top"
             title="Back to top"
           >
@@ -70,7 +70,7 @@ export const ShowcaseFooter: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-white/[0.06] text-center text-[11px] font-mono text-slate-500">
+      <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-stone-200/60 text-center text-[11px] font-mono text-stone-500">
         <p>© 2026 O-WIND AI Project · Urban Clean Energy & Environmental Intelligence.</p>
       </div>
     </footer>

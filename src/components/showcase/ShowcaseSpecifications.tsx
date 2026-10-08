@@ -1,11 +1,12 @@
 import React from 'react';
-import { Layers, ShieldCheck, Cpu, Zap, Wind, Radio, Database } from 'lucide-react';
+import { Cpu, Zap, Wind, Database } from 'lucide-react';
 
 export const ShowcaseSpecifications: React.FC = () => {
   const specs = [
     {
       category: 'Physical & Aerodynamics',
       icon: Wind,
+      badgeColor: 'bg-cyan-50 border-cyan-200 text-cyan-700',
       items: [
         { label: 'Rotor Geometry', value: 'Omnidirectional Geodesic Sphere' },
         { label: 'CAD File Source', value: 'omni-directional-wind-turbine-1 (SolidWorks)' },
@@ -20,6 +21,7 @@ export const ShowcaseSpecifications: React.FC = () => {
     {
       category: 'Electrical & Power Train',
       icon: Zap,
+      badgeColor: 'bg-emerald-50 border-emerald-200 text-emerald-700',
       items: [
         { label: 'Generator Type', value: 'Coreless 3-Phase Low-Cogging Permanent Magnet Brushless' },
         { label: 'Power Conditioning', value: 'Active Synchronous Rectification & Micro-MPPT Tracker' },
@@ -34,6 +36,7 @@ export const ShowcaseSpecifications: React.FC = () => {
     {
       category: 'IoT Sensing & Edge AI',
       icon: Cpu,
+      badgeColor: 'bg-purple-50 border-purple-200 text-purple-700',
       items: [
         { label: 'Edge Microcontroller', value: 'Espressif ESP32-S3 Dual-Core 240MHz + ULP Coprocessor' },
         { label: 'Particulate Matter Sensor', value: 'Plantower PMS5003 Laser Optical Particle Counter (PM2.5/PM10)' },
@@ -51,14 +54,14 @@ export const ShowcaseSpecifications: React.FC = () => {
     <section id="specs" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-mono font-medium">
-          <Database className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-mono font-medium">
+          <Database className="w-3.5 h-3.5 text-cyan-600" />
           <span>ENGINEERING DATA SHEET</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans">
+        <h2 className="text-3xl sm:text-5xl font-black text-stone-900 tracking-tight font-sans">
           Technical Specifications
         </h2>
-        <p className="text-sm sm:text-base text-slate-400 font-sans leading-relaxed">
+        <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
           Comprehensive physical, electrical, and IoT parameters validated for high-density urban deployment.
         </p>
       </div>
@@ -70,31 +73,31 @@ export const ShowcaseSpecifications: React.FC = () => {
           return (
             <div
               key={group.category}
-              className="glass-card p-6 sm:p-7 rounded-3xl border border-white/[0.08] relative overflow-hidden flex flex-col justify-between"
+              className="glass-card p-6 sm:p-8 rounded-3xl border border-stone-200/90 relative overflow-hidden flex flex-col justify-between group"
             >
               <div>
-                <div className="flex items-center gap-3 pb-4 mb-4 border-b border-white/[0.08]">
-                  <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-cyan-400">
+                <div className="flex items-center gap-3 pb-4 mb-5 border-b border-stone-200/80">
+                  <div className={`p-2.5 rounded-2xl border ${group.badgeColor} group-hover:scale-110 transition-transform`}>
                     <Icon className="w-5 h-5" />
                   </div>
-                  <h3 className="font-bold text-base text-white tracking-wide font-sans">
+                  <h3 className="font-extrabold text-base text-stone-900 tracking-wide font-sans">
                     {group.category}
                   </h3>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-3.5">
                   {group.items.map((item) => (
                     <div key={item.label} className="text-xs font-mono">
-                      <span className="text-slate-400 block text-[11px]">{item.label}</span>
-                      <span className="text-slate-100 font-semibold mt-0.5 block">{item.value}</span>
+                      <span className="text-stone-500 block text-[11px]">{item.label}</span>
+                      <span className="text-stone-900 font-semibold mt-0.5 block">{item.value}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-white/[0.06] text-[10px] font-mono text-slate-500 flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t border-stone-200/80 text-[10px] font-mono text-stone-500 flex items-center justify-between">
                 <span>VERIFIED METRIC</span>
-                <span className="text-cyan-400">CAD v1.4</span>
+                <span className="text-cyan-700 font-bold">CAD v1.4</span>
               </div>
             </div>
           );

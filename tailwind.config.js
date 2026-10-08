@@ -8,6 +8,19 @@ export default {
   theme: {
     extend: {
       colors: {
+        porcelain: {
+          50: '#FAF9F6',
+          100: '#F5F3EF',
+          200: '#EBE7E0',
+          300: '#DDD7CD',
+          400: '#A8A29E',
+          500: '#78716C',
+          600: '#57534E',
+          700: '#44403C',
+          800: '#292524',
+          900: '#1C1917',
+          950: '#0C0A09',
+        },
         space: {
           950: '#040711',
           900: '#070C1B',
@@ -18,8 +31,8 @@ export default {
         },
         wind: {
           cyan: '#00E5FF',
-          blue: '#38BDF8',
-          glow: '#0284C7',
+          blue: '#0284C7',
+          glow: '#0369A1',
         },
         energy: {
           green: '#10B981',

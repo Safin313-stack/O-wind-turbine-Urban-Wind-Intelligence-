@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sliders, Zap, Wind, RotateCw, BatteryCharging, Radio, Cpu, Lightbulb, ShieldCheck, Activity } from 'lucide-react';
+import { Zap, Wind, RotateCw, BatteryCharging, Radio, Cpu, Lightbulb, Activity } from 'lucide-react';
 
 interface SimulatorLoad {
   id: string;
@@ -48,34 +48,31 @@ export const ShowcaseSimulator: React.FC = () => {
     <section id="simulation" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-mono font-medium">
-          <Zap className="w-3.5 h-3.5 text-emerald-400" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono font-medium">
+          <Zap className="w-3.5 h-3.5 text-emerald-600" />
           <span>INTERACTIVE PHYSICS & MICROGRID DISPATCH</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans">
+        <h2 className="text-3xl sm:text-5xl font-black text-stone-900 tracking-tight font-sans">
           Simulate Real-Time Urban Energy Harvest
         </h2>
-        <p className="text-sm sm:text-base text-slate-400 font-sans leading-relaxed">
+        <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
           Adjust the wind speed slider below to observe how the O-Wind rotor responds, generates clean wattage, and autonomously dispatches energy to edge IoT loads and battery storage.
         </p>
       </div>
 
       {/* Main Glassmorphic Interactive Simulator Card */}
-      <div className="glass-panel p-6 sm:p-10 rounded-3xl border border-white/[0.1] relative overflow-hidden shadow-2xl">
-        {/* Ambient lighting */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none" />
-
+      <div className="glass-panel p-6 sm:p-10 rounded-3xl border border-stone-200/90 shadow-[0_12px_36px_-6px_rgba(0,0,0,0.05)] relative overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Column: Interactive Controls */}
           <div className="lg:col-span-6 space-y-6">
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-slate-300 font-bold uppercase flex items-center gap-2">
-                  <Wind className="w-4 h-4 text-cyan-400" />
+                <span className="text-stone-800 font-bold uppercase flex items-center gap-2">
+                  <Wind className="w-4 h-4 text-cyan-600" />
                   Canyon Wind Speed
                 </span>
-                <span className="text-xl font-bold text-cyan-300 bg-white/[0.04] px-3 py-1 rounded-lg border border-white/[0.08]">
-                  {windSpeed.toFixed(1)} <span className="text-xs text-slate-400">m/s</span>
+                <span className="text-xl font-extrabold text-stone-900 bg-stone-100 px-3.5 py-1 rounded-xl border border-stone-200 shadow-sm">
+                  {windSpeed.toFixed(1)} <span className="text-xs text-stone-500 font-normal">m/s</span>
                 </span>
               </div>
 
@@ -87,38 +84,38 @@ export const ShowcaseSimulator: React.FC = () => {
                 step="0.1"
                 value={windSpeed}
                 onChange={(e) => setWindSpeed(parseFloat(e.target.value))}
-                className="w-full h-2.5 bg-space-850 rounded-lg appearance-none cursor-pointer accent-cyan-400 border border-white/[0.08]"
+                className="w-full h-2.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-stone-900"
               />
 
-              <div className="flex justify-between text-[10px] font-mono text-slate-500">
+              <div className="flex justify-between text-[10px] font-mono text-stone-500">
                 <span>0.5 m/s (Calm)</span>
-                <span className="text-cyan-400 font-bold">1.48 m/s Cut-in</span>
+                <span className="text-cyan-700 font-bold">1.48 m/s Cut-in</span>
                 <span>5.0 m/s (Moderate)</span>
                 <span>10.0 m/s (Strong Gust)</span>
               </div>
             </div>
 
             {/* Smart Micro-Loads Toggles */}
-            <div className="space-y-2 pt-4 border-t border-white/[0.08]">
-              <span className="text-xs font-mono font-bold text-slate-300 uppercase block mb-3">
+            <div className="space-y-2 pt-4 border-t border-stone-200/80">
+              <span className="text-xs font-mono font-bold text-stone-800 uppercase block mb-3">
                 Toggle Edge Micro-Loads:
               </span>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {loads.map((load) => {
                   const Icon = load.icon;
                   return (
                     <button
                       key={load.id}
                       onClick={() => toggleLoad(load.id)}
-                      className={`p-3 rounded-xl border text-left flex items-center justify-between transition-all ${
+                      className={`p-3 rounded-2xl border text-left flex items-center justify-between transition-all ${
                         load.enabled
-                          ? 'bg-cyan-500/10 border-cyan-500/40 text-white shadow-sm'
-                          : 'bg-white/[0.02] border-white/[0.06] text-slate-400 hover:text-slate-200'
+                          ? 'bg-cyan-50/80 border-cyan-300 text-stone-900 shadow-sm'
+                          : 'bg-white border-stone-200 text-stone-500 hover:text-stone-900 hover:border-stone-300'
                       }`}
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <Icon className={`w-4 h-4 shrink-0 ${load.enabled ? 'text-cyan-400' : 'text-slate-500'}`} />
+                        <Icon className={`w-4 h-4 shrink-0 ${load.enabled ? 'text-cyan-600' : 'text-stone-400'}`} />
                         <span className="text-xs font-mono truncate">{load.name}</span>
                       </div>
                       <span className="text-[11px] font-mono font-bold shrink-0 ml-2">
@@ -134,43 +131,43 @@ export const ShowcaseSimulator: React.FC = () => {
           {/* Right Column: Real-Time Telemetry & Energy Dispatch Status */}
           <div className="lg:col-span-6 space-y-4">
             {/* 4 Output Metrics */}
-            <div className="grid grid-cols-2 gap-3 font-mono">
-              <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 uppercase block">Rotor Velocity</span>
-                <div className="text-2xl font-bold text-white mt-1">
-                  {rpm} <span className="text-xs text-slate-400 font-normal">RPM</span>
+            <div className="grid grid-cols-2 gap-3.5 font-mono">
+              <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-sm">
+                <span className="text-[10px] text-stone-500 uppercase block font-semibold">Rotor Velocity</span>
+                <div className="text-2xl font-black text-stone-900 mt-1">
+                  {rpm} <span className="text-xs text-stone-500 font-normal">RPM</span>
                 </div>
-                <span className="text-[10px] text-cyan-400 block mt-1">
+                <span className="text-[10px] text-cyan-700 block mt-1 font-semibold">
                   {isOperating ? 'Active Kinetic Spin' : 'Below Cut-in Threshold'}
                 </span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 uppercase block">Generated Output</span>
-                <div className="text-2xl font-bold text-emerald-400 mt-1">
-                  {powerWatts} <span className="text-xs text-slate-400 font-normal">Watts</span>
+              <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-sm">
+                <span className="text-[10px] text-stone-500 uppercase block font-semibold">Generated Output</span>
+                <div className="text-2xl font-black text-emerald-600 mt-1">
+                  {powerWatts} <span className="text-xs text-stone-500 font-normal">Watts</span>
                 </div>
-                <span className="text-[10px] text-slate-400 block mt-1">
+                <span className="text-[10px] text-stone-500 block mt-1">
                   Micro-MPPT Conditioned
                 </span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 uppercase block">Bernoulli Suction</span>
-                <div className="text-2xl font-bold text-sky-400 mt-1">
-                  {pressureDeltaPa} <span className="text-xs text-slate-400 font-normal">Pa (ΔP)</span>
+              <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-sm">
+                <span className="text-[10px] text-stone-500 uppercase block font-semibold">Bernoulli Suction</span>
+                <div className="text-2xl font-black text-sky-700 mt-1">
+                  {pressureDeltaPa} <span className="text-xs text-stone-500 font-normal">Pa (ΔP)</span>
                 </div>
-                <span className="text-[10px] text-slate-400 block mt-1">
+                <span className="text-[10px] text-stone-500 block mt-1">
                   Internal Venturi Pressure
                 </span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-                <span className="text-[10px] text-slate-400 uppercase block">Active Edge Loads</span>
-                <div className="text-2xl font-bold text-purple-400 mt-1">
-                  {totalLoadWatts.toFixed(2)} <span className="text-xs text-slate-400 font-normal">Watts</span>
+              <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-sm">
+                <span className="text-[10px] text-stone-500 uppercase block font-semibold">Active Edge Loads</span>
+                <div className="text-2xl font-black text-purple-700 mt-1">
+                  {totalLoadWatts.toFixed(2)} <span className="text-xs text-stone-500 font-normal">Watts</span>
                 </div>
-                <span className="text-[10px] text-slate-400 block mt-1">
+                <span className="text-[10px] text-stone-500 block mt-1">
                   {loads.filter(l => l.enabled).length} Components Powered
                 </span>
               </div>
@@ -179,11 +176,11 @@ export const ShowcaseSimulator: React.FC = () => {
             {/* Microgrid Net Balance Card */}
             <div className={`p-4 rounded-2xl border font-mono flex items-center justify-between ${
               isSurplus
-                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
-                : 'bg-amber-500/10 border-amber-500/30 text-amber-300'
+                ? 'bg-emerald-50/80 border-emerald-300 text-emerald-900'
+                : 'bg-amber-50/80 border-amber-300 text-amber-900'
             }`}>
               <div className="flex items-center gap-3">
-                <BatteryCharging className={`w-5 h-5 ${isSurplus ? 'text-emerald-400' : 'text-amber-400'} animate-pulse`} />
+                <BatteryCharging className={`w-5 h-5 ${isSurplus ? 'text-emerald-600' : 'text-amber-600'} animate-pulse`} />
                 <div>
                   <span className="text-xs font-bold block">
                     {isSurplus ? 'ENERGY SURPLUS (CHARGING BATTERY)' : 'ENERGY DEFICIT (BUFFER DRAW)'}
@@ -195,7 +192,7 @@ export const ShowcaseSimulator: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <span className="text-lg font-extrabold shrink-0 ml-3">
+              <span className="text-lg font-black shrink-0 ml-3">
                 {isSurplus ? `+${netWatts} W` : `${netWatts} W`}
               </span>
             </div>

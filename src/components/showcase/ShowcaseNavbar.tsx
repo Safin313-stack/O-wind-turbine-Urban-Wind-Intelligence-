@@ -27,7 +27,7 @@ export const ShowcaseNavbar: React.FC = () => {
     { name: 'Overview', href: '#overview' },
     { name: '3D Prototype', href: '#prototype' },
     { name: 'Aerodynamics', href: '#aerodynamics' },
-    { name: 'Technology', href: '#technology' },
+    { name: 'Pillars', href: '#technology' },
     { name: 'Simulation', href: '#simulation' },
     { name: 'Specifications', href: '#specs' },
     { name: 'About', href: '#about' },
@@ -37,107 +37,107 @@ export const ShowcaseNavbar: React.FC = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-space-950/80 backdrop-blur-2xl border-b border-white/[0.08] shadow-2xl shadow-black/50 py-3.5'
+          ? 'bg-[#FAF9F6]/85 backdrop-blur-2xl border-b border-stone-200/80 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] py-3.5'
           : 'bg-transparent py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Logo & Name */}
         <a href="#overview" className="flex items-center gap-3 group">
-          <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-sky-400 to-indigo-600 p-[1.5px] shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-400/40 transition-shadow">
-            <div className="w-full h-full bg-space-950 rounded-[10px] flex items-center justify-center overflow-hidden">
-              <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin-slow" />
+          <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-sky-400 to-indigo-600 p-[1.5px] shadow-sm group-hover:scale-105 transition-transform">
+            <div className="w-full h-full bg-[#FAF9F6] rounded-[10px] flex items-center justify-center overflow-hidden">
+              <div className="w-4 h-4 border-2 border-cyan-600 border-t-transparent rounded-full animate-spin-slow" />
             </div>
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-sans font-extrabold text-base tracking-tight text-white group-hover:text-cyan-300 transition-colors">
+              <span className="font-sans font-extrabold text-base tracking-tight text-stone-900 group-hover:text-cyan-700 transition-colors">
                 O-WIND
               </span>
-              <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+              <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-cyan-100/80 text-cyan-800 border border-cyan-300/80">
                 AI
               </span>
             </div>
-            <span className="text-[10px] text-slate-400 font-mono hidden sm:block tracking-wider">
+            <span className="text-[10px] text-stone-500 font-mono hidden sm:block tracking-wider">
               URBAN WIND INTELLIGENCE
             </span>
           </div>
         </a>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden lg:flex items-center gap-1 bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] px-3 py-1.5 rounded-full shadow-inner">
+        <div className="hidden lg:flex items-center gap-1 bg-white/80 backdrop-blur-xl border border-stone-200/80 px-3 py-1.5 rounded-full shadow-sm">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="px-3 py-1.5 rounded-full text-xs font-mono font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] transition-all"
+              className="px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-stone-600 hover:text-stone-950 hover:bg-stone-100 transition-all duration-200"
             >
               {link.name}
             </a>
           ))}
         </div>
 
-        {/* Right CTA: GitHub Repository */}
+        {/* Right CTA: GitHub Repository & Explore Button */}
         <div className="hidden sm:flex items-center gap-3">
           <a
             href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] hover:border-cyan-400/40 text-xs font-mono text-slate-200 hover:text-white transition-all shadow-sm group"
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-mono text-stone-700 hover:text-stone-950 transition-all shadow-sm group hover:scale-[1.02] active:scale-[0.98]"
           >
-            <GithubIcon className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
+            <GithubIcon className="w-3.5 h-3.5 text-stone-800 group-hover:scale-110 transition-transform" />
             <span>GitHub</span>
           </a>
 
           <a
             href="#prototype"
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-400 hover:to-sky-400 text-black text-xs font-mono font-bold transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/40"
+            className="btn-magnetic flex items-center gap-1.5 px-5 py-2 rounded-full bg-stone-900 hover:bg-black text-white text-xs font-mono font-bold shadow-md hover:shadow-lg transition-all"
           >
             <span>Explore 3D</span>
-            <ExternalLink className="w-3 h-3" />
+            <ExternalLink className="w-3 h-3 text-cyan-300" />
           </a>
         </div>
 
         {/* Mobile Hamburger Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-slate-300 hover:text-white transition"
+          className="lg:hidden p-2.5 rounded-xl bg-white border border-stone-200 text-stone-700 hover:text-stone-950 transition"
           aria-label="Toggle navigation menu"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5 text-cyan-400" /> : <Menu className="w-5 h-5" />}
+          {mobileMenuOpen ? <X className="w-5 h-5 text-cyan-600" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-4 top-20 rounded-2xl bg-space-900/95 backdrop-blur-2xl border border-white/[0.1] p-5 shadow-2xl shadow-black animate-fade-in space-y-4">
+        <div className="lg:hidden fixed inset-x-4 top-20 rounded-2xl bg-[#FAF9F6]/95 backdrop-blur-2xl border border-stone-200 p-5 shadow-xl animate-fade-in space-y-4">
           <div className="flex flex-col space-y-1">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-4 py-2.5 rounded-xl text-sm font-mono text-slate-200 hover:text-white hover:bg-white/[0.06] transition"
+                className="px-4 py-2.5 rounded-xl text-sm font-mono text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition"
               >
                 {link.name}
               </a>
             ))}
           </div>
 
-          <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between gap-3">
+          <div className="pt-3 border-t border-stone-200 flex items-center justify-between gap-3">
             <a
               href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl bg-white/[0.04] border border-white/[0.1] text-xs font-mono text-slate-200 hover:text-white transition"
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white border border-stone-200 text-xs font-mono text-stone-800 hover:text-stone-950 transition"
             >
-              <GithubIcon className="w-4 h-4 text-cyan-400" />
+              <GithubIcon className="w-4 h-4 text-stone-800" />
               <span>GitHub</span>
             </a>
             <a
               href="#prototype"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-cyan-400 text-black text-xs font-mono font-bold transition"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-stone-900 text-white text-xs font-mono font-bold transition"
             >
               <span>Explore 3D</span>
             </a>

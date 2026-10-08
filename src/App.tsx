@@ -13,7 +13,7 @@ import { ShowcaseFooter } from './components/showcase/ShowcaseFooter';
 export const App: React.FC = () => {
   return (
     <TelemetryProvider>
-      <div className="min-h-screen bg-space-950 text-slate-100 flex flex-col antialiased selection:bg-cyan-500/30 selection:text-cyan-300 relative overflow-x-hidden">
+      <div className="min-h-screen bg-[#FAF9F6] text-stone-900 flex flex-col antialiased selection:bg-cyan-500/20 selection:text-cyan-900 relative overflow-x-hidden">
         {/* Modern Glassmorphic Top Navbar */}
         <ShowcaseNavbar />
 
