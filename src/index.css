@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  
+  body {
+    @apply bg-space-950 text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-wind-cyan/30 selection:text-wind-cyan;
+    background-image: 
+      radial-gradient(circle at 50% 0%, rgba(14, 28, 59, 0.45) 0%, transparent 60%),
+      radial-gradient(circle at 100% 100%, rgba(8, 20, 44, 0.3) 0%, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Custom scientific sleek scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #040711;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1c2b4d;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00E5FF88;
+  }
+}
+
+@layer components {
+  .panel-glass {
+    @apply bg-space-900/80 backdrop-blur-md border border-slate-800/80 rounded-xl transition-all duration-200;
+  }
+  
+  .panel-glass-hover {
+    @apply panel-glass hover:border-slate-700/80 hover:bg-space-850/80 hover:shadow-lg hover:shadow-cyan-950/20;
+  }
+
+  .stat-label {
+    @apply text-[11px] font-semibold uppercase tracking-wider text-slate-400 font-mono flex items-center gap-1.5;
+  }
+
+  .stat-value {
+    @apply font-mono font-bold tracking-tight text-white;
+  }
+
+  .badge-data-trust {
+    @apply text-[10px] uppercase font-mono px-2 py-0.5 rounded-full border font-medium;
+  }
+  
+  .glow-cyan-sm {
+    text-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+  }
+
+  .glow-green-sm {
+    text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+  }
+
+  .glow-purple-sm {
+    text-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+  }
+}
+
+/* Radar pulse animation for map and sensor nodes */
+@keyframes ping-slow {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.4); opacity: 0.2; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.animate-ping-slow {
+  animation: ping-slow 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
