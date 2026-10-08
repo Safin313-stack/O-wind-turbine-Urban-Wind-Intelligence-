@@ -17,6 +17,7 @@ import { ProjectView } from './components/project/ProjectView';
 import { SettingsView } from './components/settings/SettingsView';
 import { CompetitionModeModal } from './components/competition/CompetitionModeModal';
 import { LandingPageView } from './components/landing/LandingPageView';
+import { WebsiteModeToggle } from './components/common/WebsiteModeToggle';
 
 const AppContent: React.FC = () => {
   const { activePage, viewMode } = useTelemetry();
@@ -27,16 +28,17 @@ const AppContent: React.FC = () => {
   // If public landing page view is selected
   if (viewMode === 'landing') {
     return (
-      <>
+      <div className="relative animate-fade-in">
         <LandingPageView />
         <CompetitionModeModal />
-      </>
+        <WebsiteModeToggle variant="floating" />
+      </div>
     );
   }
 
   // Smart-City Command Center Desktop App Shell
   return (
-    <div className="min-h-screen bg-space-950 text-slate-100 flex flex-col antialiased">
+    <div className="min-h-screen bg-space-950 text-slate-100 flex flex-col antialiased animate-fade-in relative">
       {/* Permanent Left Sidebar on Desktop */}
       <Sidebar />
 
@@ -77,6 +79,9 @@ const AppContent: React.FC = () => {
 
       {/* 5-Minute Guided Judge Competition Presentation Modal */}
       <CompetitionModeModal />
+
+      {/* Persistent Floating Mode Switcher */}
+      <WebsiteModeToggle variant="floating" />
     </div>
   );
 };

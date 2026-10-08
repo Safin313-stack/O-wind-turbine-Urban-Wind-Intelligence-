@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTelemetry } from '../../context/TelemetryContext';
 import { Turbine3DViewer } from '../turbine3d/Turbine3DViewer';
+import { WebsiteModeToggle } from '../common/WebsiteModeToggle';
 import { SDG_DATA } from '../../data/sdgData';
 import {
   Wind,
@@ -25,9 +26,9 @@ export const LandingPageView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-space-950 text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-space-950 text-slate-100 flex flex-col animate-fade-in">
       {/* 1. Public Top Navigation */}
-      <nav className="sticky top-0 z-40 w-full h-16 bg-space-950/90 backdrop-blur-md border-b border-slate-800/80 px-6 flex items-center justify-between">
+      <nav className="sticky top-0 z-40 w-full h-16 bg-space-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 p-[1.5px] shadow-glow-cyan">
             <div className="w-full h-full bg-space-950 rounded-[7px] flex items-center justify-center">
@@ -39,28 +40,23 @@ export const LandingPageView: React.FC = () => {
           </span>
         </div>
 
-        <div className="hidden md:flex items-center gap-6 text-xs font-mono text-slate-300">
+        <div className="hidden lg:flex items-center gap-6 text-xs font-mono text-slate-300">
           <a href="#problem" className="hover:text-white transition">The Problem</a>
           <a href="#solution" className="hover:text-white transition">O-Wind Technology</a>
           <a href="#innovation" className="hover:text-white transition">AI Siting</a>
           <a href="#sdgs" className="hover:text-white transition">UN SDGs</a>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Animated Website / Platform Toggle Switcher */}
+          <WebsiteModeToggle variant="standard" />
+
           <button
             onClick={() => setIsCompetitionModeOpen(true)}
             className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600/20 border border-purple-500/40 text-purple-200 text-xs font-mono font-semibold transition"
           >
             <Trophy className="w-3.5 h-3.5 text-purple-400" />
             <span>Judge Demo</span>
-          </button>
-
-          <button
-            onClick={() => handleLaunchApp('dashboard')}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-black text-xs font-mono font-bold transition shadow-glow-cyan"
-          >
-            <span>Launch Platform</span>
-            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </nav>

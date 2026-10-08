@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTelemetry } from '../../context/TelemetryContext';
 import { soundFx } from '../../utils/audio';
+import { WebsiteModeToggle } from './WebsiteModeToggle';
 import { 
   MapPin, 
   Activity, 
@@ -118,16 +119,24 @@ export const Header: React.FC = () => {
           </button>
         </div>
 
-        {/* Live vs Demo Mode Toggle */}
-        <div className="flex items-center bg-space-900/90 border border-slate-800 rounded-lg p-0.5 text-[11px] font-mono">
+        {/* Live vs Demo Mode Toggle with Sliding Animation */}
+        <div className="relative flex items-center bg-space-900/90 border border-slate-800 rounded-lg p-0.5 text-[11px] font-mono shadow-inner">
+          {/* Animated sliding thumb */}
+          <div
+            className={`absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-md transition-all duration-300 ease-out ${
+              !isLiveMode
+                ? 'left-0.5 bg-cyan-500/25 border border-cyan-500/50 shadow-sm'
+                : 'left-[calc(50%+2px)] bg-emerald-500/25 border border-emerald-500/50 shadow-sm'
+            }`}
+          />
           <button
             onClick={() => {
               soundFx.playClick();
               setIsLiveMode(false);
             }}
-            className={`px-2.5 py-1 rounded font-semibold transition-all ${
+            className={`relative z-10 px-2.5 py-1 rounded font-semibold transition-all ${
               !isLiveMode
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
+                ? 'text-cyan-300'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -138,9 +147,9 @@ export const Header: React.FC = () => {
               soundFx.playClick();
               setIsLiveMode(true);
             }}
-            className={`px-2.5 py-1 rounded font-semibold transition-all ${
+            className={`relative z-10 px-2.5 py-1 rounded font-semibold transition-all ${
               isLiveMode
-                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
+                ? 'text-emerald-300'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -166,18 +175,10 @@ export const Header: React.FC = () => {
           </span>
         </button>
 
-        {/* View Mode Switcher: App vs Landing */}
-        <button
-          onClick={() => {
-            soundFx.playClick();
-            setViewMode(viewMode === 'app' ? 'landing' : 'app');
-          }}
-          className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-space-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white text-xs font-mono transition"
-          title="Switch to Public Landing Page"
-        >
-          <Globe className="w-3.5 h-3.5 text-slate-400" />
-          <span>{viewMode === 'app' ? 'LANDING PAGE' : 'COMMAND CENTER'}</span>
-        </button>
+        {/* Animated Website / Platform Mode Switcher Toggle */}
+        <div className="hidden md:block">
+          <WebsiteModeToggle variant="standard" />
+        </div>
 
         {/* Keyboard Shortcuts Dialog Button */}
         <button

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTelemetry } from '../../context/TelemetryContext';
 import { NavPage } from '../../types';
+import { WebsiteModeToggle } from './WebsiteModeToggle';
 import {
   LayoutDashboard,
   Gauge,
@@ -127,8 +128,13 @@ export const Sidebar: React.FC = () => {
           </button>
         </div>
 
+        {/* Animated Website / Platform Mode Switcher */}
+        <div className="px-3 pt-3 pb-1">
+          <WebsiteModeToggle variant="standard" className="w-full justify-between" />
+        </div>
+
         {/* Navigation Link List */}
-        <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1 scrollbar-thin">
+        <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-1 scrollbar-thin">
           <div className="px-3 pb-2 text-[10px] font-mono font-semibold uppercase tracking-wider text-slate-400">
             Navigation
           </div>
