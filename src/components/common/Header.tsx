@@ -175,9 +175,14 @@ export const Header: React.FC = () => {
           </span>
         </button>
 
-        {/* Animated Website / Platform Mode Switcher Toggle */}
-        <div className="hidden md:block">
-          <WebsiteModeToggle variant="standard" />
+        {/* Animated Website / Platform Mode Switcher Toggle (Always Visible) */}
+        <div className="flex items-center">
+          <div className="hidden sm:block">
+            <WebsiteModeToggle variant="standard" />
+          </div>
+          <div className="sm:hidden">
+            <WebsiteModeToggle variant="compact" />
+          </div>
         </div>
 
         {/* Keyboard Shortcuts Dialog Button */}

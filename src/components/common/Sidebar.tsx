@@ -56,26 +56,30 @@ export const Sidebar: React.FC = () => {
 
   return (
     <>
-      {/* Mobile Top App Bar with Hamburger Toggle */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-space-950/95 border-b border-slate-800/80 px-4 flex items-center justify-between z-40">
-        <div className="flex items-center gap-2.5">
-          <div className="relative w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 p-[1.5px] shadow-glow-cyan">
+      {/* Mobile / Split-Screen Top App Bar with Animated Toggle */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-space-950/95 backdrop-blur-md border-b border-slate-800/80 px-3 flex items-center justify-between z-40">
+        <div className="flex items-center gap-2">
+          <div className="relative w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-purple-600 p-[1.5px] shadow-glow-cyan">
             <div className="w-full h-full bg-space-950 rounded-[7px] flex items-center justify-center">
-              <div className="w-3.5 h-3.5 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin-slow" />
+              <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin-slow" />
             </div>
           </div>
-          <span className="font-mono font-extrabold text-sm tracking-wider text-white">
+          <span className="font-mono font-bold text-xs tracking-wider text-white hidden sm:inline">
             O-WIND <span className="text-wind-cyan">AI</span>
           </span>
         </div>
 
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-2 text-slate-300 hover:text-white rounded-lg bg-space-900 border border-slate-800"
-          aria-label="Toggle navigation drawer"
-        >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+        {/* ALWAYS-VISIBLE ANIMATED WEBSITE TOGGLE ON NARROW SCREENS */}
+        <div className="flex items-center gap-2">
+          <WebsiteModeToggle variant="standard" />
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-1.5 text-slate-300 hover:text-white rounded-lg bg-space-900 border border-slate-800"
+            aria-label="Toggle navigation drawer"
+          >
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </button>
+        </div>
       </div>
 
       {/* Backdrop for mobile */}
@@ -128,9 +132,16 @@ export const Sidebar: React.FC = () => {
           </button>
         </div>
 
-        {/* Animated Website / Platform Mode Switcher */}
-        <div className="px-3 pt-3 pb-1">
-          <WebsiteModeToggle variant="standard" className="w-full justify-between" />
+        {/* Animated Website / Platform Mode Switcher on Left Side */}
+        <div className="px-3 pt-3 pb-2.5 border-b border-slate-800/80 bg-space-900/40">
+          <div className="flex items-center justify-between text-[10px] font-mono font-semibold uppercase tracking-wider text-slate-400 mb-1.5 px-1">
+            <span>Toggle View Mode</span>
+            <span className="text-wind-cyan font-bold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              LIVE
+            </span>
+          </div>
+          <WebsiteModeToggle variant="standard" className="w-full" />
         </div>
 
         {/* Navigation Link List */}

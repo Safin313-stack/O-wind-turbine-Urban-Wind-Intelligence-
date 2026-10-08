@@ -5,6 +5,7 @@ import { EnergyFlowPipeline } from './EnergyFlowPipeline';
 import { DashboardCharts } from './DashboardCharts';
 import { MetricCard } from '../common/MetricCard';
 import { DataSourceBadge } from '../common/DataSourceBadge';
+import { WebsiteModeToggle } from '../common/WebsiteModeToggle';
 import { 
   Wind, 
   Compass, 
@@ -50,8 +51,10 @@ export const DashboardView: React.FC = () => {
           </p>
         </div>
 
-        {/* Quick Siting Action & Micro-Status */}
-        <div className="flex items-center gap-3">
+        {/* Mode Switcher & Quick Siting Action */}
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+          <WebsiteModeToggle variant="standard" />
+
           <button
             onClick={() => setActivePage('optimizer')}
             className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-200 text-xs font-mono font-semibold transition shadow-glow-purple"

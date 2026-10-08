@@ -28,16 +28,16 @@ export const WebsiteModeToggle: React.FC<WebsiteModeToggleProps> = ({
         aria-label="Mode Navigation"
         className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 ${className}`}
       >
-        <div className="relative p-1 rounded-full bg-space-900/90 backdrop-blur-xl border border-cyan-500/40 shadow-2xl shadow-cyan-950/60 flex items-center transition-all duration-300 hover:border-cyan-400 group">
-          {/* Animated Ambient Glow */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/20 via-transparent to-blue-500/20 blur-md pointer-events-none opacity-70 group-hover:opacity-100 transition-opacity" />
+        <div className="relative p-1.5 rounded-full bg-space-900/95 backdrop-blur-2xl border-2 border-cyan-400/60 shadow-2xl shadow-cyan-950 flex items-center transition-all duration-300 hover:border-cyan-300 group hover:scale-105">
+          {/* Animated Ambient Pulse Ring */}
+          <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-500 via-sky-400 to-indigo-500 opacity-60 blur-md group-hover:opacity-90 animate-pulse pointer-events-none" />
 
           {/* Sliding Pill Indicator */}
           <div
-            className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full transition-all duration-300 ease-out shadow-lg ${
+            className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] rounded-full transition-all duration-300 ease-out shadow-lg ${
               isWebsite
-                ? 'left-1 bg-gradient-to-r from-cyan-500 to-sky-500 shadow-cyan-500/30'
-                : 'left-[calc(50%+4px)] bg-gradient-to-r from-blue-600 to-indigo-600 shadow-indigo-500/30'
+                ? 'left-1.5 bg-gradient-to-r from-cyan-500 to-sky-500 shadow-cyan-500/40'
+                : 'left-[50%] bg-gradient-to-r from-blue-600 to-indigo-600 shadow-indigo-500/40'
             }`}
           />
 
@@ -128,7 +128,7 @@ export const WebsiteModeToggle: React.FC<WebsiteModeToggleProps> = ({
         className={`absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg transition-all duration-300 cubic-bezier(0.4,0,0.2,1) ${
           isWebsite
             ? 'left-1 bg-gradient-to-r from-cyan-500/30 to-blue-500/20 border border-cyan-400/50 shadow-glow-cyan'
-            : 'left-[calc(50%+4px)] bg-gradient-to-r from-blue-600/30 to-indigo-600/30 border border-indigo-400/50 shadow-glow-purple'
+            : 'left-[50%] bg-gradient-to-r from-blue-600/30 to-indigo-600/30 border border-indigo-400/50 shadow-glow-purple'
         }`}
       />
 
