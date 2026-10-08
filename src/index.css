@@ -67,6 +67,21 @@
   .glow-purple-sm {
     text-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
   }
+  .glass-panel {
+    @apply bg-slate-900/50 backdrop-blur-2xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.4)];
+  }
+
+  .glass-card {
+    @apply bg-white/[0.03] hover:bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] hover:border-cyan-400/30 transition-all duration-300 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+  }
+
+  .glass-pill {
+    @apply bg-white/[0.04] backdrop-blur-lg border border-white/[0.1] hover:border-white/[0.2] transition-all;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* Radar pulse animation for map and sensor nodes */
