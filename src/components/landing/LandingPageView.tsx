@@ -49,7 +49,12 @@ export const LandingPageView: React.FC = () => {
 
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Animated Website / Platform Toggle Switcher */}
-          <WebsiteModeToggle variant="standard" />
+          <div className="hidden sm:block">
+            <WebsiteModeToggle variant="standard" />
+          </div>
+          <div className="sm:hidden">
+            <WebsiteModeToggle variant="compact" />
+          </div>
 
           <button
             onClick={() => setIsCompetitionModeOpen(true)}
