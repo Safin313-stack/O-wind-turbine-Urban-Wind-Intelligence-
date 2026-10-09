@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ExternalLink, Sparkles } from 'lucide-react';
+import { Magnetic } from '../motion-primitives';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -64,38 +65,43 @@ export const ShowcaseNavbar: React.FC = () => {
           </div>
         </a>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links with animated hover pill */}
         <div className="hidden lg:flex items-center gap-1 bg-white/80 backdrop-blur-xl border border-stone-200/80 px-3 py-1.5 rounded-full shadow-sm">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-stone-600 hover:text-stone-950 hover:bg-stone-100 transition-all duration-200"
+              className="relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-stone-600 hover:text-stone-950 transition-colors duration-200 group"
             >
-              {link.name}
+              <span className="relative z-10">{link.name}</span>
+              <span className="absolute inset-0 rounded-full bg-stone-100 opacity-0 group-hover:opacity-100 transition-opacity -z-0" />
             </a>
           ))}
         </div>
 
-        {/* Right CTA: GitHub Repository & Explore Button */}
+        {/* Right CTA: GitHub Repository & Explore Button with Magnetic Attraction */}
         <div className="hidden sm:flex items-center gap-3">
-          <a
-            href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-mono text-stone-700 hover:text-stone-950 transition-all shadow-sm group hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <GithubIcon className="w-3.5 h-3.5 text-stone-800 group-hover:scale-110 transition-transform" />
-            <span>GitHub</span>
-          </a>
+          <Magnetic intensity={0.25}>
+            <a
+              href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-mono text-stone-700 hover:text-stone-950 transition-all shadow-sm group active:scale-[0.98]"
+            >
+              <GithubIcon className="w-3.5 h-3.5 text-stone-800 group-hover:scale-110 transition-transform" />
+              <span>GitHub</span>
+            </a>
+          </Magnetic>
 
-          <a
-            href="#prototype"
-            className="btn-magnetic flex items-center gap-1.5 px-5 py-2 rounded-full bg-stone-900 hover:bg-black text-white text-xs font-mono font-bold shadow-md hover:shadow-lg transition-all"
-          >
-            <span>Explore 3D</span>
-            <ExternalLink className="w-3 h-3 text-cyan-300" />
-          </a>
+          <Magnetic intensity={0.28}>
+            <a
+              href="#prototype"
+              className="flex items-center gap-1.5 px-5 py-2 rounded-full bg-stone-900 hover:bg-black text-white text-xs font-mono font-bold shadow-md hover:shadow-lg transition-all"
+            >
+              <span>Explore 3D</span>
+              <ExternalLink className="w-3 h-3 text-cyan-300" />
+            </a>
+          </Magnetic>
         </div>
 
         {/* Mobile Hamburger Button */}

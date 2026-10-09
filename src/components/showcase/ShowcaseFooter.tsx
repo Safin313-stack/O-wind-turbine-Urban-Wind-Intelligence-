@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowUp, Wind } from 'lucide-react';
+import { Magnetic } from '../motion-primitives';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -47,26 +48,30 @@ export const ShowcaseFooter: React.FC = () => {
           <a href="#about" className="hover:text-stone-950 transition-colors">About</a>
         </div>
 
-        {/* Right: GitHub & Back to top */}
+        {/* Right: GitHub & Back to top with Motion Primitives Magnetic */}
         <div className="flex items-center gap-3">
-          <a
-            href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-mono text-stone-700 hover:text-stone-950 transition shadow-sm"
-          >
-            <GithubIcon className="w-3.5 h-3.5 text-stone-900" />
-            <span>GitHub Repository</span>
-          </a>
+          <Magnetic intensity={0.25}>
+            <a
+              href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-mono text-stone-700 hover:text-stone-950 transition shadow-sm"
+            >
+              <GithubIcon className="w-3.5 h-3.5 text-stone-900" />
+              <span>GitHub Repository</span>
+            </a>
+          </Magnetic>
 
-          <button
-            onClick={scrollToTop}
-            className="p-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-stone-600 hover:text-stone-900 transition shadow-sm"
-            aria-label="Back to top"
-            title="Back to top"
-          >
-            <ArrowUp className="w-4 h-4" />
-          </button>
+          <Magnetic intensity={0.3}>
+            <button
+              onClick={scrollToTop}
+              className="p-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-stone-600 hover:text-stone-900 transition shadow-sm"
+              aria-label="Back to top"
+              title="Back to top"
+            >
+              <ArrowUp className="w-4 h-4" />
+            </button>
+          </Magnetic>
         </div>
       </div>
 

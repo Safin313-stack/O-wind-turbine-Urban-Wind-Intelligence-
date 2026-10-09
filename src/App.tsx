@@ -9,11 +9,15 @@ import { ShowcaseSimulator } from './components/showcase/ShowcaseSimulator';
 import { ShowcaseSpecifications } from './components/showcase/ShowcaseSpecifications';
 import { ShowcaseAbout } from './components/showcase/ShowcaseAbout';
 import { ShowcaseFooter } from './components/showcase/ShowcaseFooter';
+import { ScrollProgress } from './components/motion-primitives';
 
 export const App: React.FC = () => {
   return (
     <TelemetryProvider>
       <div className="min-h-screen bg-[#FAF9F6] text-stone-900 flex flex-col antialiased selection:bg-cyan-500/20 selection:text-cyan-900 relative overflow-x-hidden">
+        {/* Motion Primitives Scroll Progress Indicator */}
+        <ScrollProgress />
+
         {/* Modern Glassmorphic Top Navbar */}
         <ShowcaseNavbar />
 

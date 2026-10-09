@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Cpu, Zap, Wind, Database } from 'lucide-react';
+import { InView, AnimatedTabs, Tilt, Spotlight, BorderBeam } from '../motion-primitives';
 
 export const ShowcaseSpecifications: React.FC = () => {
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+
+  const tabs = [
+    { id: 'all', label: 'All Specifications' },
+    { id: 'physical', label: 'Aerodynamics & CAD', icon: Wind },
+    { id: 'electrical', label: 'Microgrid Powertrain', icon: Zap },
+    { id: 'iot', label: 'Edge AI & Sensors', icon: Cpu },
+  ];
+
   const specs = [
     {
+      id: 'physical',
       category: 'Physical & Aerodynamics',
       icon: Wind,
       badgeColor: 'bg-cyan-50 border-cyan-200 text-cyan-700',
@@ -19,6 +30,7 @@ export const ShowcaseSpecifications: React.FC = () => {
       ],
     },
     {
+      id: 'electrical',
       category: 'Electrical & Power Train',
       icon: Zap,
       badgeColor: 'bg-emerald-50 border-emerald-200 text-emerald-700',
@@ -34,6 +46,7 @@ export const ShowcaseSpecifications: React.FC = () => {
       ],
     },
     {
+      id: 'iot',
       category: 'IoT Sensing & Edge AI',
       icon: Cpu,
       badgeColor: 'bg-purple-50 border-purple-200 text-purple-700',
@@ -50,59 +63,74 @@ export const ShowcaseSpecifications: React.FC = () => {
     },
   ];
 
+  const filteredSpecs = activeCategory === 'all' ? specs : specs.filter((s) => s.id === activeCategory);
+
   return (
     <section id="specs" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Section Header */}
-      <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-mono font-medium">
-          <Database className="w-3.5 h-3.5 text-cyan-600" />
-          <span>ENGINEERING DATA SHEET</span>
+      <InView>
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-mono font-medium">
+            <Database className="w-3.5 h-3.5 text-cyan-600" />
+            <span>ENGINEERING DATA SHEET</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-black text-stone-900 tracking-tight font-sans">
+            Technical Specifications
+          </h2>
+          <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
+            Comprehensive physical, electrical, and IoT parameters validated for high-density urban deployment.
+          </p>
+
+          {/* Motion Primitives Animated Tabs */}
+          <div className="pt-4 flex justify-center">
+            <AnimatedTabs
+              tabs={tabs}
+              activeTab={activeCategory}
+              onChange={setActiveCategory}
+              layoutId="specs-tab-pill"
+            />
+          </div>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-black text-stone-900 tracking-tight font-sans">
-          Technical Specifications
-        </h2>
-        <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
-          Comprehensive physical, electrical, and IoT parameters validated for high-density urban deployment.
-        </p>
-      </div>
 
-      {/* 3 Detailed Spec Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {specs.map((group) => {
-          const Icon = group.icon;
-          return (
-            <div
-              key={group.category}
-              className="glass-card p-6 sm:p-8 rounded-3xl border border-stone-200/90 relative overflow-hidden flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center gap-3 pb-4 mb-5 border-b border-stone-200/80">
-                  <div className={`p-2.5 rounded-2xl border ${group.badgeColor} group-hover:scale-110 transition-transform`}>
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="font-extrabold text-base text-stone-900 tracking-wide font-sans">
-                    {group.category}
-                  </h3>
-                </div>
+        {/* Filtered Spec Cards with Tilt & Spotlight */}
+        <div className={`grid grid-cols-1 ${filteredSpecs.length > 1 ? 'lg:grid-cols-3' : 'max-w-2xl mx-auto'} gap-6`}>
+          {filteredSpecs.map((group) => {
+            const Icon = group.icon;
+            return (
+              <Tilt key={group.category} rotationFactor={5} className="h-full">
+                <div className="glass-card p-6 sm:p-8 rounded-3xl border border-stone-200/90 relative overflow-hidden flex flex-col justify-between group h-full shadow-sm">
+                  <Spotlight fill="rgba(2, 132, 199, 0.10)" size={220} />
 
-                <div className="space-y-3.5">
-                  {group.items.map((item) => (
-                    <div key={item.label} className="text-xs font-mono">
-                      <span className="text-stone-500 block text-[11px]">{item.label}</span>
-                      <span className="text-stone-900 font-semibold mt-0.5 block">{item.value}</span>
+                  <div>
+                    <div className="flex items-center gap-3 pb-4 mb-5 border-b border-stone-200/80">
+                      <div className={`p-2.5 rounded-2xl border ${group.badgeColor} group-hover:scale-110 transition-transform`}>
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <h3 className="font-extrabold text-base text-stone-900 tracking-wide font-sans">
+                        {group.category}
+                      </h3>
                     </div>
-                  ))}
-                </div>
-              </div>
 
-              <div className="mt-6 pt-4 border-t border-stone-200/80 text-[10px] font-mono text-stone-500 flex items-center justify-between">
-                <span>VERIFIED METRIC</span>
-                <span className="text-cyan-700 font-bold">CAD v1.4</span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+                    <div className="space-y-3.5">
+                      {group.items.map((item) => (
+                        <div key={item.label} className="text-xs font-mono">
+                          <span className="text-stone-500 block text-[11px]">{item.label}</span>
+                          <span className="text-stone-900 font-semibold mt-0.5 block">{item.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-stone-200/80 text-[10px] font-mono text-stone-500 flex items-center justify-between">
+                    <span>VERIFIED BENCHMARK</span>
+                    <span className="text-cyan-700 font-bold">CAD v1.4</span>
+                  </div>
+                </div>
+              </Tilt>
+            );
+          })}
+        </div>
+      </InView>
     </section>
   );
 };

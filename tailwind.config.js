@@ -60,8 +60,14 @@ export default {
         'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite',
         'flow': 'flow 2s linear infinite',
+        'border-beam': 'border-beam calc(var(--duration)*1s) infinite linear',
       },
       keyframes: {
+        'border-beam': {
+          '100%': {
+            offsetDistance: '100%',
+          },
+        },
         'spin-reverse': {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(-360deg)' },

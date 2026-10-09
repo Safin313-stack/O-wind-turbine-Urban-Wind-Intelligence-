@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Compass, ShieldCheck, Zap, Cpu, Box, Sparkles } from 'lucide-react';
+import { InView, TextReveal, Magnetic, Tilt, Spotlight, BorderBeam } from '../motion-primitives';
 
 export const ShowcaseHero: React.FC = () => {
   return (
@@ -7,9 +8,10 @@ export const ShowcaseHero: React.FC = () => {
       {/* Subtle Warm Radial Atmosphere Inspired by Elena Voss Template */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-cyan-200/25 via-sky-100/30 to-amber-100/20 blur-[130px] rounded-full pointer-events-none -z-10" />
 
-      <div className="text-center max-w-4xl mx-auto space-y-7">
-        {/* Sleek Light Pill Badge */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/90 border border-stone-200/90 text-stone-700 text-xs font-mono font-medium shadow-sm hover:border-stone-300 transition-colors animate-fade-in">
+      <InView className="text-center max-w-4xl mx-auto space-y-7">
+        {/* Sleek Light Pill Badge with Motion Primitives Border Beam */}
+        <div className="relative inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/95 border border-stone-200 text-stone-700 text-xs font-mono font-medium shadow-sm hover:border-stone-300 transition-colors">
+          <BorderBeam size={100} duration={8} colorFrom="#0284c7" colorTo="#06b6d4" />
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-500 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-600" />
@@ -17,10 +19,10 @@ export const ShowcaseHero: React.FC = () => {
           <span>NEXT-GEN URBAN RENEWABLE ENERGY · O-WIND AERODYNAMICS</span>
         </div>
 
-        {/* Hero Title */}
+        {/* Hero Title with Motion Primitives Text Reveal */}
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-stone-900 tracking-tight leading-[1.08] font-sans">
-          Turning Urban Wind Into{' '}
-          <span className="bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent">
+          <TextReveal text="Turning Urban Wind Into" />{' '}
+          <span className="bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent inline-block">
             Intelligent Clean Energy.
           </span>
         </h1>
@@ -34,72 +36,88 @@ export const ShowcaseHero: React.FC = () => {
           Traditional wind turbines fail in cities due to chaotic, turbulent gusts. O-WIND AI captures 360° omnidirectional airflow—both horizontal street drafts and vertical rooftop updrafts—using internal Bernoulli Venturi ducts, powering edge microgrids and urban air sentinels.
         </p>
 
-        {/* Elena Voss Magnetic Action Pill Buttons */}
+        {/* Motion Primitives Magnetic Action Pill Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
-          <a
-            href="#prototype"
-            className="btn-magnetic flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-stone-900 hover:bg-black text-white font-mono text-xs sm:text-sm font-bold transition-all shadow-lg shadow-stone-900/10 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <Box className="w-4 h-4 text-cyan-300" />
-            <span>INSPECT 3D CAD PROTOTYPE</span>
-            <ArrowRight className="w-4 h-4" />
-          </a>
+          <Magnetic intensity={0.25}>
+            <a
+              href="#prototype"
+              className="flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-stone-900 hover:bg-black text-white font-mono text-xs sm:text-sm font-bold transition-all shadow-lg shadow-stone-900/10 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <Box className="w-4 h-4 text-cyan-300" />
+              <span>INSPECT 3D CAD PROTOTYPE</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </Magnetic>
 
-          <a
-            href="#specs"
-            className="btn-magnetic flex items-center gap-2 px-6 py-3.5 rounded-full bg-white hover:bg-stone-50 border border-stone-300/80 hover:border-stone-400 text-stone-800 font-mono text-xs sm:text-sm font-semibold transition-all shadow-sm"
-          >
-            <span>TECHNICAL SPECIFICATIONS</span>
-          </a>
+          <Magnetic intensity={0.25}>
+            <a
+              href="#specs"
+              className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-white hover:bg-stone-50 border border-stone-300/80 hover:border-stone-400 text-stone-800 font-mono text-xs sm:text-sm font-semibold transition-all shadow-sm active:scale-[0.98]"
+            >
+              <span>TECHNICAL SPECIFICATIONS</span>
+            </a>
+          </Magnetic>
         </div>
 
-        {/* Key Benchmark Stat Cards (Elena Voss Inspired Bento Row) */}
+        {/* Key Benchmark Stat Cards (Motion Primitives Tilt & Spotlight Row) */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-4 pt-10 font-mono text-left">
-          <div className="glass-card p-5 sm:p-6 rounded-3xl relative overflow-hidden group">
-            <div className="flex items-center justify-between text-stone-500 mb-2.5">
-              <span className="text-[11px] uppercase tracking-wider font-semibold">AERODYNAMICS</span>
-              <Compass className="w-4 h-4 text-cyan-600 group-hover:rotate-45 transition-transform duration-300" />
+          <Tilt rotationFactor={7} className="h-full">
+            <div className="glass-card p-5 sm:p-6 rounded-3xl relative overflow-hidden group h-full border border-stone-200/90 shadow-sm">
+              <Spotlight fill="rgba(2, 132, 199, 0.12)" size={180} />
+              <div className="flex items-center justify-between text-stone-500 mb-2.5">
+                <span className="text-[11px] uppercase tracking-wider font-semibold">AERODYNAMICS</span>
+                <Compass className="w-4 h-4 text-cyan-600 group-hover:rotate-45 transition-transform duration-300" />
+              </div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">360°</div>
+              <p className="text-xs text-stone-500 mt-1 font-sans">
+                Omnidirectional intake: horizontal & vertical gusts
+              </p>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">360°</div>
-            <p className="text-xs text-stone-500 mt-1 font-sans">
-              Omnidirectional intake: horizontal & vertical gusts
-            </p>
-          </div>
+          </Tilt>
 
-          <div className="glass-card p-5 sm:p-6 rounded-3xl relative overflow-hidden group">
-            <div className="flex items-center justify-between text-stone-500 mb-2.5">
-              <span className="text-[11px] uppercase tracking-wider font-semibold">CUT-IN VELOCITY</span>
-              <Zap className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform duration-300" />
+          <Tilt rotationFactor={7} className="h-full">
+            <div className="glass-card p-5 sm:p-6 rounded-3xl relative overflow-hidden group h-full border border-stone-200/90 shadow-sm">
+              <Spotlight fill="rgba(16, 185, 129, 0.12)" size={180} />
+              <div className="flex items-center justify-between text-stone-500 mb-2.5">
+                <span className="text-[11px] uppercase tracking-wider font-semibold">CUT-IN VELOCITY</span>
+                <Zap className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight">1.48 m/s</div>
+              <p className="text-xs text-stone-500 mt-1 font-sans">
+                Starts generating in gentle urban breezes
+              </p>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight">1.48 m/s</div>
-            <p className="text-xs text-stone-500 mt-1 font-sans">
-              Starts generating in gentle urban breezes
-            </p>
-          </div>
+          </Tilt>
 
-          <div className="glass-card p-5 sm:p-6 rounded-3xl relative overflow-hidden group">
-            <div className="flex items-center justify-between text-stone-500 mb-2.5">
-              <span className="text-[11px] uppercase tracking-wider font-semibold">TESTED BENCHMARK</span>
-              <Cpu className="w-4 h-4 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
+          <Tilt rotationFactor={7} className="h-full">
+            <div className="glass-card p-5 sm:p-6 rounded-3xl relative overflow-hidden group h-full border border-stone-200/90 shadow-sm">
+              <Spotlight fill="rgba(168, 85, 247, 0.12)" size={180} />
+              <div className="flex items-center justify-between text-stone-500 mb-2.5">
+                <span className="text-[11px] uppercase tracking-wider font-semibold">TESTED BENCHMARK</span>
+                <Cpu className="w-4 h-4 text-purple-600 group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-purple-700 tracking-tight">0.496 W</div>
+              <p className="text-xs text-stone-500 mt-1 font-sans">
+                Physical reference prototype test output
+              </p>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-purple-700 tracking-tight">0.496 W</div>
-            <p className="text-xs text-stone-500 mt-1 font-sans">
-              Physical reference prototype test output
-            </p>
-          </div>
+          </Tilt>
 
-          <div className="glass-card p-5 sm:p-6 rounded-3xl relative overflow-hidden group">
-            <div className="flex items-center justify-between text-stone-500 mb-2.5">
-              <span className="text-[11px] uppercase tracking-wider font-semibold">ROOFTOP SAFETY</span>
-              <ShieldCheck className="w-4 h-4 text-sky-600 group-hover:scale-110 transition-transform duration-300" />
+          <Tilt rotationFactor={7} className="h-full">
+            <div className="glass-card p-5 sm:p-6 rounded-3xl relative overflow-hidden group h-full border border-stone-200/90 shadow-sm">
+              <Spotlight fill="rgba(2, 132, 199, 0.12)" size={180} />
+              <div className="flex items-center justify-between text-stone-500 mb-2.5">
+                <span className="text-[11px] uppercase tracking-wider font-semibold">ROOFTOP SAFETY</span>
+                <ShieldCheck className="w-4 h-4 text-sky-600 group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-sky-700 tracking-tight">Enclosed</div>
+              <p className="text-xs text-stone-500 mt-1 font-sans">
+                Zero exposed blades, silent & bird-safe
+              </p>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-sky-700 tracking-tight">Enclosed</div>
-            <p className="text-xs text-stone-500 mt-1 font-sans">
-              Zero exposed blades, silent & bird-safe
-            </p>
-          </div>
+          </Tilt>
         </div>
-      </div>
+      </InView>
     </section>
   );
 };
