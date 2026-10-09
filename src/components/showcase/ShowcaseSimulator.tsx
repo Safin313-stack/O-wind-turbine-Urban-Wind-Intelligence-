@@ -55,10 +55,10 @@ export const ShowcaseSimulator: React.FC = () => {
             <span>INTERACTIVE PHYSICS & MICROGRID DISPATCH</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-stone-900 tracking-tight font-display">
-            Simulate Real-Time Urban Energy Harvest
+            Real-Time Microgrid Dispatch
           </h2>
           <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
-            Adjust the wind speed slider below to observe how the O-Wind rotor responds, generates clean wattage, and autonomously dispatches energy to edge IoT loads and battery storage.
+            Live aerodynamic response, Bernoulli rotor RPM, and autonomous load balancing.
           </p>
         </div>
 

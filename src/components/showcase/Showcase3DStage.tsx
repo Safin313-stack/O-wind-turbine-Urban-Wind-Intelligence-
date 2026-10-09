@@ -21,9 +21,8 @@ export const Showcase3DStage: React.FC = () => {
             <span className="bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent inline-block pb-1.5">
               Unmasked.
             </span>
-          </h2>
-          <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed max-w-2xl mx-auto">
-            Streamed live from our physical SolidWorks CAD assembly. Inspect the geodetic titanium rotor, or toggle <span className="font-semibold text-cyan-800 bg-cyan-50 px-2 py-0.5 rounded-md border border-cyan-200">X-Ray View</span> to expose the internal 12-pole PMG induction, ceramic bearings, and real-time power flux.
+          </h2>          <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed max-w-2xl mx-auto">
+            Inspect the 1:1 SolidWorks CAD twin or toggle <span className="font-semibold text-cyan-800 bg-cyan-50 px-2 py-0.5 rounded-md border border-cyan-200">X-Ray View</span> to examine the internal 12-pole PMG generator and power flux.
           </p>
         </div>
 
@@ -44,7 +43,7 @@ export const Showcase3DStage: React.FC = () => {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-sans font-bold tracking-wide text-cyan-700 bg-cyan-50 px-2.5 py-0.5 rounded-full border border-cyan-200">
-                      01 · BERNOULLI VENTURI
+                      01 · VENTURI SUCTION
                     </span>
                     <div className="p-1.5 rounded-lg bg-cyan-50 border border-cyan-200/80 text-cyan-600 group-hover:scale-110 transition-transform">
                       <Wind className="w-3.5 h-3.5" />
@@ -52,7 +51,7 @@ export const Showcase3DStage: React.FC = () => {
                   </div>
                   <h4 className="font-bold text-stone-900 text-sm font-display">Zero Yaw Steering</h4>
                   <p className="text-[11px] sm:text-xs text-stone-500 font-sans leading-relaxed">
-                    Tapered cross-ducts generate low-pressure suction, spinning the sphere whether breezes strike horizontally or rush upward from building facades.
+                    Tapered ducts accelerate flow by +1.4x, spinning the sphere from any horizontal or rooftop upward gust.
                   </p>
                 </div>
                 <div className="pt-2 border-t border-stone-100 text-[10px] text-cyan-800 font-semibold font-mono">
@@ -67,19 +66,19 @@ export const Showcase3DStage: React.FC = () => {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-sans font-bold tracking-wide text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                      02 · 12-POLE AXIAL PMG
+                      02 · DIRECT-DRIVE PMG
                     </span>
                     <div className="p-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80 text-emerald-600 group-hover:scale-110 transition-transform">
                       <RotateCw className="w-3.5 h-3.5" />
                     </div>
                   </div>
-                  <h4 className="font-bold text-stone-900 text-sm font-display">Direct-Drive Induction</h4>
+                  <h4 className="font-bold text-stone-900 text-sm font-display">Axial Induction</h4>
                   <p className="text-[11px] sm:text-xs text-stone-500 font-sans leading-relaxed">
-                    Dual neodymium rotor discs sandwich 12 stationary copper coils to produce 3-phase AC, feeding an active 81.8% synchronous step-down bus.
+                    12 neodymium magnets sandwich copper coils to generate 3-phase AC directly into a 3.7V LiFePO4 bus.
                   </p>
                 </div>
                 <div className="pt-2 border-t border-stone-100 text-[10px] text-emerald-800 font-semibold font-mono">
-                  ✦ 3.7V LiFePO4 Native Bus
+                  ✦ 81.8% Synchronous MPPT
                 </div>
               </div>
             </Tilt>
@@ -90,15 +89,15 @@ export const Showcase3DStage: React.FC = () => {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-sans font-bold tracking-wide text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200">
-                      03 · GEODETIC CASING
+                      03 · ENCLOSED SHELL
                     </span>
                     <div className="p-1.5 rounded-lg bg-purple-50 border border-purple-200/80 text-purple-600 group-hover:scale-110 transition-transform">
                       <Shield className="w-3.5 h-3.5" />
                     </div>
                   </div>
-                  <h4 className="font-bold text-stone-900 text-sm font-display">Silent Parapet Sentinel</h4>
+                  <h4 className="font-bold text-stone-900 text-sm font-display">Rooftop Safety</h4>
                   <p className="text-[11px] sm:text-xs text-stone-500 font-sans leading-relaxed">
-                    Zero exposed blades. Smooth geodetic carbon-polycarbonate shell operates below 24 dB—silent enough for rooftop balconies and hospitals.
+                    Zero exposed blades. Smooth protective shell operating below 24 dB—silent and bird-safe on parapets.
                   </p>
                 </div>
                 <div className="pt-2 border-t border-stone-100 text-[10px] text-purple-800 font-semibold font-mono">

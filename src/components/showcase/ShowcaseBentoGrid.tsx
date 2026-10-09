@@ -1,193 +1,372 @@
 import React from 'react';
-import { Wind, Zap, Cpu, CloudSun, Globe, Sparkles } from 'lucide-react';
+import { Wind, Zap, Cpu, CloudSun, ShieldCheck, Sparkles, Compass, Radio } from 'lucide-react';
 import { InView, Tilt, Spotlight, BorderBeam } from '../motion-primitives';
 
 export const ShowcaseBentoGrid: React.FC = () => {
   return (
-    <section id="technology" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <section id="technology" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <InView>
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-sans font-bold tracking-wide">
+        {/* Section Header: Minimal & Data-Driven */}
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-900 text-xs font-sans font-bold tracking-wide">
             <Sparkles className="w-3.5 h-3.5 text-cyan-600" />
-            <span>FIVE CORE PILLARS</span>
+            <span>SYSTEM ARCHITECTURE</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-stone-900 tracking-tight font-display">
-            The Architecture of Urban Wind Intelligence
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 tracking-tight font-display leading-[1.16]">
+            Five Technological{' '}
+            <span className="bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent inline-block pb-1">
+              Vectors.
+            </span>
           </h2>
-          <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
-            Five synergistic vectors engineered to turn chaotic city breezes into predictable clean electricity and real-time environmental data.
+
+          <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed max-w-2xl mx-auto">
+            From fluid dynamics to neural edge siting and autonomous microgrids.
           </p>
         </div>
 
-        {/* Motion Primitives Bento Grid */}
+        {/* Bento Grid: Highly Visual Cards */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-          {/* Pillar 1: WIND (Large Feature Card - 7 cols) */}
+          
+          {/* ============================================================ */}
+          {/* PILLAR 1: AERODYNAMICS (Large 7 cols with Radial Flow Visual) */}
+          {/* ============================================================ */}
           <div className="md:col-span-7">
-            <Tilt rotationFactor={4} className="h-full">
-              <div className="glass-card p-7 sm:p-9 rounded-3xl relative overflow-hidden group hover:border-cyan-400/50 h-full border border-stone-200/90 shadow-sm flex flex-col justify-between">
+            <Tilt rotationFactor={3} className="h-full">
+              <div className="bg-white/95 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border-2 border-cyan-200/90 hover:border-cyan-400 transition-all shadow-sm flex flex-col justify-between h-full relative overflow-hidden group">
                 <BorderBeam size={220} duration={14} colorFrom="#0284c7" colorTo="#38bdf8" />
                 <Spotlight fill="rgba(2, 132, 199, 0.12)" size={240} />
 
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 rounded-2xl bg-cyan-50 border border-cyan-200 flex items-center justify-center text-cyan-700 group-hover:scale-110 transition-transform">
-                      <Wind className="w-6 h-6" />
+                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2 rounded-xl bg-cyan-50 border border-cyan-200 text-cyan-700">
+                        <Wind className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-sans font-bold text-cyan-800 uppercase tracking-wider block">
+                          01 · FLUID DYNAMICS
+                        </span>
+                        <h3 className="text-base sm:text-lg font-black text-stone-900">
+                          360° Omnidirectional Venturi Rotor
+                        </h3>
+                      </div>
                     </div>
-                    <span className="shrink-0 whitespace-nowrap text-xs font-sans font-bold tracking-wide px-3 py-1 rounded-full bg-cyan-50 text-cyan-800 border border-cyan-200">
-                      01 · AERODYNAMICS
+                    <span className="text-xs font-mono font-bold text-cyan-700 bg-cyan-50 px-2.5 py-1 rounded-full border border-cyan-200">
+                      1.48 m/s Cut-in
                     </span>
                   </div>
 
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-stone-900 mb-2.5 tracking-tight font-display">
-                    360° Omnidirectional Aerodynamic Rotor
-                  </h3>
+                  {/* VISUAL 1: Interactive Radial 360° Airflow Diagram */}
+                  <div className="my-3 p-3.5 rounded-2xl bg-gradient-to-b from-cyan-50/40 to-sky-50/20 border border-cyan-100 flex flex-col sm:flex-row items-center gap-4">
+                    <svg className="w-32 h-32 shrink-0" viewBox="0 0 120 120" fill="none">
+                      {/* Outer Compass Guide */}
+                      <circle cx="60" cy="60" r="54" stroke="#bae6fd" strokeWidth="1" strokeDasharray="3 3" />
+                      
+                      {/* 8 Omnidirectional Flow Arrows Converging Inward */}
+                      <path d="M 60 12 L 60 38" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
+                      <polygon points="60,42 56,34 64,34" fill="#0284c7" />
 
-                  <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-sans mb-5">
-                    Spherical Venturi ducts convert 360° chaotic city breezes into continuous single-axis rotation without complex yaw steering.
-                  </p>
+                      <path d="M 60 108 L 60 82" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
+                      <polygon points="60,78 56,86 64,86" fill="#0284c7" />
+
+                      <path d="M 12 60 L 38 60" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
+                      <polygon points="42,60 34,56 34,64" fill="#0284c7" />
+
+                      <path d="M 108 60 L 82 60" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
+                      <polygon points="78,60 86,56 86,64" fill="#0284c7" />
+
+                      {/* Diagonal Vectors */}
+                      <path d="M 26 26 L 44 44" stroke="#38bdf8" strokeWidth="1.5" />
+                      <polygon points="47,47 39,43 43,39" fill="#38bdf8" />
+
+                      <path d="M 94 94 L 76 76" stroke="#38bdf8" strokeWidth="1.5" />
+                      <polygon points="73,73 81,77 77,81" fill="#38bdf8" />
+
+                      <path d="M 26 94 L 44 76" stroke="#38bdf8" strokeWidth="1.5" />
+                      <polygon points="47,73 43,81 39,77" fill="#38bdf8" />
+
+                      <path d="M 94 26 L 76 44" stroke="#38bdf8" strokeWidth="1.5" />
+                      <polygon points="73,47 77,39 81,43" fill="#38bdf8" />
+
+                      {/* Center Turbine Hub */}
+                      <circle cx="60" cy="60" r="18" fill="#e0f2fe" stroke="#0284c7" strokeWidth="2" />
+                      <circle cx="60" cy="60" r="6" fill="#0369a1" />
+                      <text x="60" y="63" textAnchor="middle" fill="#0369a1" fontSize="7" fontWeight="bold">360°</text>
+                    </svg>
+
+                    <div className="flex-1 space-y-2 text-xs">
+                      <div className="flex items-center justify-between pb-1.5 border-b border-cyan-100">
+                        <span className="text-stone-500 font-sans">Horizontal Ingestion:</span>
+                        <span className="font-bold text-stone-900 font-mono">Any Azimuth (0°–360°)</span>
+                      </div>
+                      <div className="flex items-center justify-between pb-1.5 border-b border-cyan-100">
+                        <span className="text-stone-500 font-sans">Vertical Ingestion:</span>
+                        <span className="font-bold text-stone-900 font-mono">45°–90° Facade Updrafts</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-stone-500 font-sans">Bernoulli Boost:</span>
+                        <span className="font-bold text-cyan-700 font-mono">+1.4x Flow Velocity</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2.5 pt-4 border-t border-stone-200/80 font-sans text-xs">
-                  <div className="p-3 rounded-2xl bg-stone-50 border border-stone-200/80">
-                    <span className="text-stone-500 text-[10px] block font-bold uppercase tracking-wider">VENTURI EFFECT</span>
-                    <span className="text-cyan-800 font-bold text-xs sm:text-sm">+1.4x Wind Boost</span>
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-stone-100 text-xs font-sans">
+                  <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
+                    <span className="text-[10px] text-stone-500 font-bold uppercase block">ROTATION AXIS</span>
+                    <span className="font-extrabold text-stone-900">Fixed Static Spindle</span>
                   </div>
-                  <div className="p-3 rounded-2xl bg-stone-50 border border-stone-200/80">
-                    <span className="text-stone-500 text-[10px] block font-bold uppercase tracking-wider">YAW MOTORS</span>
-                    <span className="text-emerald-800 font-bold text-xs sm:text-sm">Zero Maintenance</span>
+                  <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
+                    <span className="text-[10px] text-stone-500 font-bold uppercase block">STEERING MOTORS</span>
+                    <span className="font-extrabold text-emerald-700">0 (Zero Yaw Needed)</span>
                   </div>
                 </div>
               </div>
             </Tilt>
           </div>
 
-          {/* Pillar 2: ENERGY (5 cols) */}
+          {/* ============================================================ */}
+          {/* PILLAR 2: ENERGY (5 cols with Diurnal Solar/Wind Waveform)    */}
+          {/* ============================================================ */}
           <div className="md:col-span-5">
-            <Tilt rotationFactor={4} className="h-full">
-              <div className="glass-card p-6 sm:p-8 rounded-3xl relative overflow-hidden group hover:border-emerald-400/50 h-full border border-stone-200/90 shadow-sm flex flex-col justify-between">
+            <Tilt rotationFactor={3} className="h-full">
+              <div className="bg-white/95 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border-2 border-emerald-200/90 hover:border-emerald-400 transition-all shadow-sm flex flex-col justify-between h-full relative overflow-hidden group">
                 <BorderBeam size={180} duration={12} colorFrom="#059669" colorTo="#10b981" />
                 <Spotlight fill="rgba(16, 185, 129, 0.12)" size={220} />
 
                 <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="w-11 h-11 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 group-hover:scale-110 transition-transform">
-                      <Zap className="w-5 h-5" />
+                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700">
+                        <Zap className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-sans font-bold text-emerald-800 uppercase tracking-wider block">
+                          02 · MICROGRID
+                        </span>
+                        <h3 className="text-base sm:text-lg font-black text-stone-900">
+                          24/7 Diurnal Power Balancing
+                        </h3>
+                      </div>
                     </div>
-                    <span className="shrink-0 whitespace-nowrap text-xs font-sans font-bold tracking-wide px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                      02 · MICROGRID
-                    </span>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-stone-900 mb-2.5 tracking-tight font-display">
-                    Diurnal Solar-Wind Balancing
-                  </h3>
+                  {/* VISUAL 2: Diurnal Solar vs Night Wind Waveform SVG */}
+                  <div className="my-3 p-3.5 rounded-2xl bg-emerald-50/40 border border-emerald-100">
+                    <div className="flex items-center justify-between text-[11px] font-sans font-bold text-stone-700 mb-1.5">
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" /> Solar PV (Day)
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" /> O-Wind (Night Updrafts)
+                      </span>
+                    </div>
 
-                  <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-sans mb-5">
-                    Captures evening thermal building updrafts to keep LiFePO4 batteries charged during peak load-shedding hours (7 PM – 11 PM).
-                  </p>
+                    <svg className="w-full h-24" viewBox="0 0 280 80" fill="none">
+                      {/* Timeline Axis */}
+                      <line x1="10" y1="65" x2="270" y2="65" stroke="#cbd5e1" strokeWidth="1" />
+                      <text x="15" y="76" fill="#64748b" fontSize="8" fontWeight="bold">6 AM</text>
+                      <text x="135" y="76" fill="#64748b" fontSize="8" fontWeight="bold">12 PM</text>
+                      <text x="215" y="76" fill="#047857" fontSize="8" fontWeight="bold">7–11 PM (OUTAGE)</text>
+
+                      {/* Solar PV Curve (Midday bell curve) */}
+                      <path
+                        d="M 20 65 Q 130 15 200 65"
+                        stroke="#f59e0b"
+                        strokeWidth="2.5"
+                        fill="rgba(245, 158, 11, 0.12)"
+                      />
+
+                      {/* O-Wind Curve (Evening Thermal Peak) */}
+                      <path
+                        d="M 180 65 Q 225 18 265 45"
+                        stroke="#10b981"
+                        strokeWidth="2.5"
+                        fill="rgba(16, 185, 129, 0.15)"
+                      />
+
+                      {/* Highlighted Outage Gap Filled Tag */}
+                      <rect x="200" y="8" width="65" height="18" rx="4" fill="#059669" />
+                      <text x="206" y="20" fill="#ffffff" fontSize="8" fontWeight="bold">WIND PEAK</text>
+                    </svg>
+
+                    <div className="text-[10px] font-sans text-stone-500 text-center mt-1">
+                      Solar powers daytime; O-Wind powers 7–11 PM evening grid blackouts.
+                    </div>
+                  </div>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-stone-50 border border-stone-200/80 font-sans text-xs">
-                  <span className="text-stone-500 text-[10px] block font-bold uppercase tracking-wider">POWERTRAIN EFFICIENCY</span>
-                  <span className="text-emerald-800 font-bold text-xs sm:text-sm">81.8% Synchronous MPPT (3.7V)</span>
+                <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/80 flex items-center justify-between text-xs font-sans">
+                  <span className="text-stone-500">Powertrain Efficiency:</span>
+                  <span className="font-extrabold text-emerald-700 font-mono">81.8% Synchronous MPPT</span>
                 </div>
               </div>
             </Tilt>
           </div>
 
-          {/* Pillar 3: AI SITING (4 cols) */}
+          {/* ============================================================ */}
+          {/* PILLAR 3: AI SITING (4 cols with Parapet Updraft Vector Diagram)*/}
+          {/* ============================================================ */}
           <div className="md:col-span-4">
-            <Tilt rotationFactor={5} className="h-full">
-              <div className="glass-card p-5 sm:p-7 rounded-3xl relative overflow-hidden group hover:border-purple-400/50 h-full border border-stone-200/90 shadow-sm flex flex-col justify-between">
+            <Tilt rotationFactor={4} className="h-full">
+              <div className="bg-white/95 backdrop-blur-2xl p-5 sm:p-6 rounded-3xl border-2 border-purple-200/90 hover:border-purple-400 transition-all shadow-sm flex flex-col justify-between h-full relative overflow-hidden group">
                 <Spotlight fill="rgba(168, 85, 247, 0.12)" size={180} />
+
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700 group-hover:scale-110 transition-transform">
-                      <Cpu className="w-5 h-5" />
+                  <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-stone-100">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-purple-50 border border-purple-200 text-purple-700">
+                        <Cpu className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-sm font-black text-stone-900">
+                        Neural Parapet Siting
+                      </h3>
                     </div>
-                    <span className="shrink-0 whitespace-nowrap text-xs font-sans font-bold tracking-wide px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-800 border border-purple-200">
-                      03 · AI SITING
+                    <span className="text-[10px] font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                      +40% Lift
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-stone-900 mb-2 font-display">
-                    Neural Parapet CFD Siting
-                  </h3>
+                  {/* VISUAL 3: Rooftop Facade Updraft Vector Graphic */}
+                  <div className="my-2 p-3 rounded-xl bg-purple-50/40 border border-purple-100">
+                    <svg className="w-full h-20" viewBox="0 0 200 70" fill="none">
+                      {/* Skyscraper Building Silhouette */}
+                      <rect x="70" y="25" width="120" height="45" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" />
+                      <line x1="70" y1="25" x2="70" y2="18" stroke="#475569" strokeWidth="2" /> {/* Parapet lip */}
 
-                  <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                    Edge AI analyzes urban canyon aerodynamics to target rooftop parapet lips where updrafts naturally accelerate (+40% lift).
+                      {/* Rising Vertical Wind Vectors Along Facade */}
+                      <path d="M 45 65 L 45 35 Q 48 20 68 18" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" />
+                      <polygon points="72,18 64,15 65,22" fill="#8b5cf6" />
+
+                      <path d="M 30 65 L 30 38 Q 35 15 65 12" stroke="#a78bfa" strokeWidth="1.5" />
+                      
+                      {/* Turbine clamped on lip */}
+                      <circle cx="72" cy="15" r="7" fill="#8b5cf6" />
+                      <text x="84" y="17" fill="#6d28d9" fontSize="8" fontWeight="bold">+40% BOOST</text>
+
+                      <text x="120" y="48" fill="#94a3b8" fontSize="8" fontWeight="bold">ROOFTOP</text>
+                    </svg>
+                  </div>
+
+                  <p className="text-xs text-stone-600 font-sans mt-2">
+                    Edge AI locates high-velocity acceleration zones at the building lip, avoiding stagnant roof centers.
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-stone-200/70 text-[11px] font-sans text-purple-700 font-bold">
-                  ✦ Edge-CFD v3.1 Inference
+                <div className="pt-2 mt-2 border-t border-stone-100 text-[11px] font-sans font-bold text-purple-700">
+                  ✦ Edge-CFD Neural Placement
                 </div>
               </div>
             </Tilt>
           </div>
 
-          {/* Pillar 4: AIR SENSING (4 cols) */}
+          {/* ============================================================ */}
+          {/* PILLAR 4: AIR SENTINEL (4 cols with PM2.5 Live Telemetry Bar)  */}
+          {/* ============================================================ */}
           <div className="md:col-span-4">
-            <Tilt rotationFactor={5} className="h-full">
-              <div className="glass-card p-5 sm:p-7 rounded-3xl relative overflow-hidden group hover:border-sky-400/50 h-full border border-stone-200/90 shadow-sm flex flex-col justify-between">
+            <Tilt rotationFactor={4} className="h-full">
+              <div className="bg-white/95 backdrop-blur-2xl p-5 sm:p-6 rounded-3xl border-2 border-sky-200/90 hover:border-sky-400 transition-all shadow-sm flex flex-col justify-between h-full relative overflow-hidden group">
                 <Spotlight fill="rgba(2, 132, 199, 0.12)" size={180} />
+
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 group-hover:scale-110 transition-transform">
-                      <CloudSun className="w-5 h-5" />
+                  <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-stone-100">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-sky-50 border border-sky-200 text-sky-700">
+                        <CloudSun className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-sm font-black text-stone-900">
+                        Autonomous Air Sentinel
+                      </h3>
                     </div>
-                    <span className="shrink-0 whitespace-nowrap text-xs font-sans font-bold tracking-wide px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-800 border border-sky-200">
-                      04 · AIR SENTINEL
+                    <span className="text-[10px] font-mono font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">
+                      Zero Grid
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-stone-900 mb-2 font-display">
-                    Autonomous Air Quality Sentinel
-                  </h3>
+                  {/* VISUAL 4: Laser Sensor Telemetry Visual Bar */}
+                  <div className="my-2 p-3 rounded-xl bg-sky-50/40 border border-sky-100 space-y-2">
+                    <div>
+                      <div className="flex items-center justify-between text-xs font-sans mb-1">
+                        <span className="text-stone-500 font-semibold">Dhaka PM2.5 Laser:</span>
+                        <span className="font-extrabold text-amber-600 font-mono">162 µg/m³</span>
+                      </div>
+                      <div className="w-full h-2 rounded-full bg-stone-200 overflow-hidden flex">
+                        <div className="w-[65%] bg-gradient-to-r from-emerald-400 via-amber-400 to-rose-500 rounded-full" />
+                      </div>
+                    </div>
 
-                  <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                    Self-powered laser optical sensors track Dhaka's PM2.5 and CO2 micro-climate telemetry without grid infrastructure.
+                    <div className="flex items-center justify-between text-[11px] pt-1 text-stone-600 font-sans">
+                      <span className="flex items-center gap-1">
+                        <Radio className="w-3 h-3 text-sky-600" /> LoRa Mesh:
+                      </span>
+                      <span className="font-mono font-bold text-stone-900">10 km Range</span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-stone-600 font-sans mt-2">
+                    Self-powered laser sensors continuously log urban pollution patterns during grid power cuts.
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-stone-200/70 text-[11px] font-sans text-sky-700 font-bold">
-                  ✦ Plantower Laser + BME680
+                <div className="pt-2 mt-2 border-t border-stone-100 text-[11px] font-sans font-bold text-sky-700">
+                  ✦ Plantower Optical + BME680
                 </div>
               </div>
             </Tilt>
           </div>
 
-          {/* Pillar 5: URBAN RESILIENCE (4 cols) */}
+          {/* ============================================================ */}
+          {/* PILLAR 5: URBAN SAFETY (4 cols with Acoustic Decibel Scale)    */}
+          {/* ============================================================ */}
           <div className="md:col-span-4">
-            <Tilt rotationFactor={5} className="h-full">
-              <div className="glass-card p-5 sm:p-7 rounded-3xl relative overflow-hidden group hover:border-amber-400/50 h-full border border-stone-200/90 shadow-sm flex flex-col justify-between">
+            <Tilt rotationFactor={4} className="h-full">
+              <div className="bg-white/95 backdrop-blur-2xl p-5 sm:p-6 rounded-3xl border-2 border-amber-200/90 hover:border-amber-400 transition-all shadow-sm flex flex-col justify-between h-full relative overflow-hidden group">
                 <Spotlight fill="rgba(245, 158, 11, 0.12)" size={180} />
+
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 group-hover:scale-110 transition-transform">
-                      <Globe className="w-5 h-5" />
+                  <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-stone-100">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700">
+                        <ShieldCheck className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-sm font-black text-stone-900">
+                        Rooftop Safety & Sound
+                      </h3>
                     </div>
-                    <span className="shrink-0 whitespace-nowrap text-xs font-sans font-bold tracking-wide px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                      05 · URBAN IMPACT
+                    <span className="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      &lt; 24 dB
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-stone-900 mb-2 font-display">
-                    Engineered for Dense Cities
-                  </h3>
+                  {/* VISUAL 5: Acoustic Noise Bar Chart Comparison */}
+                  <div className="my-2 p-3 rounded-xl bg-amber-50/40 border border-amber-100 space-y-1.5 text-xs font-sans">
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-stone-500">City Traffic:</span>
+                      <span className="font-mono text-stone-700">75 dB</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-stone-500">Bladed Turbine:</span>
+                      <span className="font-mono text-red-600 font-bold">55 dB</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] font-bold text-emerald-800 bg-emerald-50/80 p-1 rounded-md border border-emerald-200">
+                      <span>O-Wind Rotor:</span>
+                      <span className="font-mono">&lt; 24 dB (Library Whisper)</span>
+                    </div>
+                  </div>
 
-                  <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                    Tested for Gulshan & Motijheel street canyons. Silent (&lt;24 dB), enclosed zero-blade hazards, and simple parapet lip clamping.
+                  <p className="text-xs text-stone-600 font-sans mt-2">
+                    Enclosed sphere with zero exposed blades. Bird-safe, vibration-free, and clamped onto parapets.
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-stone-200/70 text-[11px] font-sans text-amber-700 font-bold">
-                  ✦ IP65 · Safe Parapet Clamp
+                <div className="pt-2 mt-2 border-t border-stone-100 text-[11px] font-sans font-bold text-amber-700">
+                  ✦ IP65 Waterproof Enclosure
                 </div>
               </div>
             </Tilt>
           </div>
+
         </div>
       </InView>
     </section>

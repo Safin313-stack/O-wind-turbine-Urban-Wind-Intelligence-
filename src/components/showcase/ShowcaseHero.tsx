@@ -74,9 +74,10 @@ export const ShowcaseHero: React.FC = () => {
           </Magnetic>
         </div>
 
-        {/* Key Benchmark Stat Cards (Motion Primitives Tilt & Spotlight Row) */}
+        {/* Key Benchmark Stat Cards (Motion Primitives Tilt & Spotlight Row with Visual Meters) */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 pt-8 sm:pt-10 font-sans text-left">
-          <Tilt rotationFactor={7} className="h-full">
+          {/* Card 1: Aerodynamics */}
+          <Tilt rotationFactor={6} className="h-full">
             <div className="glass-card p-3.5 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden group h-full border border-stone-200/90 shadow-sm flex flex-col justify-between">
               <Spotlight fill="rgba(2, 132, 199, 0.12)" size={180} />
               <div>
@@ -85,14 +86,20 @@ export const ShowcaseHero: React.FC = () => {
                   <Compass className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-600 group-hover:rotate-45 transition-transform duration-300 shrink-0" />
                 </div>
                 <div className="text-xl sm:text-3xl font-extrabold text-stone-900 tracking-tight font-display">360°</div>
+                
+                {/* Micro Visual: 360° Compass Radar */}
+                <div className="my-2 h-1.5 w-full bg-cyan-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-cyan-500 rounded-full w-full" />
+                </div>
               </div>
-              <p className="text-[11px] sm:text-xs text-stone-500 mt-1 font-sans leading-tight sm:leading-normal">
-                Omnidirectional intake: horizontal & vertical
+              <p className="text-[11px] sm:text-xs text-stone-500 font-sans leading-tight">
+                Dual-axis horizontal & vertical capture
               </p>
             </div>
           </Tilt>
 
-          <Tilt rotationFactor={7} className="h-full">
+          {/* Card 2: Cut-in Velocity */}
+          <Tilt rotationFactor={6} className="h-full">
             <div className="glass-card p-3.5 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden group h-full border border-stone-200/90 shadow-sm flex flex-col justify-between">
               <Spotlight fill="rgba(16, 185, 129, 0.12)" size={180} />
               <div>
@@ -101,14 +108,20 @@ export const ShowcaseHero: React.FC = () => {
                   <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 group-hover:scale-110 transition-transform duration-300 shrink-0" />
                 </div>
                 <div className="text-xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight font-display">1.48 m/s</div>
+                
+                {/* Micro Visual: Low Velocity Progress Bar */}
+                <div className="my-2 h-1.5 w-full bg-emerald-100 rounded-full overflow-hidden flex">
+                  <div className="h-full bg-emerald-500 rounded-full w-[35%]" />
+                </div>
               </div>
-              <p className="text-[11px] sm:text-xs text-stone-500 mt-1 font-sans leading-tight sm:leading-normal">
-                Starts generating in gentle urban breezes
+              <p className="text-[11px] sm:text-xs text-stone-500 font-sans leading-tight">
+                Generates in gentle rooftop breezes
               </p>
             </div>
           </Tilt>
 
-          <Tilt rotationFactor={7} className="h-full">
+          {/* Card 3: Ref. Benchmark */}
+          <Tilt rotationFactor={6} className="h-full">
             <div className="glass-card p-3.5 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden group h-full border border-stone-200/90 shadow-sm flex flex-col justify-between">
               <Spotlight fill="rgba(168, 85, 247, 0.12)" size={180} />
               <div>
@@ -117,14 +130,20 @@ export const ShowcaseHero: React.FC = () => {
                   <Cpu className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-600 group-hover:scale-110 transition-transform duration-300 shrink-0" />
                 </div>
                 <div className="text-xl sm:text-3xl font-extrabold text-purple-700 tracking-tight font-display">0.496 W</div>
+
+                {/* Micro Visual: Power Output Pulse Bar */}
+                <div className="my-2 h-1.5 w-full bg-purple-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-purple-600 rounded-full w-[65%]" />
+                </div>
               </div>
-              <p className="text-[11px] sm:text-xs text-stone-500 mt-1 font-sans leading-tight sm:leading-normal">
-                Physical prototype laboratory test output
+              <p className="text-[11px] sm:text-xs text-stone-500 font-sans leading-tight">
+                Laboratory reference prototype test
               </p>
             </div>
           </Tilt>
 
-          <Tilt rotationFactor={7} className="h-full">
+          {/* Card 4: Rooftop Safety */}
+          <Tilt rotationFactor={6} className="h-full">
             <div className="glass-card p-3.5 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden group h-full border border-stone-200/90 shadow-sm flex flex-col justify-between">
               <Spotlight fill="rgba(2, 132, 199, 0.12)" size={180} />
               <div>
@@ -133,9 +152,14 @@ export const ShowcaseHero: React.FC = () => {
                   <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-600 group-hover:scale-110 transition-transform duration-300 shrink-0" />
                 </div>
                 <div className="text-xl sm:text-3xl font-extrabold text-sky-700 tracking-tight font-display">Enclosed</div>
+
+                {/* Micro Visual: Low Decibel Sound Bar */}
+                <div className="my-2 h-1.5 w-full bg-sky-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-sky-500 rounded-full w-[24%]" />
+                </div>
               </div>
-              <p className="text-[11px] sm:text-xs text-stone-500 mt-1 font-sans leading-tight sm:leading-normal">
-                Zero exposed blades, silent & bird-safe
+              <p className="text-[11px] sm:text-xs text-stone-500 font-sans leading-tight">
+                &lt; 24 dB whisper silent & bird-safe
               </p>
             </div>
           </Tilt>

@@ -1,101 +1,93 @@
 import React from 'react';
-import { BookOpen, ShieldCheck, HelpCircle } from 'lucide-react';
-import { InView, BorderBeam, Spotlight, Magnetic, Disclosure } from '../motion-primitives';
+import { BookOpen, ShieldCheck, CheckCircle2, ChevronRight, Cpu, Layers, Gauge, BatteryCharging } from 'lucide-react';
+import { InView, BorderBeam, Spotlight, Disclosure } from '../motion-primitives';
 
 export const ShowcaseAbout: React.FC = () => {
-  const faqItems = [
+  const pipelineStages = [
     {
-      id: 'aerodynamics-faq',
-      category: 'Aerodynamics',
+      step: '01',
+      title: 'Bernoulli CFD Validation',
+      metric: '+1.4x Wind Boost',
+      icon: Layers,
+      desc: 'Computational fluid dynamics verifying internal suction across 360° horizontal and vertical angles.',
+      tag: 'Validated in ANSYS',
+    },
+    {
+      step: '02',
+      title: 'SolidWorks CAD Assembly',
+      metric: '1:1 CAD Twin',
+      icon: Cpu,
+      desc: 'Precision 3D titanium rotor with integrated 12-pole PMG stator and dual ceramic low-friction bearings.',
+      tag: '0.48m Outer Radius',
+    },
+    {
+      step: '03',
+      title: 'Wind Tunnel Benchmark',
+      metric: '0.496 W @ 1.48 m/s',
+      icon: Gauge,
+      desc: 'Physical prototype testing confirming ultra-low cut-in generation in gentle urban air currents.',
+      tag: 'Laboratory Tested',
+    },
+    {
+      step: '04',
+      title: 'Edge Microgrid & LoRa',
+      metric: '24/7 LiFePO4 Buffer',
+      icon: BatteryCharging,
+      desc: 'Autonomous microgrid powering laser PM2.5 air sentinels during peak Dhaka load-shedding hours.',
+      tag: '10 km Mesh Telemetry',
+    },
+  ];
+
+  const quickFaqs = [
+    {
+      id: 'omni-faq',
+      category: 'AERODYNAMICS',
       categoryBadgeClass: 'bg-cyan-50 text-cyan-800 border-cyan-200/80',
-      title: 'How does O-Wind capture 360° wind without rotating?',
+      title: 'How does O-Wind capture 360° wind without rotating to face it?',
       content: (
-        <div className="space-y-3">
+        <div className="space-y-2 text-xs font-sans text-stone-600">
           <p>
-            Unlike flat bladed turbines requiring yaw motors to face the wind, O-Wind uses a geometric sphere with internal Bernoulli Venturi nozzles. Wind from any horizontal azimuth or vertical updraft creates differential suction that continuously spins the rotor on a fixed central axis.
+            Spherical Venturi ducts funnel wind from any angle into differential internal suction, driving a static central spindle without yaw motors.
           </p>
-          <div className="flex flex-wrap gap-2 pt-1 font-sans text-[11px]">
-            <span className="px-2.5 py-0.5 rounded-full bg-cyan-50 border border-cyan-200/80 text-cyan-800 font-semibold">
-              ✦ 360° Omnidirectional
-            </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
-              ✦ No Yaw Motors Needed
-            </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
-              ✦ Bernoulli Venturi Flow
-            </span>
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            <span className="px-2 py-0.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 font-bold text-[10px]">360° Intake</span>
+            <span className="px-2 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700 font-bold text-[10px]">Zero Yaw Motors</span>
+            <span className="px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-[10px]">1.48 m/s Cut-in</span>
           </div>
         </div>
       ),
     },
     {
-      id: 'siting-faq',
-      category: 'AI Siting',
+      id: 'parapet-faq',
+      category: 'AI SITING',
       categoryBadgeClass: 'bg-purple-50 text-purple-800 border-purple-200/80',
-      title: 'Why install turbines on rooftop edges instead of centers?',
+      title: 'Why mount turbines on rooftop parapet edges instead of open roofs?',
       content: (
-        <div className="space-y-3">
+        <div className="space-y-2 text-xs font-sans text-stone-600">
           <p>
-            Urban winds striking a tall building facade are forced straight upward. As drafts spill over the parapet boundary lip, Bernoulli constriction accelerates local wind velocity by +35% to +50%. Our Edge-CFD neural model targets this high-speed parapet layer rather than the stagnant rooftop center.
+            Building facades deflect wind upward; air speeds up by +35% to +50% at the parapet lip. Edge AI clamps turbines exactly in this accelerated flow.
           </p>
-          <div className="flex flex-wrap gap-2 pt-1 font-sans text-[11px]">
-            <span className="px-2.5 py-0.5 rounded-full bg-purple-50 border border-purple-200/80 text-purple-800 font-semibold">
-              ✦ +40% Edge Draft Boost
-            </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
-              ✦ Street Canyon Dynamics
-            </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
-              ✦ Edge-CFD Neural Placement
-            </span>
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            <span className="px-2 py-0.5 rounded-full bg-purple-50 border border-purple-200 text-purple-800 font-bold text-[10px]">+40% Updraft Lift</span>
+            <span className="px-2 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700 font-bold text-[10px]">Edge-CFD Neural Model</span>
           </div>
         </div>
       ),
     },
     {
-      id: 'power-faq',
-      category: 'Microgrid',
+      id: 'diurnal-faq',
+      category: 'MICROGRID',
       categoryBadgeClass: 'bg-emerald-50 text-emerald-800 border-emerald-200/80',
-      title: 'How does solar + wind maintain 24/7 continuous power?',
+      title: 'How does solar + wind guarantee continuous 24/7 off-grid power?',
       content: (
-        <div className="space-y-3">
+        <div className="space-y-2 text-xs font-sans text-stone-600">
           <p>
-            Solar PV handles daytime power, while O-Wind harvests strong convective thermal updrafts during Dhaka's peak evening outages (7 PM – 11 PM). Combined with LiFePO4 battery storage, this diurnal balance keeps environmental sensors running without grid dependence.
+            Solar PV handles daylight, while convective updrafts peak at night (7 PM – 11 PM) during city power cuts, keeping LiFePO4 batteries full.
           </p>
-          <div className="flex flex-wrap gap-2 pt-1 font-sans text-[11px]">
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 font-semibold">
-              ✦ Daylight Solar + Night Wind
-            </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
-              ✦ Peak Outage Buffer (7–11 PM)
-            </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
-              ✦ Autonomous LiFePO4 Storage
-            </span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      id: 'safety-faq',
-      category: 'Safety',
-      categoryBadgeClass: 'bg-amber-50 text-amber-800 border-amber-200/80',
-      title: 'Why is an enclosed sphere safer than traditional bladed turbines?',
-      content: (
-        <div className="space-y-3">
-          <p>
-            Traditional blades create dangerous tip speeds, throw hazards in storms, and low-frequency vibration. O-Wind encloses all motion within a smooth, bird-safe polycarbonate sphere operating at under 24 dB—quieter than a library whisper, making it safe for urban residential roofs.
-          </p>
-          <div className="flex flex-wrap gap-2 pt-1 font-sans text-[11px]">
-            <span className="px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200/80 text-amber-800 font-semibold">
-              ✦ &lt; 24 dB Whisper Quiet
-            </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
-              ✦ 100% Bird-Safe Enclosure
-            </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
-              ✦ Zero Exposed Blades
-            </span>
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            <span className="px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800 font-bold text-[10px]">Day: Solar PV</span>
+            <span className="px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-[10px]">Night: Wind Updrafts</span>
+            <span className="px-2 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700 font-bold text-[10px]">24/7 Sensor Telemetry</span>
           </div>
         </div>
       ),
@@ -103,85 +95,90 @@ export const ShowcaseAbout: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
+    <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
       <InView>
-        {/* Main Vision Card with BorderBeam & Spotlight */}
-        <div className="glass-panel p-8 sm:p-14 rounded-3xl border border-stone-200/90 relative overflow-hidden shadow-[0_12px_36px_-6px_rgba(0,0,0,0.04)]">
-          <BorderBeam size={280} duration={16} colorFrom="#0284c7" colorTo="#8b5cf6" />
-          <Spotlight fill="rgba(2, 132, 199, 0.08)" size={320} />
-
-          <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-sans font-bold tracking-wide">
-              <BookOpen className="w-3.5 h-3.5 text-cyan-600" />
-              <span>PROJECT BACKGROUND & VISION</span>
-            </div>
-
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-stone-900 tracking-tight font-display">
-              Built for the Rooftops of Modern Megacities
-            </h2>
-
-            <div className="space-y-3 text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
-              <p>
-                Skyscrapers create artificial wind canyons where kinetic drafts rush over rooftop parapets unharvested. <strong>O-WIND AI</strong> converts this chaotic urban air into continuous clean electricity, powering autonomous edge microgrids and distributed air quality sentinels during peak evening outages.
-              </p>
-              <div className="flex flex-wrap gap-2 pt-1 font-sans text-xs">
-                <span className="px-3 py-1 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 font-medium">
-                  ✦ Urban Canyon Siting
-                </span>
-                <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">
-                  ✦ 24/7 Off-Grid Power
-                </span>
-                <span className="px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-800 font-medium">
-                  ✦ Real-Time PM2.5 Telemetry
-                </span>
-              </div>
-            </div>
-
-            {/* Academic & Engineering Attribution Boundary */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-stone-50 border border-stone-200/90 text-xs font-sans space-y-1.5 mt-5">
-              <div className="flex items-center gap-2 text-cyan-800 font-bold">
-                <ShieldCheck className="w-4 h-4 text-cyan-600 shrink-0" />
-                <span>Academic & Engineering Scope</span>
-              </div>
-              <p className="text-stone-600 font-sans leading-relaxed text-xs">
-                Mechanical turbine concept inspired by Dyson Award laureates N. Orellana & Y. Noorani. <strong>O-WIND AI</strong> builds the smart-city deployment layer: Edge-CFD neural siting, synchronous MPPT conditioning, LiFePO4 microgrid balancing, and live air sensing.
-              </p>
-            </div>
-
-            {/* Quick links & GitHub action with Magnetic */}
-            <div className="pt-4 flex flex-wrap items-center gap-4">
-              <Magnetic intensity={0.25}>
-                <a
-                  href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-7 py-3 rounded-full bg-stone-900 hover:bg-black text-white font-sans text-xs font-bold tracking-wide transition-all shadow-md hover:shadow-lg inline-block"
-                >
-                  Explore Open Source Repository →
-                </a>
-              </Magnetic>
-            </div>
+        {/* Main Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-900 text-xs font-sans font-bold tracking-wide">
+            <BookOpen className="w-3.5 h-3.5 text-cyan-600" />
+            <span>RESEARCH & ENGINEERING VERIFICATION</span>
           </div>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 tracking-tight font-display leading-[1.16]">
+            From Simulation to{' '}
+            <span className="bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent inline-block pb-1">
+              Physical Prototype.
+            </span>
+          </h2>
+
+          <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed max-w-2xl mx-auto">
+            A 4-stage engineering pipeline calibrated for dense urban street canyons.
+          </p>
         </div>
-      </InView>
 
-      {/* Engineering FAQ / Technical Deep-Dive Section with Motion Primitives Disclosure */}
-      <InView>
-        <div className="max-w-3xl mx-auto space-y-6">
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-sans font-bold tracking-wide">
-              <HelpCircle className="w-3.5 h-3.5 text-stone-500" />
-              <span>FREQUENTLY ASKED QUESTIONS</span>
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight font-display">
-              Engineering & Operational FAQ
-            </h3>
-            <p className="text-xs sm:text-sm text-stone-500 font-sans">
-              Key aerodynamic, microgrid, and installation details explained.
-            </p>
+        {/* VISUAL PIPELINE: 4 HORIZONTAL STAGE CARDS */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {pipelineStages.map((stage) => {
+            const Icon = stage.icon;
+            return (
+              <div
+                key={stage.step}
+                className="bg-white/95 backdrop-blur-2xl p-5 sm:p-6 rounded-3xl border-2 border-stone-200/90 hover:border-cyan-400/80 transition-all shadow-sm flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-100">
+                    <div className="p-2 rounded-xl bg-cyan-50 border border-cyan-200 text-cyan-700 group-hover:scale-105 transition-transform">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <span className="text-xs font-mono font-bold text-stone-400 bg-stone-50 px-2 py-0.5 rounded-md border border-stone-200">
+                      STAGE {stage.step}
+                    </span>
+                  </div>
+
+                  <h3 className="font-sans font-bold text-sm text-stone-900 mb-1 leading-tight">
+                    {stage.title}
+                  </h3>
+
+                  <div className="text-base font-extrabold text-cyan-700 font-mono my-2">
+                    {stage.metric}
+                  </div>
+
+                  <p className="text-xs text-stone-600 font-sans leading-relaxed">
+                    {stage.desc}
+                  </p>
+                </div>
+
+                <div className="pt-3 mt-3 border-t border-stone-100 flex items-center justify-between text-[10px] font-sans text-stone-500 font-bold uppercase tracking-wider">
+                  <span className="text-cyan-800">{stage.tag}</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Compact Quick Technical Q&A Accordion */}
+        <div className="max-w-3xl mx-auto space-y-3">
+          <div className="text-center pb-2">
+            <span className="text-xs font-sans font-bold tracking-wider text-stone-500 uppercase">
+              FREQUENTLY ASKED TECHNICAL QUESTIONS
+            </span>
           </div>
 
-          <Disclosure items={faqItems} defaultOpenId="aerodynamics-faq" />
+          <div className="space-y-2.5">
+            <Disclosure items={quickFaqs} />
+          </div>
+
+          {/* Minimal Academic Attribution */}
+          <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200/80 text-[11px] font-sans text-stone-600 flex items-center justify-between gap-3 mt-6">
+            <div className="flex items-center gap-2 text-stone-800 font-bold">
+              <ShieldCheck className="w-4 h-4 text-cyan-600 shrink-0" />
+              <span>Academic Engineering Scope</span>
+            </div>
+            <span className="text-stone-500">
+              O-Wind omnidirectional aerodynamics adapted for urban edge microgrid telemetry in Bangladesh.
+            </span>
+          </div>
         </div>
       </InView>
     </section>
