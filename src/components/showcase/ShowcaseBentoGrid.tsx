@@ -228,25 +228,25 @@ export const ShowcaseBentoGrid: React.FC = () => {
                     </span>
                   </div>
 
-                  {/* VISUAL 3: Rooftop Facade Updraft Vector Graphic */}
-                  <div className="my-2 p-3 rounded-xl bg-purple-50/40 border border-purple-100">
-                    <svg className="w-full h-20" viewBox="0 0 200 70" fill="none">
-                      {/* Skyscraper Building Silhouette */}
-                      <rect x="70" y="25" width="120" height="45" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="1.5" />
-                      <line x1="70" y1="25" x2="70" y2="18" stroke="#475569" strokeWidth="2" /> {/* Parapet lip */}
-
-                      {/* Rising Vertical Wind Vectors Along Facade */}
-                      <path d="M 45 65 L 45 35 Q 48 20 68 18" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" />
-                      <polygon points="72,18 64,15 65,22" fill="#8b5cf6" />
-
-                      <path d="M 30 65 L 30 38 Q 35 15 65 12" stroke="#a78bfa" strokeWidth="1.5" />
-                      
-                      {/* Turbine clamped on lip */}
-                      <circle cx="72" cy="15" r="7" fill="#8b5cf6" />
-                      <text x="84" y="17" fill="#6d28d9" fontSize="8" fontWeight="bold">+40% BOOST</text>
-
-                      <text x="120" y="48" fill="#94a3b8" fontSize="8" fontWeight="bold">ROOFTOP</text>
-                    </svg>
+                  {/* VISUAL 3: Real AI-CFD Simulation Snapshot */}
+                  <div className="my-2.5 relative rounded-2xl overflow-hidden h-28 border border-purple-200/90 bg-stone-900 shadow-inner group-hover:border-purple-400 transition-colors">
+                    <img 
+                      src="/images/ai_cfd_simulation.jpg" 
+                      alt="AI CFD Airflow Simulation" 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute top-2 left-2 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                      <span className="text-[9px] font-mono font-bold text-white bg-black/60 px-2 py-0.5 rounded-full backdrop-blur-xs border border-white/10">
+                        AI-CFD NEURAL MESH
+                      </span>
+                    </div>
+                    <div className="absolute bottom-1.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] font-mono">
+                      <span className="text-cyan-300 font-semibold">V_max: 18.7 m/s</span>
+                      <span className="text-purple-300 font-bold bg-purple-950/80 px-2 py-0.5 rounded border border-purple-400/30">+40% LIFT</span>
+                    </div>
                   </div>
 
                   <p className="text-xs text-stone-600 font-sans mt-2">

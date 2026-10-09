@@ -10,6 +10,7 @@ import { ShowcaseProblemSolution } from './components/showcase/ShowcaseProblemSo
 import { ShowcaseBentoGrid } from './components/showcase/ShowcaseBentoGrid';
 import { ShowcaseSimulator } from './components/showcase/ShowcaseSimulator';
 import { ShowcaseSpecifications } from './components/showcase/ShowcaseSpecifications';
+import { ShowcaseVisualGallery } from './components/showcase/ShowcaseVisualGallery';
 import { ShowcaseAbout } from './components/showcase/ShowcaseAbout';
 import { ShowcaseFooter } from './components/showcase/ShowcaseFooter';
 import { ScrollProgress } from './components/motion-primitives';
@@ -64,13 +65,16 @@ const AppContent: React.FC = () => {
           {/* 4. Motion Primitives Bento Grid: 5 Core Technological Pillars */}
           <ShowcaseBentoGrid />
 
-          {/* 5. Interactive Physics & Edge Microgrid Simulator */}
+          {/* 5. Physical Turbine & AI Visual Evidence Gallery */}
+          <ShowcaseVisualGallery />
+
+          {/* 6. Interactive Physics & Edge Microgrid Simulator */}
           <ShowcaseSimulator />
 
-          {/* 6. High-Fidelity Engineering Specifications */}
+          {/* 7. High-Fidelity Engineering Specifications */}
           <ShowcaseSpecifications />
 
-          {/* 7. Project Background, Vision & Research Rationale */}
+          {/* 8. Project Background, Vision & Research Rationale */}
           <ShowcaseAbout />
         </main>
 

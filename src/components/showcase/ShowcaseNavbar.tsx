@@ -33,9 +33,10 @@ export const ShowcaseNavbar: React.FC = () => {
     { name: '3D Prototype', href: '#prototype' },
     { name: 'Aerodynamics', href: '#aerodynamics' },
     { name: 'Pillars', href: '#technology' },
+    { name: 'Evidence', href: '#gallery' },
     { name: 'Simulation', href: '#simulation' },
     { name: 'Specifications', href: '#specs' },
-    { name: 'About', href: '#about' },
+    { name: 'Pipeline', href: '#about' },
   ];
 
   return (

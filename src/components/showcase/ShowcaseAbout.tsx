@@ -9,6 +9,7 @@ export const ShowcaseAbout: React.FC = () => {
       title: 'Bernoulli CFD Validation',
       metric: '+1.4x Wind Boost',
       icon: Layers,
+      image: '/images/ai_cfd_simulation.jpg',
       desc: 'Computational fluid dynamics verifying internal suction across 360° horizontal and vertical angles.',
       tag: 'Validated in ANSYS',
     },
@@ -17,6 +18,7 @@ export const ShowcaseAbout: React.FC = () => {
       title: 'SolidWorks CAD Assembly',
       metric: '1:1 CAD Twin',
       icon: Cpu,
+      image: '/images/prototype_cad_reference.png',
       desc: 'Precision 3D titanium rotor with integrated 12-pole PMG stator and dual ceramic low-friction bearings.',
       tag: '0.48m Outer Radius',
     },
@@ -25,6 +27,7 @@ export const ShowcaseAbout: React.FC = () => {
       title: 'Wind Tunnel Benchmark',
       metric: '0.496 W @ 1.48 m/s',
       icon: Gauge,
+      image: '/images/wind_tunnel_testing.jpg',
       desc: 'Physical prototype testing confirming ultra-low cut-in generation in gentle urban air currents.',
       tag: 'Laboratory Tested',
     },
@@ -33,6 +36,7 @@ export const ShowcaseAbout: React.FC = () => {
       title: 'Edge Microgrid & LoRa',
       metric: '24/7 LiFePO4 Buffer',
       icon: BatteryCharging,
+      image: '/images/turbine_rooftop_installation.jpg',
       desc: 'Autonomous microgrid powering laser PM2.5 air sentinels during peak Dhaka load-shedding hours.',
       tag: '10 km Mesh Telemetry',
     },
@@ -139,7 +143,21 @@ export const ShowcaseAbout: React.FC = () => {
                     {stage.title}
                   </h3>
 
-                  <div className="text-base font-extrabold text-cyan-700 font-mono my-2">
+                  {/* Visual Stage Snapshot */}
+                  <div className="relative rounded-2xl overflow-hidden h-28 my-2.5 border border-stone-200/80 bg-stone-900 shadow-inner group-hover:border-cyan-400/60 transition-colors">
+                    <img 
+                      src={stage.image} 
+                      alt={stage.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                    <span className="absolute bottom-1.5 left-2 text-[10px] font-mono font-bold text-white/95">
+                      {stage.tag}
+                    </span>
+                  </div>
+
+                  <div className="text-base font-extrabold text-cyan-700 font-mono my-1.5">
                     {stage.metric}
                   </div>
 
@@ -149,7 +167,7 @@ export const ShowcaseAbout: React.FC = () => {
                 </div>
 
                 <div className="pt-3 mt-3 border-t border-stone-100 flex items-center justify-between text-[10px] font-sans text-stone-500 font-bold uppercase tracking-wider">
-                  <span className="text-cyan-800">{stage.tag}</span>
+                  <span className="text-cyan-800">Verified</span>
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                 </div>
               </div>
