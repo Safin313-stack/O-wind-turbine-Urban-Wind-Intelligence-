@@ -13,12 +13,11 @@ import {
   Globe,
   Sparkles,
   CheckCircle2,
-  Trophy,
   Play
 } from 'lucide-react';
 
 export const LandingPageView: React.FC = () => {
-  const { setViewMode, setActivePage, setIsCompetitionModeOpen } = useTelemetry();
+  const { setViewMode, setActivePage } = useTelemetry();
 
   const handleLaunchApp = (pageId: any = 'dashboard') => {
     setActivePage(pageId);
@@ -55,14 +54,6 @@ export const LandingPageView: React.FC = () => {
           <div className="sm:hidden">
             <WebsiteModeToggle variant="compact" />
           </div>
-
-          <button
-            onClick={() => setIsCompetitionModeOpen(true)}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600/20 border border-purple-500/40 text-purple-200 text-xs font-mono font-semibold transition"
-          >
-            <Trophy className="w-3.5 h-3.5 text-purple-400" />
-            <span>Judge Demo</span>
-          </button>
         </div>
       </nav>
 
@@ -250,13 +241,6 @@ export const LandingPageView: React.FC = () => {
             >
               <span>LAUNCH COMMAND CENTER</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setIsCompetitionModeOpen(true)}
-              className="flex items-center gap-2 px-6 py-4 rounded-xl bg-purple-600/30 hover:bg-purple-600/40 border border-purple-500/50 text-purple-200 font-mono text-sm font-bold transition shadow-glow-purple"
-            >
-              <Trophy className="w-4 h-4 text-purple-300" />
-              <span>START 5-MIN JUDGE PRESENTATION</span>
             </button>
           </div>
         </div>

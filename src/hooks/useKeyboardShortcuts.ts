@@ -17,8 +17,6 @@ const PAGE_MAP: Record<string, NavPage> = {
 
 export function useKeyboardShortcuts() {
   const {
-    isCompetitionModeOpen,
-    setIsCompetitionModeOpen,
     isPlaying,
     setIsPlaying,
     viewMode,
@@ -34,13 +32,6 @@ export function useKeyboardShortcuts() {
         e.target instanceof HTMLTextAreaElement ||
         e.target instanceof HTMLSelectElement
       ) {
-        return;
-      }
-
-      if (e.code === 'KeyC' && !e.metaKey && !e.ctrlKey) {
-        e.preventDefault();
-        soundFx.playClick();
-        setIsCompetitionModeOpen(!isCompetitionModeOpen);
         return;
       }
 
@@ -75,8 +66,6 @@ export function useKeyboardShortcuts() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [
-    isCompetitionModeOpen,
-    setIsCompetitionModeOpen,
     isPlaying,
     setIsPlaying,
     viewMode,

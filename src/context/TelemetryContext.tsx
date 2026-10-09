@@ -18,8 +18,6 @@ interface TelemetryContextType {
   clearNotifications: () => void;
   activePage: NavPage;
   setActivePage: (page: NavPage) => void;
-  isCompetitionModeOpen: boolean;
-  setIsCompetitionModeOpen: (open: boolean) => void;
   viewMode: 'app' | 'landing';
   setViewMode: (mode: 'app' | 'landing') => void;
   selectedBuildingId: string;
@@ -79,7 +77,6 @@ export const TelemetryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [simSpeed, setSimSpeed] = useState<number>(1);
   const [activePage, setActivePage] = useState<NavPage>('dashboard');
-  const [isCompetitionModeOpen, setIsCompetitionModeOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<'app' | 'landing'>('landing');
   const [selectedBuildingId, setSelectedBuildingId] = useState<string>('gulshan-tower');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -306,8 +303,6 @@ export const TelemetryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       clearNotifications,
       activePage,
       setActivePage,
-      isCompetitionModeOpen,
-      setIsCompetitionModeOpen,
       viewMode,
       setViewMode,
       selectedBuildingId,

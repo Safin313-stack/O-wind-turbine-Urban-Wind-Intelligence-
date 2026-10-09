@@ -6,7 +6,6 @@ import {
   MapPin, 
   Activity, 
   Bell, 
-  Trophy, 
   Play, 
   Pause, 
   RotateCcw, 
@@ -34,7 +33,6 @@ export const Header: React.FC = () => {
     notifications,
     markNotificationAsRead,
     clearNotifications,
-    setIsCompetitionModeOpen,
     viewMode,
     setViewMode,
     isMobileMenuOpen,
@@ -182,24 +180,6 @@ export const Header: React.FC = () => {
           </button>
         </div>
 
-        {/* Competition Presentation Mode Launch Button */}
-        <button
-          onClick={() => {
-            soundFx.playClick();
-            setIsCompetitionModeOpen(true);
-          }}
-          className="relative group flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-600/30 to-indigo-600/30 hover:from-purple-600/40 hover:to-indigo-600/40 border border-purple-500/50 text-purple-200 text-xs font-semibold shadow-glow-purple transition-all"
-          title="Launch 5-Minute Competition Presentation Sequence"
-        >
-          <Trophy className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
-          <span className="hidden sm:inline">COMPETITION MODE</span>
-          <span className="sm:hidden">COMPETE</span>
-          <span className="absolute -top-1 -right-1 flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500" />
-          </span>
-        </button>
-
         {/* Animated Website / Platform Mode Switcher Toggle (Always Visible) */}
         <div className="flex items-center">
           <div className="hidden sm:block">
@@ -321,10 +301,6 @@ export const Header: React.FC = () => {
             </div>
 
             <div className="space-y-2.5 text-slate-300">
-              <div className="flex items-center justify-between p-2 rounded bg-space-950 border border-slate-800">
-                <span>Toggle Competition Mode</span>
-                <kbd className="px-2 py-0.5 rounded bg-space-850 text-cyan-300 border border-slate-700">C</kbd>
-              </div>
               <div className="flex items-center justify-between p-2 rounded bg-space-950 border border-slate-800">
                 <span>Pause / Resume Telemetry</span>
                 <kbd className="px-2 py-0.5 rounded bg-space-850 text-cyan-300 border border-slate-700">Space</kbd>

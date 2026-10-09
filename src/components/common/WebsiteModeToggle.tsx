@@ -140,7 +140,7 @@ export const WebsiteModeToggle: React.FC<WebsiteModeToggleProps> = ({
             ? 'text-cyan-200 drop-shadow-sm'
             : 'text-slate-400 hover:text-slate-200'
         }`}
-        title="View public SDG Competition Website & Showcase (Key: L)"
+        title="View Public Showcase Website (Key: L)"
         aria-pressed={isWebsite}
       >
         <Globe className={`w-3.5 h-3.5 ${isWebsite ? 'text-cyan-300 animate-spin-slow' : 'text-slate-500'}`} />

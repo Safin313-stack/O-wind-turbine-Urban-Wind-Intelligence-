@@ -29,14 +29,13 @@ import { BangladeshMapView } from './components/bangladeshMap/BangladeshMapView'
 import { ResearchLabView } from './components/researchLab/ResearchLabView';
 import { ProjectView } from './components/project/ProjectView';
 import { SettingsView } from './components/settings/SettingsView';
-import { CompetitionModeModal } from './components/competition/CompetitionModeModal';
 import { WebsiteModeToggle } from './components/common/WebsiteModeToggle';
 import { AuroraBackground } from './components/common/AuroraBackground';
 
 const AppContent: React.FC = () => {
   const { activePage, viewMode } = useTelemetry();
 
-  // Register global shortcuts: C (Competition Demo), Space (Pause/Resume), L (Toggle Website/Platform), M (Mute), 1-9 (Quick Switch)
+  // Register global shortcuts: Space (Pause/Resume), L (Toggle Website/Platform), M (Mute), 1-9 (Quick Switch)
   useKeyboardShortcuts();
 
   if (viewMode === 'landing') {
@@ -77,9 +76,6 @@ const AppContent: React.FC = () => {
 
         {/* Clean Minimalist Footer */}
         <ShowcaseFooter />
-
-        {/* 5-Minute Competition Presentation Modal (Press C) */}
-        <CompetitionModeModal />
 
         {/* Persistent Floating Mode Switcher */}
         <WebsiteModeToggle variant="floating" />
@@ -129,9 +125,6 @@ const AppContent: React.FC = () => {
           </div>
         </footer>
       </div>
-
-      {/* 5-Minute Guided Judge Competition Presentation Modal */}
-      <CompetitionModeModal />
 
       {/* Persistent Floating Mode Switcher */}
       <WebsiteModeToggle variant="floating" />

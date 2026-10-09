@@ -97,14 +97,3 @@ export interface SystemNotification {
   type: 'ai' | 'warning' | 'info' | 'success';
   read: boolean;
 }
-
-export interface CompetitionSlide {
-  step: number;
-  id: string;
-  title: string;
-  subtitle: string;
-  targetDurationSec: number;
-  judgeKeyTakeaways: string[];
-  presenterNotes: string;
-  component: string;
-}
