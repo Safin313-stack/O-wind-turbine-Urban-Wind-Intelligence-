@@ -34,6 +34,8 @@ export function Tilt({
   );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Disable on touch devices for silky smooth native mobile scrolling
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;

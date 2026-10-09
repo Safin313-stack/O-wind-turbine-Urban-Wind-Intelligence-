@@ -24,9 +24,10 @@ export function AnimatedTabs({
   layoutId = 'active-tab-indicator',
 }: AnimatedTabsProps) {
   return (
-    <div
-      className={`inline-flex items-center p-1.5 rounded-full bg-white/90 border border-stone-200/90 shadow-sm backdrop-blur-md ${className}`}
-    >
+    <div className="max-w-full overflow-x-auto no-scrollbar py-1 flex justify-center">
+      <div
+        className={`inline-flex items-center p-1.5 rounded-full bg-white/90 border border-stone-200/90 shadow-sm backdrop-blur-md shrink-0 ${className}`}
+      >
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         const Icon = tab.icon;
@@ -64,6 +65,7 @@ export function AnimatedTabs({
           </button>
         );
       })}
+      </div>
     </div>
   );
 }

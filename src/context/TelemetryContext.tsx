@@ -80,7 +80,7 @@ export const TelemetryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [simSpeed, setSimSpeed] = useState<number>(1);
   const [activePage, setActivePage] = useState<NavPage>('dashboard');
   const [isCompetitionModeOpen, setIsCompetitionModeOpen] = useState<boolean>(false);
-  const [viewMode, setViewMode] = useState<'app' | 'landing'>('app');
+  const [viewMode, setViewMode] = useState<'app' | 'landing'>('landing');
   const [selectedBuildingId, setSelectedBuildingId] = useState<string>('gulshan-tower');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Zap, Wind, RotateCw, BatteryCharging, Radio, Cpu, Lightbulb, Activity } from 'lucide-react';
+import { Zap, Wind, BatteryCharging, Radio, Cpu, Lightbulb, Activity } from 'lucide-react';
 import { InView, AnimatedNumber, Spotlight, BorderBeam } from '../motion-primitives';
 
 interface SimulatorLoad {
   id: string;
   name: string;
   power: number;
-  icon: any;
+  icon: React.ElementType;
   enabled: boolean;
 }
 
@@ -50,11 +50,11 @@ export const ShowcaseSimulator: React.FC = () => {
       <InView>
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono font-medium">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-sans font-bold tracking-wide">
             <Zap className="w-3.5 h-3.5 text-emerald-600" />
             <span>INTERACTIVE PHYSICS & MICROGRID DISPATCH</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-stone-900 tracking-tight font-sans">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-stone-900 tracking-tight font-display">
             Simulate Real-Time Urban Energy Harvest
           </h2>
           <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
@@ -71,12 +71,12 @@ export const ShowcaseSimulator: React.FC = () => {
             {/* Left Column: Interactive Controls */}
             <div className="lg:col-span-6 space-y-6">
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-xs font-mono">
+                <div className="flex items-center justify-between text-xs font-sans">
                   <span className="text-stone-800 font-bold uppercase flex items-center gap-2">
                     <Wind className="w-4 h-4 text-cyan-600" />
                     Canyon Wind Speed
                   </span>
-                  <span className="text-xl font-extrabold text-stone-900 bg-stone-100 px-3.5 py-1 rounded-xl border border-stone-200 shadow-sm flex items-center gap-1.5">
+                  <span className="text-xl font-extrabold text-stone-900 bg-stone-100 px-3.5 py-1 rounded-xl border border-stone-200 shadow-sm flex items-center gap-1.5 font-display">
                     <AnimatedNumber value={windSpeed} decimals={1} />
                     <span className="text-xs text-stone-500 font-normal">m/s</span>
                   </span>
@@ -93,7 +93,7 @@ export const ShowcaseSimulator: React.FC = () => {
                   className="w-full h-2.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-stone-900"
                 />
 
-                <div className="flex justify-between text-[10px] font-mono text-stone-500">
+                <div className="flex justify-between text-[10px] font-sans font-medium text-stone-500">
                   <span>0.5 m/s (Calm)</span>
                   <span className="text-cyan-700 font-bold">1.48 m/s Cut-in</span>
                   <span>5.0 m/s (Moderate)</span>
@@ -103,7 +103,7 @@ export const ShowcaseSimulator: React.FC = () => {
 
               {/* Smart Micro-Loads Toggles */}
               <div className="space-y-2 pt-4 border-t border-stone-200/80">
-                <span className="text-xs font-mono font-bold text-stone-800 uppercase block mb-3">
+                <span className="text-xs font-sans font-bold text-stone-800 uppercase tracking-wide block mb-3">
                   Toggle Edge Micro-Loads:
                 </span>
 
@@ -122,9 +122,9 @@ export const ShowcaseSimulator: React.FC = () => {
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
                           <Icon className={`w-4 h-4 shrink-0 ${load.enabled ? 'text-cyan-600' : 'text-stone-400'}`} />
-                          <span className="text-xs font-mono truncate">{load.name}</span>
+                          <span className="text-xs font-sans font-semibold truncate">{load.name}</span>
                         </div>
-                        <span className="text-[11px] font-mono font-bold shrink-0 ml-2">
+                        <span className="text-[11px] font-sans font-bold shrink-0 ml-2">
                           {load.power}W
                         </span>
                       </button>
@@ -137,10 +137,10 @@ export const ShowcaseSimulator: React.FC = () => {
             {/* Right Column: Real-Time Telemetry & Energy Dispatch Status */}
             <div className="lg:col-span-6 space-y-4">
               {/* 4 Output Metrics with Motion Primitives Animated Numbers */}
-              <div className="grid grid-cols-2 gap-3.5 font-mono">
+              <div className="grid grid-cols-2 gap-3.5 font-sans">
                 <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-sm">
-                  <span className="text-[10px] text-stone-500 uppercase block font-semibold">Rotor Velocity</span>
-                  <div className="text-2xl font-black text-stone-900 mt-1 flex items-baseline gap-1">
+                  <span className="text-[10px] text-stone-500 uppercase block font-bold tracking-wide">Rotor Velocity</span>
+                  <div className="text-2xl font-black text-stone-900 mt-1 flex items-baseline gap-1 font-display">
                     <AnimatedNumber value={rpm} />
                     <span className="text-xs text-stone-500 font-normal">RPM</span>
                   </div>
@@ -150,41 +150,41 @@ export const ShowcaseSimulator: React.FC = () => {
                 </div>
 
                 <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-sm">
-                  <span className="text-[10px] text-stone-500 uppercase block font-semibold">Generated Output</span>
-                  <div className="text-2xl font-black text-emerald-600 mt-1 flex items-baseline gap-1">
+                  <span className="text-[10px] text-stone-500 uppercase block font-bold tracking-wide">Generated Output</span>
+                  <div className="text-2xl font-black text-emerald-600 mt-1 flex items-baseline gap-1 font-display">
                     <AnimatedNumber value={powerWatts} decimals={2} />
                     <span className="text-xs text-stone-500 font-normal">Watts</span>
                   </div>
-                  <span className="text-[10px] text-stone-500 block mt-1">
+                  <span className="text-[10px] text-stone-500 block mt-1 font-medium">
                     Micro-MPPT Conditioned
                   </span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-sm">
-                  <span className="text-[10px] text-stone-500 uppercase block font-semibold">Bernoulli Suction</span>
-                  <div className="text-2xl font-black text-sky-700 mt-1 flex items-baseline gap-1">
+                  <span className="text-[10px] text-stone-500 uppercase block font-bold tracking-wide">Bernoulli Suction</span>
+                  <div className="text-2xl font-black text-sky-700 mt-1 flex items-baseline gap-1 font-display">
                     <AnimatedNumber value={pressureDeltaPa} decimals={1} />
                     <span className="text-xs text-stone-500 font-normal">Pa (ΔP)</span>
                   </div>
-                  <span className="text-[10px] text-stone-500 block mt-1">
+                  <span className="text-[10px] text-stone-500 block mt-1 font-medium">
                     Internal Venturi Pressure
                   </span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-sm">
-                  <span className="text-[10px] text-stone-500 uppercase block font-semibold">Active Edge Loads</span>
-                  <div className="text-2xl font-black text-purple-700 mt-1 flex items-baseline gap-1">
+                  <span className="text-[10px] text-stone-500 uppercase block font-bold tracking-wide">Active Edge Loads</span>
+                  <div className="text-2xl font-black text-purple-700 mt-1 flex items-baseline gap-1 font-display">
                     <AnimatedNumber value={totalLoadWatts} decimals={2} />
                     <span className="text-xs text-stone-500 font-normal">Watts</span>
                   </div>
-                  <span className="text-[10px] text-stone-500 block mt-1">
+                  <span className="text-[10px] text-stone-500 block mt-1 font-medium">
                     {loads.filter(l => l.enabled).length} Components Powered
                   </span>
                 </div>
               </div>
 
               {/* Microgrid Net Balance Card */}
-              <div className={`p-4 rounded-2xl border font-mono flex items-center justify-between ${
+              <div className={`p-4 rounded-2xl border font-sans flex items-center justify-between ${
                 isSurplus
                   ? 'bg-emerald-50/80 border-emerald-300 text-emerald-900'
                   : 'bg-amber-50/80 border-amber-300 text-amber-900'
@@ -192,7 +192,7 @@ export const ShowcaseSimulator: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <BatteryCharging className={`w-5 h-5 ${isSurplus ? 'text-emerald-600' : 'text-amber-600'} animate-pulse`} />
                   <div>
-                    <span className="text-xs font-bold block">
+                    <span className="text-xs font-bold block tracking-wide">
                       {isSurplus ? 'ENERGY SURPLUS (CHARGING BATTERY)' : 'ENERGY DEFICIT (BUFFER DRAW)'}
                     </span>
                     <span className="text-[11px] opacity-80 font-sans">
@@ -202,7 +202,7 @@ export const ShowcaseSimulator: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                <span className="text-lg font-black shrink-0 ml-3 flex items-baseline gap-0.5">
+                <span className="text-lg font-black shrink-0 ml-3 flex items-baseline gap-0.5 font-display">
                   <span>{isSurplus ? '+' : ''}</span>
                   <AnimatedNumber value={netWatts} decimals={2} />
                   <span className="text-xs ml-1">W</span>

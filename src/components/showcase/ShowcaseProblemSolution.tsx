@@ -8,11 +8,11 @@ export const ShowcaseProblemSolution: React.FC = () => {
       <InView>
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200/90 text-indigo-800 text-xs font-mono font-medium">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200/90 text-indigo-800 text-xs font-sans font-bold tracking-wide">
             <Wind className="w-3.5 h-3.5 text-indigo-600" />
             <span>URBAN FLUID DYNAMICS</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-stone-900 tracking-tight font-sans">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-stone-900 tracking-tight font-display">
             Why Cities Have Wind, But No Wind Turbines
           </h2>
           <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
@@ -33,52 +33,44 @@ export const ShowcaseProblemSolution: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-stone-900">Conventional Turbines</h3>
-                    <span className="text-xs font-mono text-red-600">Horizontal & Vertical Axis (HAWT / VAWT)</span>
+                    <span className="text-xs font-sans font-medium text-red-600">Horizontal & Vertical Axis (HAWT / VAWT)</span>
                   </div>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-red-100/80 border border-red-200 text-[11px] font-mono text-red-700 font-semibold">
+                <span className="px-3 py-1 rounded-full bg-red-100/80 border border-red-200 text-[11px] font-sans text-red-700 font-bold">
                   Unsuitable for Cities
                 </span>
               </div>
 
-              <ul className="space-y-4 text-sm text-stone-700 font-sans">
-                <li className="flex items-start gap-3">
-                  <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+              <ul className="space-y-3 text-sm text-stone-700 font-sans">
+                <li className="flex items-start gap-2.5 p-2 rounded-xl bg-red-50/50 border border-red-100">
+                  <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-stone-900 block font-semibold">Requires Unidirectional Laminar Wind:</strong>
-                    <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">
-                      Traditional blades require steady, one-directional airflow. They stall when struck by multi-directional urban gusts.
-                    </p>
+                    <span className="text-stone-900 font-bold block text-xs">Unidirectional Bladed Design</span>
+                    <p className="text-[11px] text-stone-600">Stalls and vibrates in turbulent, multi-angle city winds.</p>
                   </div>
                 </li>
 
-                <li className="flex items-start gap-3">
-                  <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <li className="flex items-start gap-2.5 p-2 rounded-xl bg-red-50/50 border border-red-100">
+                  <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-stone-900 block font-semibold">Mechanical Yaw Fatigue:</strong>
-                    <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">
-                      Constant wind direction shifts force heavy yaw motors to track changing angles, causing rapid gearbox wear and mechanical failure.
-                    </p>
+                    <span className="text-stone-900 font-bold block text-xs">Heavy Yaw Gearbox Fatigue</span>
+                    <p className="text-[11px] text-stone-600">Constantly hunting shifting wind directions wears out mechanical motors.</p>
                   </div>
                 </li>
 
-                <li className="flex items-start gap-3">
-                  <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <li className="flex items-start gap-2.5 p-2 rounded-xl bg-red-50/50 border border-red-100">
+                  <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-stone-900 block font-semibold">Cannot Capture Vertical Updrafts:</strong>
-                    <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">
-                      Rooftop building facades deflect horizontal winds upward at steep 45°–90° angles—energy completely wasted by flat bladed turbines.
-                    </p>
+                    <span className="text-stone-900 font-bold block text-xs">Misses Vertical Rooftop Updrafts</span>
+                    <p className="text-[11px] text-stone-600">Cannot capture the 45°–90° upward draft deflected by building facades.</p>
                   </div>
                 </li>
 
-                <li className="flex items-start gap-3">
-                  <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <li className="flex items-start gap-2.5 p-2 rounded-xl bg-red-50/50 border border-red-100">
+                  <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-stone-900 block font-semibold">Noise & Blade Hazards:</strong>
-                    <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">
-                      High-speed spinning blades produce low-frequency vibration and present severe safety hazards in high-density urban areas.
-                    </p>
+                    <span className="text-stone-900 font-bold block text-xs">Blade Hazard & Acoustic Hum</span>
+                    <p className="text-[11px] text-stone-600">Exposed rotating blades pose bird strike risk and building vibration.</p>
                   </div>
                 </li>
               </ul>
@@ -97,52 +89,44 @@ export const ShowcaseProblemSolution: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-stone-900">O-WIND AI Architecture</h3>
-                    <span className="text-xs font-mono text-cyan-700">Omnidirectional Venturi Turbine</span>
+                    <span className="text-xs font-sans font-medium text-cyan-700">Omnidirectional Venturi Turbine</span>
                   </div>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-cyan-100/90 border border-cyan-300 text-[11px] font-mono text-cyan-800 font-semibold">
+                <span className="px-3 py-1 rounded-full bg-cyan-100/90 border border-cyan-300 text-[11px] font-sans text-cyan-800 font-bold">
                   Optimal for Buildings
                 </span>
               </div>
 
-              <ul className="space-y-4 text-sm text-stone-700 font-sans">
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-cyan-600 shrink-0 mt-0.5" />
+              <ul className="space-y-3 text-sm text-stone-700 font-sans">
+                <li className="flex items-start gap-2.5 p-2 rounded-xl bg-cyan-50/60 border border-cyan-100">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-stone-900 block font-semibold">360° Omnidirectional Airflow Capture:</strong>
-                    <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">
-                      Spherical geometry with aerodynamic cross-sectional vents captures horizontal street gusts and vertical rooftop drafts simultaneously.
-                    </p>
+                    <span className="text-stone-900 font-bold block text-xs">360° Omnidirectional Intake</span>
+                    <p className="text-[11px] text-stone-600">Simultaneously captures horizontal drafts and vertical rooftop updrafts.</p>
                   </div>
                 </li>
 
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-cyan-600 shrink-0 mt-0.5" />
+                <li className="flex items-start gap-2.5 p-2 rounded-xl bg-cyan-50/60 border border-cyan-100">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-stone-900 block font-semibold">Zero Moving Yaw Mechanisms:</strong>
-                    <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">
-                      The turbine rotates on a single fixed axis. Regardless of the wind vector, internal Bernoulli pressure differentials continuously drive rotation.
-                    </p>
+                    <span className="text-stone-900 font-bold block text-xs">Zero Yaw Motors (Fixed Axis)</span>
+                    <p className="text-[11px] text-stone-600">Rotates reliably on a single fixed axis without mechanical steering.</p>
                   </div>
                 </li>
 
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-cyan-600 shrink-0 mt-0.5" />
+                <li className="flex items-start gap-2.5 p-2 rounded-xl bg-cyan-50/60 border border-cyan-100">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-stone-900 block font-semibold">Bernoulli Venturi Acceleration:</strong>
-                    <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">
-                      Internal ducts constrict airflow to speed up internal velocity, dropping air pressure and generating high torque even in low 1.48 m/s breezes.
-                    </p>
+                    <span className="text-stone-900 font-bold block text-xs">Bernoulli Venturi Acceleration</span>
+                    <p className="text-[11px] text-stone-600">Internal tapered ducts accelerate airflow to start generating at 1.48 m/s.</p>
                   </div>
                 </li>
 
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-cyan-600 shrink-0 mt-0.5" />
+                <li className="flex items-start gap-2.5 p-2 rounded-xl bg-cyan-50/60 border border-cyan-100">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-stone-900 block font-semibold">AI Rooftop Parapet Optimization:</strong>
-                    <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">
-                      Neural fluid dynamics analyzes rooftop geometry to place turbines exactly on the parapet lip where wind speed is naturally amplified by +1.4x.
-                    </p>
+                    <span className="text-stone-900 font-bold block text-xs">Enclosed Geodesic & Silent (&lt;24 dB)</span>
+                    <p className="text-[11px] text-stone-600">Zero exposed blades: completely bird-friendly and silent on rooftop parapets.</p>
                   </div>
                 </li>
               </ul>

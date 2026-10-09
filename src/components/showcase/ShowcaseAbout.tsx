@@ -6,42 +6,98 @@ export const ShowcaseAbout: React.FC = () => {
   const faqItems = [
     {
       id: 'aerodynamics-faq',
-      category: 'AERODYNAMICS',
-      title: 'How does the O-Wind rotor generate torque from multi-directional wind without turning?',
+      category: 'Aerodynamics',
+      categoryBadgeClass: 'bg-cyan-50 text-cyan-800 border-cyan-200/80',
+      title: 'How does O-Wind capture 360° wind without rotating?',
       content: (
-        <p>
-          Unlike traditional bladed turbines that act as lift surfaces requiring a fixed perpendicular angle of attack, the O-Wind turbine is a geometric sphere with tapered internal cross-ducts. When wind hits the outer sphere from any azimuth or vertical inclination, air is forced through narrowing Bernoulli nozzles, causing an internal drop in static pressure. This differential pressure creates tangential drag-and-lift torque that continuously spins the rotor about its central axis.
-        </p>
+        <div className="space-y-3">
+          <p>
+            Unlike flat bladed turbines requiring yaw motors to face the wind, O-Wind uses a geometric sphere with internal Bernoulli Venturi nozzles. Wind from any horizontal azimuth or vertical updraft creates differential suction that continuously spins the rotor on a fixed central axis.
+          </p>
+          <div className="flex flex-wrap gap-2 pt-1 font-sans text-[11px]">
+            <span className="px-2.5 py-0.5 rounded-full bg-cyan-50 border border-cyan-200/80 text-cyan-800 font-semibold">
+              ✦ 360° Omnidirectional
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
+              ✦ No Yaw Motors Needed
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
+              ✦ Bernoulli Venturi Flow
+            </span>
+          </div>
+        </div>
       ),
     },
     {
       id: 'siting-faq',
-      category: 'AI SITING',
-      title: 'Why does the Edge-CFD neural model target rooftop parapets instead of rooftop centers?',
+      category: 'AI Siting',
+      categoryBadgeClass: 'bg-purple-50 text-purple-800 border-purple-200/80',
+      title: 'Why install turbines on rooftop edges instead of centers?',
       content: (
-        <p>
-          When horizontal street canyon winds encounter a building's vertical facade, the air cannot pass through the concrete structure and is forced violently upward. As this upward draft spills over the rooftop parapet lip, it experiences a dramatic Bernoulli constriction—accelerating local wind velocity by +35% to +50%. Placing omnidirectional turbines on the parapet boundary maximizes this accelerated kinetic flow.
-        </p>
+        <div className="space-y-3">
+          <p>
+            Urban winds striking a tall building facade are forced straight upward. As drafts spill over the parapet boundary lip, Bernoulli constriction accelerates local wind velocity by +35% to +50%. Our Edge-CFD neural model targets this high-speed parapet layer rather than the stagnant rooftop center.
+          </p>
+          <div className="flex flex-wrap gap-2 pt-1 font-sans text-[11px]">
+            <span className="px-2.5 py-0.5 rounded-full bg-purple-50 border border-purple-200/80 text-purple-800 font-semibold">
+              ✦ +40% Edge Draft Boost
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
+              ✦ Street Canyon Dynamics
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
+              ✦ Edge-CFD Neural Placement
+            </span>
+          </div>
+        </div>
       ),
     },
     {
       id: 'power-faq',
-      category: 'MICROGRID',
-      title: 'How does diurnal solar-wind balancing maintain 24/7 autonomous IoT power?',
+      category: 'Microgrid',
+      categoryBadgeClass: 'bg-emerald-50 text-emerald-800 border-emerald-200/80',
+      title: 'How does solar + wind maintain 24/7 continuous power?',
       content: (
-        <p>
-          Solar PV only produces electricity during daylight hours. In dense cities like Dhaka, severe grid load-shedding occurs between 7:00 PM and 11:00 PM—coinciding with strong thermal evening updrafts as concrete buildings release stored daytime heat. O-Wind captures these nighttime convective updrafts, maintaining LiFePO4 battery charge and keeping edge environmental sensors running continuously without grid backup.
-        </p>
+        <div className="space-y-3">
+          <p>
+            Solar PV handles daytime power, while O-Wind harvests strong convective thermal updrafts during Dhaka's peak evening outages (7 PM – 11 PM). Combined with LiFePO4 battery storage, this diurnal balance keeps environmental sensors running without grid dependence.
+          </p>
+          <div className="flex flex-wrap gap-2 pt-1 font-sans text-[11px]">
+            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 font-semibold">
+              ✦ Daylight Solar + Night Wind
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
+              ✦ Peak Outage Buffer (7–11 PM)
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
+              ✦ Autonomous LiFePO4 Storage
+            </span>
+          </div>
+        </div>
       ),
     },
     {
       id: 'safety-faq',
-      category: 'SAFETY & ACOUSTICS',
-      title: 'Why is the enclosed spherical structure safer than bladed turbines for city roofs?',
+      category: 'Safety',
+      categoryBadgeClass: 'bg-amber-50 text-amber-800 border-amber-200/80',
+      title: 'Why is an enclosed sphere safer than traditional bladed turbines?',
       content: (
-        <p>
-          Traditional spinning blades create dangerous tip speeds, catastrophic throw risks during severe storm gusts, and audible low-frequency hums. The O-Wind turbine has zero exposed spinning blades—all kinetic action is enclosed within a smooth, bird-safe, carbon-fiber reinforced polycarbonate sphere operating at &lt; 24 dB, quieter than an ambient library whisper.
-        </p>
+        <div className="space-y-3">
+          <p>
+            Traditional blades create dangerous tip speeds, throw hazards in storms, and low-frequency vibration. O-Wind encloses all motion within a smooth, bird-safe polycarbonate sphere operating at under 24 dB—quieter than a library whisper, making it safe for urban residential roofs.
+          </p>
+          <div className="flex flex-wrap gap-2 pt-1 font-sans text-[11px]">
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200/80 text-amber-800 font-semibold">
+              ✦ &lt; 24 dB Whisper Quiet
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
+              ✦ 100% Bird-Safe Enclosure
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700">
+              ✦ Zero Exposed Blades
+            </span>
+          </div>
+        </div>
       ),
     },
   ];
@@ -55,32 +111,40 @@ export const ShowcaseAbout: React.FC = () => {
           <Spotlight fill="rgba(2, 132, 199, 0.08)" size={320} />
 
           <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-mono font-medium">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 text-xs font-sans font-bold tracking-wide">
               <BookOpen className="w-3.5 h-3.5 text-cyan-600" />
               <span>PROJECT BACKGROUND & VISION</span>
             </div>
 
-            <h2 className="text-3xl sm:text-5xl font-black text-stone-900 tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-stone-900 tracking-tight font-display">
               Built for the Rooftops of Modern Megacities
             </h2>
 
-            <div className="space-y-4 text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
+            <div className="space-y-3 text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
               <p>
-                In dense global megacities like Dhaka, skyscrapers create severe artificial wind canyons. While traditional bladed turbines stall and vibrate violently in this turbulence, hundreds of megawatts of kinetic wind energy rush over rooftop parapets unharvested every day.
+                Skyscrapers create artificial wind canyons where kinetic drafts rush over rooftop parapets unharvested. <strong>O-WIND AI</strong> converts this chaotic urban air into continuous clean electricity, powering autonomous edge microgrids and distributed air quality sentinels during peak evening outages.
               </p>
-              <p>
-                Meanwhile, these same cities endure chronic evening load-shedding and catastrophic winter PM2.5 air pollution. <strong>O-WIND AI</strong> was conceived to solve both challenges simultaneously: harvesting chaotic 360° omnidirectional urban air to power self-sustaining edge microgrids and distributed air quality sentinels.
-              </p>
+              <div className="flex flex-wrap gap-2 pt-1 font-sans text-xs">
+                <span className="px-3 py-1 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-800 font-medium">
+                  ✦ Urban Canyon Siting
+                </span>
+                <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium">
+                  ✦ 24/7 Off-Grid Power
+                </span>
+                <span className="px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-800 font-medium">
+                  ✦ Real-Time PM2.5 Telemetry
+                </span>
+              </div>
             </div>
 
             {/* Academic & Engineering Attribution Boundary */}
-            <div className="p-5 sm:p-6 rounded-2xl bg-stone-50 border border-stone-200/90 text-xs font-mono space-y-2 mt-6">
+            <div className="p-4 sm:p-5 rounded-2xl bg-stone-50 border border-stone-200/90 text-xs font-sans space-y-1.5 mt-5">
               <div className="flex items-center gap-2 text-cyan-800 font-bold">
-                <ShieldCheck className="w-4 h-4 text-cyan-600" />
-                <span>Engineering & Academic Attribution Boundary</span>
+                <ShieldCheck className="w-4 h-4 text-cyan-600 shrink-0" />
+                <span>Academic & Engineering Scope</span>
               </div>
               <p className="text-stone-600 font-sans leading-relaxed text-xs">
-                The foundational mechanical concept of the omnidirectional geometric wind turbine was created by Dyson Award laureates Nicolas Orellana and Yaseen Noorani. The <strong>O-WIND AI</strong> project builds upon this mechanical foundation by designing the complete smart-city system: Edge-CFD neural siting optimization for rooftop parapet acceleration, active synchronous MPPT power conditioning, LiFePO4 diurnal solar-wind balancing, and real-time hyper-local air quality intelligence.
+                Mechanical turbine concept inspired by Dyson Award laureates N. Orellana & Y. Noorani. <strong>O-WIND AI</strong> builds the smart-city deployment layer: Edge-CFD neural siting, synchronous MPPT conditioning, LiFePO4 microgrid balancing, and live air sensing.
               </p>
             </div>
 
@@ -91,7 +155,7 @@ export const ShowcaseAbout: React.FC = () => {
                   href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-7 py-3 rounded-full bg-stone-900 hover:bg-black text-white font-mono text-xs font-bold transition-all shadow-md hover:shadow-lg inline-block"
+                  className="px-7 py-3 rounded-full bg-stone-900 hover:bg-black text-white font-sans text-xs font-bold tracking-wide transition-all shadow-md hover:shadow-lg inline-block"
                 >
                   Explore Open Source Repository →
                 </a>
@@ -105,11 +169,11 @@ export const ShowcaseAbout: React.FC = () => {
       <InView>
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-mono font-medium">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-sans font-bold tracking-wide">
               <HelpCircle className="w-3.5 h-3.5 text-stone-500" />
               <span>FREQUENTLY ASKED QUESTIONS</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight font-sans">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight font-display">
               Engineering & Operational FAQ
             </h3>
             <p className="text-xs sm:text-sm text-stone-500 font-sans">

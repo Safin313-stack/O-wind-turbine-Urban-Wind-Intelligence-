@@ -26,17 +26,17 @@ export const WebsiteModeToggle: React.FC<WebsiteModeToggleProps> = ({
     return (
       <aside 
         aria-label="Mode Navigation"
-        className={`fixed bottom-6 right-6 z-50 flex items-center gap-2 ${className}`}
+        className={`fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-40 flex items-center gap-2 ${className}`}
       >
-        <div className="relative p-1.5 rounded-full bg-space-900/95 backdrop-blur-2xl border-2 border-cyan-400/60 shadow-2xl shadow-cyan-950 flex items-center transition-all duration-300 hover:border-cyan-300 group hover:scale-105">
+        <div className="relative p-1 sm:p-1.5 rounded-full bg-space-900/95 backdrop-blur-2xl border-2 border-cyan-400/60 shadow-2xl shadow-cyan-950 flex items-center transition-all duration-300 hover:border-cyan-300 group hover:scale-105">
           {/* Animated Ambient Pulse Ring */}
           <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-500 via-sky-400 to-indigo-500 opacity-60 blur-md group-hover:opacity-90 animate-pulse pointer-events-none" />
 
           {/* Sliding Pill Indicator */}
           <div
-            className={`absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] rounded-full transition-all duration-300 ease-out shadow-lg ${
+            className={`absolute top-1 sm:top-1.5 bottom-1 sm:bottom-1.5 w-[calc(50%-4px)] sm:w-[calc(50%-6px)] rounded-full transition-all duration-300 ease-out shadow-lg ${
               isWebsite
-                ? 'left-1.5 bg-gradient-to-r from-cyan-500 to-sky-500 shadow-cyan-500/40'
+                ? 'left-1 sm:left-1.5 bg-gradient-to-r from-cyan-500 to-sky-500 shadow-cyan-500/40'
                 : 'left-[50%] bg-gradient-to-r from-blue-600 to-indigo-600 shadow-indigo-500/40'
             }`}
           />
@@ -44,7 +44,7 @@ export const WebsiteModeToggle: React.FC<WebsiteModeToggleProps> = ({
           {/* Website Option */}
           <button
             onClick={() => handleToggle('landing')}
-            className={`relative z-10 flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all duration-200 ${
+            className={`relative z-10 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-sans font-bold transition-all duration-200 ${
               isWebsite
                 ? 'text-black font-extrabold'
                 : 'text-slate-400 hover:text-white'
@@ -52,14 +52,14 @@ export const WebsiteModeToggle: React.FC<WebsiteModeToggleProps> = ({
             title="Switch to Public Showcase Website (Key: L)"
             aria-pressed={isWebsite}
           >
-            <Globe className={`w-3.5 h-3.5 ${isWebsite ? 'animate-spin-slow' : ''}`} />
-            <span>Website</span>
+            <Globe className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isWebsite ? 'animate-spin-slow' : ''}`} />
+            <span>Showcase</span>
           </button>
 
           {/* Platform App Option */}
           <button
             onClick={() => handleToggle('app')}
-            className={`relative z-10 flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all duration-200 ${
+            className={`relative z-10 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-sans font-bold transition-all duration-200 ${
               !isWebsite
                 ? 'text-white font-extrabold'
                 : 'text-slate-400 hover:text-white'
@@ -67,13 +67,13 @@ export const WebsiteModeToggle: React.FC<WebsiteModeToggleProps> = ({
             title="Switch to AI Command Center Platform (Key: L)"
             aria-pressed={!isWebsite}
           >
-            <LayoutDashboard className={`w-3.5 h-3.5 ${!isWebsite ? 'animate-pulse' : ''}`} />
+            <LayoutDashboard className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${!isWebsite ? 'animate-pulse' : ''}`} />
             <span>Platform</span>
           </button>
 
           {/* Shortcut Hint */}
-          <span className="hidden sm:inline-block pr-2 pl-1 text-[10px] font-mono text-slate-500 border-l border-slate-800 ml-1">
-            <kbd className="px-1 py-0.5 rounded bg-space-950 border border-slate-700 text-slate-400 text-[9px]">L</kbd>
+          <span className="hidden sm:inline-block pr-2 pl-1 text-[10px] font-sans text-slate-500 border-l border-slate-800 ml-1">
+            <kbd className="px-1 py-0.5 rounded bg-space-950 border border-slate-700 text-slate-400 text-[9px] font-mono">L</kbd>
           </span>
         </div>
       </aside>

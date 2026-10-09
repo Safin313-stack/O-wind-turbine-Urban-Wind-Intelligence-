@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ExternalLink, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, LayoutDashboard, Box } from 'lucide-react';
 import { Magnetic } from '../motion-primitives';
+import { useTelemetry } from '../../context/TelemetryContext';
+import { soundFx } from '../../utils/audio';
 
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -13,6 +16,7 @@ const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' })
 );
 
 export const ShowcaseNavbar: React.FC = () => {
+  const { setViewMode } = useTelemetry();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -38,7 +42,7 @@ export const ShowcaseNavbar: React.FC = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#FAF9F6]/85 backdrop-blur-2xl border-b border-stone-200/80 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] py-3.5'
+          ? 'bg-[#F8FAFC]/85 backdrop-blur-2xl border-b border-stone-200/80 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] py-3.5'
           : 'bg-transparent py-5'
       }`}
     >
@@ -46,20 +50,20 @@ export const ShowcaseNavbar: React.FC = () => {
         {/* Brand Logo & Name */}
         <a href="#overview" className="flex items-center gap-3 group">
           <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-sky-400 to-indigo-600 p-[1.5px] shadow-sm group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-[#FAF9F6] rounded-[10px] flex items-center justify-center overflow-hidden">
+            <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden">
               <div className="w-4 h-4 border-2 border-cyan-600 border-t-transparent rounded-full animate-spin-slow" />
             </div>
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-sans font-extrabold text-base tracking-tight text-stone-900 group-hover:text-cyan-700 transition-colors">
+              <span className="font-display font-black text-lg tracking-tight text-stone-900 group-hover:text-cyan-700 transition-colors">
                 O-WIND
               </span>
-              <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-cyan-100/80 text-cyan-800 border border-cyan-300/80">
+              <span className="px-1.5 py-0.2 rounded text-[10px] font-sans font-bold bg-cyan-100/90 text-cyan-800 border border-cyan-300/80">
                 AI
               </span>
             </div>
-            <span className="text-[10px] text-stone-500 font-mono hidden sm:block tracking-wider">
+            <span className="text-[9px] text-stone-500 font-sans font-semibold hidden sm:block tracking-wider uppercase">
               URBAN WIND INTELLIGENCE
             </span>
           </div>
@@ -71,7 +75,7 @@ export const ShowcaseNavbar: React.FC = () => {
             <a
               key={link.name}
               href={link.href}
-              className="relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium text-stone-600 hover:text-stone-950 transition-colors duration-200 group"
+              className="relative px-3.5 py-1.5 rounded-full text-xs font-sans font-semibold text-stone-600 hover:text-stone-950 transition-colors duration-200 group"
             >
               <span className="relative z-10">{link.name}</span>
               <span className="absolute inset-0 rounded-full bg-stone-100 opacity-0 group-hover:opacity-100 transition-opacity -z-0" />
@@ -79,14 +83,14 @@ export const ShowcaseNavbar: React.FC = () => {
           ))}
         </div>
 
-        {/* Right CTA: GitHub Repository & Explore Button with Magnetic Attraction */}
-        <div className="hidden sm:flex items-center gap-3">
+        {/* Right CTA: GitHub Repository & Command Center Button */}
+        <div className="hidden sm:flex items-center gap-2.5">
           <Magnetic intensity={0.25}>
             <a
               href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-mono text-stone-700 hover:text-stone-950 transition-all shadow-sm group active:scale-[0.98]"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-sans font-bold text-stone-700 hover:text-stone-950 transition-all shadow-sm group active:scale-[0.98]"
             >
               <GithubIcon className="w-3.5 h-3.5 text-stone-800 group-hover:scale-110 transition-transform" />
               <span>GitHub</span>
@@ -94,62 +98,102 @@ export const ShowcaseNavbar: React.FC = () => {
           </Magnetic>
 
           <Magnetic intensity={0.28}>
-            <a
-              href="#prototype"
-              className="flex items-center gap-1.5 px-5 py-2 rounded-full bg-stone-900 hover:bg-black text-white text-xs font-mono font-bold shadow-md hover:shadow-lg transition-all"
+            <button
+              onClick={() => {
+                soundFx.playClick();
+                setViewMode('app');
+              }}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-stone-900 hover:bg-black text-white text-xs font-sans font-bold shadow-md hover:shadow-lg transition-all active:scale-95"
+              title="Launch Dhaka Smart-City Command Center"
             >
-              <span>Explore 3D</span>
-              <ExternalLink className="w-3 h-3 text-cyan-300" />
-            </a>
+              <LayoutDashboard className="w-3.5 h-3.5 text-cyan-300" />
+              <span>Command Center</span>
+            </button>
           </Magnetic>
         </div>
 
         {/* Mobile Hamburger Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2.5 rounded-xl bg-white border border-stone-200 text-stone-700 hover:text-stone-950 transition"
+          className="lg:hidden p-2.5 rounded-xl bg-white border border-stone-200 text-stone-700 hover:text-stone-950 transition active:scale-95"
           aria-label="Toggle navigation menu"
         >
           {mobileMenuOpen ? <X className="w-5 h-5 text-cyan-600" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-4 top-20 rounded-2xl bg-[#FAF9F6]/95 backdrop-blur-2xl border border-stone-200 p-5 shadow-xl animate-fade-in space-y-4">
-          <div className="flex flex-col space-y-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-4 py-2.5 rounded-xl text-sm font-mono text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition"
-              >
-                {link.name}
-              </a>
-            ))}
-          </div>
-
-          <div className="pt-3 border-t border-stone-200 flex items-center justify-between gap-3">
-            <a
-              href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white border border-stone-200 text-xs font-mono text-stone-800 hover:text-stone-950 transition"
-            >
-              <GithubIcon className="w-4 h-4 text-stone-800" />
-              <span>GitHub</span>
-            </a>
-            <a
-              href="#prototype"
+      {/* Mobile Drawer Menu with AnimatePresence and Backdrop Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-stone-900 text-white text-xs font-mono font-bold transition"
+              className="lg:hidden fixed inset-0 bg-stone-900/30 backdrop-blur-sm z-40"
+            />
+
+            {/* Slide-down Drawer */}
+            <motion.div
+              initial={{ opacity: 0, y: -16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -16, scale: 0.98 }}
+              transition={{ type: 'spring', damping: 24, stiffness: 280 }}
+              className="lg:hidden fixed inset-x-4 top-20 rounded-3xl bg-[#F8FAFC]/95 backdrop-blur-2xl border border-stone-200 p-5 shadow-2xl z-50 space-y-4 max-h-[calc(100vh-100px)] overflow-y-auto"
             >
-              <span>Explore 3D</span>
-            </a>
-          </div>
-        </div>
-      )}
+              <div className="flex flex-col space-y-1">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="px-4 py-3 rounded-2xl text-sm font-sans font-semibold text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition active:bg-stone-200 flex items-center justify-between"
+                  >
+                    <span>{link.name}</span>
+                    <span className="text-stone-400 text-xs">→</span>
+                  </a>
+                ))}
+              </div>
+
+              <div className="pt-3 border-t border-stone-200 flex flex-col gap-2.5">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    soundFx.playClick();
+                    setViewMode('app');
+                  }}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-stone-900 text-white text-xs font-sans font-bold transition active:scale-95 shadow-md"
+                >
+                  <LayoutDashboard className="w-4 h-4 text-cyan-300" />
+                  <span>Launch Command Center</span>
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl bg-white border border-stone-200 text-xs font-sans font-bold text-stone-800 hover:text-stone-950 transition active:scale-95 shadow-sm"
+                  >
+                    <GithubIcon className="w-3.5 h-3.5 text-stone-800" />
+                    <span>GitHub</span>
+                  </a>
+                  <a
+                    href="#prototype"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl bg-stone-100 border border-stone-200 text-stone-800 text-xs font-sans font-bold transition active:scale-95"
+                  >
+                    <Box className="w-3.5 h-3.5 text-cyan-600" />
+                    <span>3D Twin</span>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

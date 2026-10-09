@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -6,22 +6,11 @@ import { useTelemetry } from '../../context/TelemetryContext';
 import { soundFx } from '../../utils/audio';
 import { 
   Rotate3d, 
-  ZoomIn, 
-  ZoomOut, 
   Wind, 
-  Layers, 
-  Sparkles,
-  Box,
-  CheckCircle2,
-  Building2,
-  Sun,
-  Sunset,
-  Moon,
-  Compass,
-  Play,
-  Pause,
-  Eye,
-  Maximize2
+  Play, 
+  Pause, 
+  Layers,
+  Zap
 } from 'lucide-react';
 
 interface Turbine3DViewerProps {
@@ -29,27 +18,21 @@ interface Turbine3DViewerProps {
   showControls?: boolean;
 }
 
-export type MaterialTheme = 'stealth' | 'titanium' | 'pearl' | 'cfd' | 'wireframe';
-export type EnvironmentType = 'rooftop' | 'tunnel' | 'studio';
-export type TimeOfDay = 'day' | 'sunset' | 'night';
-
 export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
-  height = '580px',
+  height = '620px',
   showControls = true,
 }) => {
   const { telemetry } = useTelemetry();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // User Interactive State
-  const [materialTheme, setMaterialTheme] = useState<MaterialTheme>('stealth');
-  const [environment, setEnvironment] = useState<EnvironmentType>('rooftop');
-  const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('day');
+  // Streamlined Interactive State
   const [showAirflow, setShowAirflow] = useState<boolean>(true);
   const [autoRotate, setAutoRotate] = useState<boolean>(false);
   const [manualWindOverride, setManualWindOverride] = useState<number | null>(null);
-  const [windAzimuth, setWindAzimuth] = useState<number>(45); // Wind incoming angle in degrees
   const [cadModelLoaded, setCadModelLoaded] = useState<boolean>(false);
   const [isExploded, setIsExploded] = useState<boolean>(false);
+  const [isXray, setIsXray] = useState<boolean>(false);
+  const [selectedHotspot, setSelectedHotspot] = useState<string | null>(null);
 
   // References for Three.js state
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -57,77 +40,78 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
   const rotorGroupRef = useRef<THREE.Group | null>(null);
-  const materialsRef = useRef<THREE.Material[]>([]);
   const currentRPMRef = useRef<number>(telemetry.rpm);
 
   // Environmental groups
-  const environmentGroupRef = useRef<THREE.Group | null>(null);
   const skylineGroupRef = useRef<THREE.Group | null>(null);
   const parapetGroupRef = useRef<THREE.Group | null>(null);
+  const celestialGroupRef = useRef<THREE.Group | null>(null);
+  const cloudsGroupRef = useRef<THREE.Group | null>(null);
+  const trafficGroupRef = useRef<THREE.Group | null>(null);
   const windParticlesRef = useRef<THREE.Points | null>(null);
   const updraftParticlesRef = useRef<THREE.Points | null>(null);
-  const studioGridRef = useRef<THREE.GridHelper | null>(null);
+  const trafficParticlesRef = useRef<THREE.Points | null>(null);
 
-  // Lighting references for time of day transitions
-  const keyLightRef = useRef<THREE.DirectionalLight | null>(null);
-  const rimLightRef = useRef<THREE.DirectionalLight | null>(null);
-  const fillLightRef = useRef<THREE.DirectionalLight | null>(null);
-  const ambientLightRef = useRef<THREE.AmbientLight | null>(null);
+  // Dynamic animated components
+  const anemometerRotorRef = useRef<THREE.Group | null>(null);
+  const hvacFanRotorRef = useRef<THREE.Group | null>(null);
+  const beaconMaterialsRef = useRef<THREE.MeshBasicMaterial[]>([]);
 
-  // Mesh references
+  // Mesh & Material references
   const cadMeshRef = useRef<THREE.Mesh | null>(null);
+  const cadWireframeRef = useRef<THREE.Mesh | null>(null);
+  const solidCadMatRef = useRef<THREE.MeshPhysicalMaterial | null>(null);
+  const xrayCadMatRef = useRef<THREE.MeshPhysicalMaterial | null>(null);
   const proceduralGroupRef = useRef<THREE.Group | null>(null);
   const mainSphereMeshRef = useRef<THREE.Mesh | null>(null);
   const internalCoreMeshRef = useRef<THREE.Mesh | null>(null);
   const ventGroupsRef = useRef<THREE.Group[]>([]);
 
+  // Internal Mechanics references
+  const internalMechanicsGroupRef = useRef<THREE.Group | null>(null);
+  const rotatingMagnetsRef = useRef<THREE.Group | null>(null);
+  const mpptLedMeshRef = useRef<THREE.Mesh | null>(null);
+  const fluxRingMeshRef = useRef<THREE.Mesh | null>(null);
+  const powerConduitParticlesRef = useRef<THREE.Points | null>(null);
+
   // Active wind velocity calculations
   const activeWindSpeed = manualWindOverride ?? telemetry.windSpeed;
-  const effectiveRPM = manualWindOverride ? Math.round(manualWindOverride * 53.5) : telemetry.rpm;
+  const effectiveRPM = manualWindOverride !== null 
+    ? Math.round(activeWindSpeed * 54.3) 
+    : telemetry.rpm;
 
   useEffect(() => {
     currentRPMRef.current = effectiveRPM;
   }, [effectiveRPM]);
 
-  // Helper: Procedural Skyscraper Window Matrix Texture
-  const createSkyscraperTexture = (tod: TimeOfDay): THREE.CanvasTexture => {
+  // 1. Procedural Skyscraper Facade Texture (Clean daytime glass curtain wall)
+  const createSkyscraperTexture = (): THREE.CanvasTexture => {
     const canvas = document.createElement('canvas');
-    canvas.width = 128;
-    canvas.height = 256;
+    canvas.width = 256;
+    canvas.height = 512;
     const ctx = canvas.getContext('2d')!;
 
-    // Facade background tone
-    if (tod === 'night') {
-      ctx.fillStyle = '#090d1a';
-    } else if (tod === 'sunset') {
-      ctx.fillStyle = '#261b2e';
-    } else {
-      ctx.fillStyle = '#334155';
-    }
-    ctx.fillRect(0, 0, 128, 256);
+    // Modern architectural glass facade
+    ctx.fillStyle = '#334155';
+    ctx.fillRect(0, 0, 256, 512);
 
-    // Architectural Window Matrix
-    const rows = 16;
-    const cols = 8;
-    const w = 9;
-    const h = 11;
+    const rows = 24;
+    const cols = 12;
+    const w = 14;
+    const h = 15;
     const padX = 7;
-    const padY = 5;
+    const padY = 6;
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        const isLit = Math.random() > (tod === 'night' ? 0.35 : 0.7);
-        if (isLit) {
-          if (tod === 'night') {
-            ctx.fillStyle = Math.random() > 0.4 ? '#fef08a' : '#38bdf8';
-          } else if (tod === 'sunset') {
-            ctx.fillStyle = Math.random() > 0.3 ? '#fed7aa' : '#fbbf24';
-          } else {
-            ctx.fillStyle = '#94a3b8';
-          }
-        } else {
-          ctx.fillStyle = tod === 'night' ? '#172554' : '#1e293b';
+        if (r % 5 === 0) {
+          ctx.fillStyle = '#1e293b';
+          ctx.fillRect(c * (w + padX) + 6, r * (h + padY) + 4, w, 2);
+          continue;
         }
+
+        const isReflective = Math.random() > 0.4;
+        ctx.fillStyle = isReflective ? '#bae6fd' : '#1e293b';
         ctx.fillRect(c * (w + padX) + 6, r * (h + padY) + 6, w, h);
       }
     }
@@ -135,12 +119,80 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     const tex = new THREE.CanvasTexture(canvas);
     tex.wrapS = THREE.RepeatWrapping;
     tex.wrapT = THREE.RepeatWrapping;
-    tex.repeat.set(2, 4);
+    tex.repeat.set(1.5, 3.5);
     return tex;
   };
 
-  // Helper: Build the 3D Procedural Skyline (Dhaka High-Rise Metropolis)
-  const buildSkyline = (group: THREE.Group, tod: TimeOfDay) => {
+  // 2. Hazard Chevron Warning Texture for Rooftop Parapet
+  const createHazardTexture = (): THREE.CanvasTexture => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 32;
+    const ctx = canvas.getContext('2d')!;
+
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(0, 0, 128, 32);
+
+    ctx.fillStyle = '#eab308';
+    for (let i = -32; i < 160; i += 24) {
+      ctx.beginPath();
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i + 14, 0);
+      ctx.lineTo(i + 28, 32);
+      ctx.lineTo(i + 14, 32);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.wrapS = THREE.RepeatWrapping;
+    tex.repeat.set(12, 1);
+    return tex;
+  };
+
+  // 3. Photovoltaic Solar Panel Texture
+  const createSolarTexture = (): THREE.CanvasTexture => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d')!;
+
+    ctx.fillStyle = '#1e3a8a';
+    ctx.fillRect(0, 0, 128, 128);
+
+    ctx.strokeStyle = '#93c5fd';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < 128; x += 16) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, 128);
+      ctx.stroke();
+    }
+    for (let y = 0; y < 128; y += 16) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(128, y);
+      ctx.stroke();
+    }
+
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(42, 0);
+    ctx.lineTo(42, 128);
+    ctx.moveTo(85, 0);
+    ctx.lineTo(85, 128);
+    ctx.stroke();
+
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.wrapS = THREE.RepeatWrapping;
+    tex.wrapT = THREE.RepeatWrapping;
+    tex.repeat.set(4, 2);
+    return tex;
+  };
+
+  // 4. Build 3D Procedural Skyline
+  const buildSkyline = (group: THREE.Group) => {
     while (group.children.length > 0) {
       const obj = group.children[0];
       group.remove(obj);
@@ -150,71 +202,91 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
         else obj.material.dispose();
       }
     }
+    beaconMaterialsRef.current = [];
 
-    const windowTexture = createSkyscraperTexture(tod);
+    const windowTexture = createSkyscraperTexture();
 
-    // 22 Procedural Skyscraper Towers across the background horizon
     const buildingPositions = [
-      // Left cluster (Gulshan / Banani commercial skyline)
-      { x: -16, z: -18, w: 3.5, d: 3.5, h: 14 },
-      { x: -12, z: -15, w: 2.8, d: 2.8, h: 11 },
-      { x: -8, z: -19, w: 3.2, d: 3.0, h: 16 },
-      { x: -14, z: -25, w: 4.0, d: 4.0, h: 20 },
-      { x: -5, z: -16, w: 2.5, d: 2.5, h: 9.5 },
-      { x: -9, z: -28, w: 4.5, d: 4.5, h: 22 },
+      { x: -18, z: -20, w: 3.8, d: 3.8, h: 16, type: 'stepped' },
+      { x: -14, z: -17, w: 3.0, d: 3.0, h: 12, type: 'glass' },
+      { x: -10, z: -21, w: 3.4, d: 3.2, h: 18, type: 'antenna' },
+      { x: -16, z: -27, w: 4.4, d: 4.4, h: 22, type: 'glass' },
+      { x: -6, z: -18, w: 2.8, d: 2.8, h: 11, type: 'standard' },
+      { x: -11, z: -30, w: 4.8, d: 4.8, h: 25, type: 'stepped' },
 
-      // Center distant towers (Motijheel Central Business District)
-      { x: -2, z: -22, w: 3.6, d: 3.6, h: 18 },
-      { x: 2, z: -25, w: 4.2, d: 3.8, h: 21 },
-      { x: 0, z: -18, w: 2.8, d: 2.8, h: 13 },
-      { x: 4, z: -20, w: 3.2, d: 3.0, h: 15 },
+      { x: -3, z: -24, w: 4.0, d: 4.0, h: 20, type: 'glass' },
+      { x: 2, z: -27, w: 4.5, d: 4.0, h: 23, type: 'antenna' },
+      { x: 0, z: -19, w: 3.0, d: 3.0, h: 14, type: 'stepped' },
+      { x: 5, z: -22, w: 3.5, d: 3.2, h: 17, type: 'glass' },
 
-      // Right cluster (Modern high-rise towers)
-      { x: 7, z: -16, w: 2.6, d: 2.6, h: 10 },
-      { x: 10, z: -19, w: 3.4, d: 3.2, h: 17 },
-      { x: 14, z: -15, w: 2.9, d: 2.9, h: 12 },
-      { x: 12, z: -24, w: 3.8, d: 3.8, h: 19 },
-      { x: 17, z: -20, w: 3.5, d: 3.5, h: 15 },
-      { x: 9, z: -29, w: 4.5, d: 4.5, h: 24 },
+      { x: 8, z: -17, w: 2.9, d: 2.9, h: 11.5, type: 'standard' },
+      { x: 12, z: -21, w: 3.6, d: 3.4, h: 19, type: 'antenna' },
+      { x: 16, z: -17, w: 3.2, d: 3.2, h: 13, type: 'glass' },
+      { x: 14, z: -26, w: 4.2, d: 4.2, h: 21, type: 'stepped' },
+      { x: 19, z: -22, w: 3.8, d: 3.8, h: 16.5, type: 'glass' },
+      { x: 10, z: -32, w: 5.0, d: 5.0, h: 26, type: 'antenna' },
+
+      { x: -25, z: -36, w: 5.2, d: 5.2, h: 28, type: 'glass' },
+      { x: -2, z: -38, w: 6.0, d: 6.0, h: 32, type: 'stepped' },
+      { x: 22, z: -37, w: 5.4, d: 5.4, h: 29, type: 'antenna' },
     ];
 
     buildingPositions.forEach((b) => {
       const bMat = new THREE.MeshStandardMaterial({
         map: windowTexture,
-        roughness: 0.35,
-        metalness: 0.45,
-        color: tod === 'night' ? 0x111827 : (tod === 'sunset' ? 0x431407 : 0x64748b),
+        roughness: 0.28,
+        metalness: 0.55,
+        color: 0x475569,
       });
 
-      const bMesh = new THREE.Mesh(
-        new THREE.BoxGeometry(b.w, b.h, b.d),
-        bMat
-      );
-      // Place building bottom on ground level (y = -10), top extends upward
+      const bMesh = new THREE.Mesh(new THREE.BoxGeometry(b.w, b.h, b.d), bMat);
       bMesh.position.set(b.x, -10 + b.h / 2, b.z);
       group.add(bMesh);
 
-      // Rooftop communications antenna / warning beacon on tall buildings
-      if (b.h > 14) {
-        const spire = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.04, 0.08, 2.5, 8),
-          new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9 })
+      if (b.type === 'stepped') {
+        const tierH = 2.4;
+        const tierMesh = new THREE.Mesh(
+          new THREE.BoxGeometry(b.w * 0.72, tierH, b.d * 0.72),
+          bMat
         );
-        spire.position.set(b.x, -10 + b.h + 1.25, b.z);
+        tierMesh.position.set(b.x, -10 + b.h + tierH / 2, b.z);
+        group.add(tierMesh);
+
+        const crownMat = new THREE.MeshBasicMaterial({ color: 0x93c5fd });
+        const crownGlow = new THREE.Mesh(
+          new THREE.BoxGeometry(b.w * 0.76, 0.2, b.d * 0.76),
+          crownMat
+        );
+        crownGlow.position.set(b.x, -10 + b.h + tierH, b.z);
+        group.add(crownGlow);
+      }
+
+      if (b.type === 'antenna' || b.h > 17) {
+        const spireH = 3.2;
+        const spire = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.04, 0.12, spireH, 8),
+          new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9, roughness: 0.2 })
+        );
+        spire.position.set(b.x, -10 + b.h + spireH / 2, b.z);
         group.add(spire);
 
-        const beacon = new THREE.Mesh(
-          new THREE.SphereGeometry(0.12, 8, 8),
-          new THREE.MeshBasicMaterial({ color: tod === 'night' ? 0xef4444 : 0xf59e0b })
-        );
-        beacon.position.set(b.x, -10 + b.h + 2.5, b.z);
+        // Pulsing red obstruction light
+        const beaconMat = new THREE.MeshBasicMaterial({
+          color: 0xef4444,
+          transparent: true,
+          opacity: 1.0,
+        });
+        beaconMaterialsRef.current.push(beaconMat);
+
+        const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.18, 12, 12), beaconMat);
+        beacon.position.set(b.x, -10 + b.h + spireH + 0.1, b.z);
         group.add(beacon);
       }
     });
   };
 
-  // Helper: Build the Rooftop Parapet Stage beneath the turbine
-  const buildRooftopParapet = (group: THREE.Group, tod: TimeOfDay) => {
+  // 5. Build 3D Sky Clouds
+  const buildSkyClouds = (group: THREE.Group) => {
     while (group.children.length > 0) {
       const obj = group.children[0];
       group.remove(obj);
@@ -225,14 +297,157 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
       }
     }
 
-    // 1. Turbine Heavy-Duty Aerodynamic Pylon Stand (Connects (0,0,0) turbine to parapet)
+    const cloudMat = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.75,
+      roughness: 0.95,
+      metalness: 0.05,
+    });
+
+    const clusters = [
+      { x: -18, y: 10, z: -26, scale: 2.2 },
+      { x: -7, y: 14, z: -32, scale: 3.1 },
+      { x: 4, y: 11, z: -23, scale: 2.5 },
+      { x: 15, y: 13, z: -29, scale: 2.8 },
+      { x: 24, y: 9, z: -25, scale: 2.2 },
+      { x: -25, y: 15, z: -36, scale: 3.4 },
+      { x: 9, y: 16, z: -35, scale: 3.0 },
+    ];
+
+    clusters.forEach((c) => {
+      const clusterGroup = new THREE.Group();
+      clusterGroup.position.set(c.x, c.y, c.z);
+
+      for (let p = 0; p < 5; p++) {
+        const puffMesh = new THREE.Mesh(
+          new THREE.SphereGeometry((0.65 + Math.random() * 0.35) * c.scale, 12, 12),
+          cloudMat
+        );
+        puffMesh.position.set(
+          (p - 2) * 0.75 * c.scale + (Math.random() - 0.5) * 0.3,
+          (Math.random() - 0.5) * 0.28 * c.scale,
+          (Math.random() - 0.5) * 0.4 * c.scale
+        );
+        clusterGroup.add(puffMesh);
+      }
+      group.add(clusterGroup);
+    });
+  };
+
+  // 6. Build Celestial Sun & Atmospheric Glow
+  const buildCelestialAtmosphere = (group: THREE.Group) => {
+    while (group.children.length > 0) {
+      const obj = group.children[0];
+      group.remove(obj);
+      if (obj instanceof THREE.Mesh) {
+        obj.geometry.dispose();
+        if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
+        else obj.material.dispose();
+      }
+    }
+
+    const sunGroup = new THREE.Group();
+    sunGroup.position.set(12, 16, -28);
+
+    const sunCore = new THREE.Mesh(
+      new THREE.SphereGeometry(1.6, 24, 24),
+      new THREE.MeshBasicMaterial({ color: 0xffffff })
+    );
+    sunGroup.add(sunCore);
+
+    const sunCorona = new THREE.Mesh(
+      new THREE.SphereGeometry(3.6, 24, 24),
+      new THREE.MeshBasicMaterial({
+        color: 0xfef08a,
+        transparent: true,
+        opacity: 0.42,
+      })
+    );
+    sunGroup.add(sunCorona);
+
+    const outerGlow = new THREE.Mesh(
+      new THREE.SphereGeometry(6.4, 16, 16),
+      new THREE.MeshBasicMaterial({
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.22,
+      })
+    );
+    sunGroup.add(outerGlow);
+    group.add(sunGroup);
+  };
+
+  // 7. Build Highway Traffic Streaks in the Canyon below
+  const buildHighwayTraffic = (group: THREE.Group) => {
+    while (group.children.length > 0) {
+      const obj = group.children[0];
+      group.remove(obj);
+      if (obj instanceof THREE.Points) {
+        obj.geometry.dispose();
+        if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
+        else obj.material.dispose();
+      }
+    }
+
+    const carCount = 140;
+    const tGeo = new THREE.BufferGeometry();
+    const tPos = new Float32Array(carCount * 3);
+    const tColors = new Float32Array(carCount * 3);
+
+    for (let i = 0; i < carCount; i++) {
+      const isHeadlight = i < carCount / 2;
+      const zOffset = isHeadlight ? -15.5 : -17.5;
+      tPos[i * 3] = -25 + (i % (carCount / 2)) * (50 / (carCount / 2)) + (Math.random() - 0.5) * 0.8;
+      tPos[i * 3 + 1] = -9.8 + (Math.random() - 0.5) * 0.15;
+      tPos[i * 3 + 2] = zOffset + (Math.random() - 0.5) * 0.6;
+
+      if (isHeadlight) {
+        tColors[i * 3] = 1.0;
+        tColors[i * 3 + 1] = 0.95;
+        tColors[i * 3 + 2] = 0.7;
+      } else {
+        tColors[i * 3] = 0.95;
+        tColors[i * 3 + 1] = 0.15;
+        tColors[i * 3 + 2] = 0.15;
+      }
+    }
+
+    tGeo.setAttribute('position', new THREE.BufferAttribute(tPos, 3));
+    tGeo.setAttribute('color', new THREE.BufferAttribute(tColors, 3));
+
+    const tMat = new THREE.PointsMaterial({
+      size: 0.18,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.8,
+    });
+
+    const trafficPoints = new THREE.Points(tGeo, tMat);
+    trafficParticlesRef.current = trafficPoints;
+    group.add(trafficPoints);
+  };
+
+  // 8. Build Rooftop Parapet Stage
+  const buildRooftopParapet = (group: THREE.Group) => {
+    while (group.children.length > 0) {
+      const obj = group.children[0];
+      group.remove(obj);
+      if (obj instanceof THREE.Mesh || obj instanceof THREE.Group) {
+        if (obj instanceof THREE.Mesh) {
+          obj.geometry.dispose();
+          if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
+          else obj.material.dispose();
+        }
+      }
+    }
+
     const pylonMat = new THREE.MeshStandardMaterial({
       color: 0x1e293b,
       metalness: 0.85,
-      roughness: 0.25,
+      roughness: 0.22,
     });
 
-    // Vertical mounting pole
     const pylonPole = new THREE.Mesh(
       new THREE.CylinderGeometry(0.055, 0.075, 1.3, 24),
       pylonMat
@@ -240,7 +455,6 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     pylonPole.position.y = -0.75;
     group.add(pylonPole);
 
-    // Vibration-damping mounting collar
     const collar = new THREE.Mesh(
       new THREE.CylinderGeometry(0.22, 0.28, 0.2, 32),
       new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.9, roughness: 0.2 })
@@ -248,7 +462,6 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     collar.position.y = -0.65;
     group.add(collar);
 
-    // Status LED ring around mounting collar
     const statusRing = new THREE.Mesh(
       new THREE.TorusGeometry(0.23, 0.02, 12, 32),
       new THREE.MeshBasicMaterial({ color: 0x00e5ff })
@@ -257,7 +470,6 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     statusRing.position.y = -0.65;
     group.add(statusRing);
 
-    // Mounting Base Flange with hex bolts
     const baseFlange = new THREE.Mesh(
       new THREE.CylinderGeometry(0.38, 0.44, 0.12, 32),
       pylonMat
@@ -265,267 +477,167 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     baseFlange.position.y = -1.35;
     group.add(baseFlange);
 
-    // 2. Concrete Building Parapet Lip (The 40th Floor Edge where wind accelerates +1.4x)
+    // Concrete Parapet Lip
     const parapetMat = new THREE.MeshStandardMaterial({
-      color: tod === 'night' ? 0x1e293b : 0xe2e8f0,
-      roughness: 0.8,
+      color: 0xe2e8f0,
+      roughness: 0.75,
       metalness: 0.15,
     });
 
-    const parapetLedge = new THREE.Mesh(
-      new THREE.BoxGeometry(10.0, 0.45, 1.4),
-      parapetMat
-    );
+    const parapetLedge = new THREE.Mesh(new THREE.BoxGeometry(10.0, 0.45, 1.4), parapetMat);
     parapetLedge.position.set(0, -1.45, -0.2);
     group.add(parapetLedge);
 
-    // Brushed Aluminum Cap on Parapet Top Edge
+    // Hazard Chevron Striping Decal
+    const hazardTex = createHazardTexture();
+    const hazardStripe = new THREE.Mesh(
+      new THREE.BoxGeometry(10.02, 0.18, 0.02),
+      new THREE.MeshBasicMaterial({ map: hazardTex })
+    );
+    hazardStripe.position.set(0, -1.32, 0.51);
+    group.add(hazardStripe);
+
     const aluminumCap = new THREE.Mesh(
       new THREE.BoxGeometry(10.05, 0.06, 1.45),
-      new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.85, roughness: 0.3 })
+      new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.88, roughness: 0.25 })
     );
     aluminumCap.position.set(0, -1.21, -0.2);
     group.add(aluminumCap);
 
-    // 3. Safety Architectural Glass Railing along the Parapet
+    // Architectural Safety Glass Railing
     const glassMat = new THREE.MeshPhysicalMaterial({
       color: 0x94a3b8,
       transparent: true,
       opacity: 0.35,
-      roughness: 0.1,
+      roughness: 0.08,
       metalness: 0.1,
-      reflectivity: 0.9,
+      reflectivity: 0.95,
     });
 
-    const glassRailing = new THREE.Mesh(
-      new THREE.BoxGeometry(9.6, 0.75, 0.05),
-      glassMat
-    );
+    const glassRailing = new THREE.Mesh(new THREE.BoxGeometry(9.6, 0.75, 0.05), glassMat);
     glassRailing.position.set(0, -0.85, 0.45);
     group.add(glassRailing);
 
-    // Steel vertical railing stanchions
     for (let i = -4; i <= 4; i += 2) {
       const stanchion = new THREE.Mesh(
         new THREE.CylinderGeometry(0.025, 0.025, 0.85, 16),
-        new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.9, roughness: 0.2 })
+        new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.92, roughness: 0.15 })
       );
       stanchion.position.set(i, -0.85, 0.45);
       group.add(stanchion);
     }
 
-    // 4. Rooftop Floor Decking (Extending backwards into the building interior)
+    // Floor Decking
     const deckMat = new THREE.MeshStandardMaterial({
-      color: tod === 'night' ? 0x0f172a : 0xcbd5e1,
-      roughness: 0.7,
-      metalness: 0.2,
+      color: 0xcbd5e1,
+      roughness: 0.8,
+      metalness: 0.15,
     });
-
-    const roofDeck = new THREE.Mesh(
-      new THREE.BoxGeometry(14.0, 0.4, 8.0),
-      deckMat
-    );
+    const roofDeck = new THREE.Mesh(new THREE.BoxGeometry(14.0, 0.4, 8.0), deckMat);
     roofDeck.position.set(0, -1.65, -4.6);
     group.add(roofDeck);
 
-    // 5. Rooftop Equipment Details: Angled Solar PV Array & Edge Telemetry Mast
+    // Solar PV Array
+    const solarTex = createSolarTexture();
     const solarMat = new THREE.MeshStandardMaterial({
-      color: 0x1e3a8a,
-      metalness: 0.7,
-      roughness: 0.2,
+      map: solarTex,
+      metalness: 0.82,
+      roughness: 0.18,
     });
-
-    // Solar panels behind the turbine
-    const solarPanel = new THREE.Mesh(
-      new THREE.BoxGeometry(3.0, 0.08, 1.8),
-      solarMat
-    );
+    const solarPanel = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.08, 1.9), solarMat);
     solarPanel.position.set(3.2, -1.25, -3.5);
-    solarPanel.rotation.x = Math.PI * 0.12; // 22 degree tilt
+    solarPanel.rotation.x = Math.PI * 0.12;
     group.add(solarPanel);
 
-    // Edge-CFD Sensor Mast with anemometer
+    // Sensor Mast with ANIMATED CUP ANEMOMETER
     const mast = new THREE.Mesh(
       new THREE.CylinderGeometry(0.03, 0.04, 2.2, 12),
-      new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.8 })
+      new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.85 })
     );
     mast.position.set(-3.2, -0.4, -1.8);
     group.add(mast);
 
-    const mastSensor = new THREE.Mesh(
-      new THREE.SphereGeometry(0.1, 12, 12),
-      new THREE.MeshBasicMaterial({ color: 0x10b981 })
-    );
-    mastSensor.position.set(-3.2, 0.7, -1.8);
-    group.add(mastSensor);
+    const anemometerGroup = new THREE.Group();
+    anemometerGroup.position.set(-3.2, 0.72, -1.8);
+    anemometerRotorRef.current = anemometerGroup;
+    group.add(anemometerGroup);
 
-    // 6. Sheer Vertical Building Facade dropping into the street canyon
+    for (let c = 0; c < 3; c++) {
+      const armAngle = (c * Math.PI * 2) / 3;
+      const arm = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.008, 0.008, 0.22),
+        new THREE.MeshStandardMaterial({ color: 0x334155 })
+      );
+      arm.rotation.z = Math.PI / 2;
+      arm.rotation.y = armAngle;
+      anemometerGroup.add(arm);
+
+      const cup = new THREE.Mesh(
+        new THREE.SphereGeometry(0.045, 8, 8, 0, Math.PI),
+        new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.5 })
+      );
+      cup.position.set(Math.cos(armAngle) * 0.12, 0, Math.sin(armAngle) * 0.12);
+      cup.rotation.y = armAngle + Math.PI / 2;
+      anemometerGroup.add(cup);
+    }
+
+    // Industrial HVAC Fan Unit
+    const hvacBox = new THREE.Mesh(
+      new THREE.BoxGeometry(1.4, 0.8, 1.4),
+      new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.6, roughness: 0.4 })
+    );
+    hvacBox.position.set(-2.8, -1.25, -4.2);
+    group.add(hvacBox);
+
+    const hvacGrill = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.48, 0.48, 0.05, 24),
+      new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.9 })
+    );
+    hvacGrill.position.set(-2.8, -0.82, -4.2);
+    group.add(hvacGrill);
+
+    const hvacFan = new THREE.Group();
+    hvacFan.position.set(-2.8, -0.80, -4.2);
+    hvacFanRotorRef.current = hvacFan;
+    group.add(hvacFan);
+
+    for (let f = 0; f < 4; f++) {
+      const blade = new THREE.Mesh(
+        new THREE.BoxGeometry(0.38, 0.015, 0.08),
+        new THREE.MeshStandardMaterial({ color: 0x0284c7 })
+      );
+      blade.rotation.y = (f * Math.PI) / 2;
+      hvacFan.add(blade);
+    }
+
+    // Sheer Building Facade
     const facadeMat = new THREE.MeshStandardMaterial({
-      color: tod === 'night' ? 0x090d16 : 0x94a3b8,
+      color: 0x94a3b8,
       roughness: 0.85,
       metalness: 0.1,
     });
-
-    const buildingFacade = new THREE.Mesh(
-      new THREE.BoxGeometry(12.0, 16.0, 0.8),
-      facadeMat
-    );
+    const buildingFacade = new THREE.Mesh(new THREE.BoxGeometry(12.0, 16.0, 0.8), facadeMat);
     buildingFacade.position.set(0, -9.5, 0.65);
     group.add(buildingFacade);
   };
 
-  // Helper: Apply Lighting & Fog for Selected Time of Day
-  const updateAtmosphere = useCallback((tod: TimeOfDay, scene: THREE.Scene) => {
-    if (!ambientLightRef.current || !keyLightRef.current || !rimLightRef.current || !fillLightRef.current) return;
-
-    if (tod === 'day') {
-      scene.fog = new THREE.FogExp2(0xf1f5f9, 0.022);
-      ambientLightRef.current.color.setHex(0xffffff);
-      ambientLightRef.current.intensity = 1.6;
-
-      keyLightRef.current.color.setHex(0xffffff);
-      keyLightRef.current.position.set(6, 9, 6);
-      keyLightRef.current.intensity = 3.2;
-
-      rimLightRef.current.color.setHex(0x0284c7); // Crisp cyan rim
-      rimLightRef.current.position.set(-6, 3, -5);
-      rimLightRef.current.intensity = 2.8;
-
-      fillLightRef.current.color.setHex(0xbae6fd);
-      fillLightRef.current.position.set(5, -2, -3);
-      fillLightRef.current.intensity = 1.0;
-    } else if (tod === 'sunset') {
-      scene.fog = new THREE.FogExp2(0x381b28, 0.025);
-      ambientLightRef.current.color.setHex(0xfb923c);
-      ambientLightRef.current.intensity = 1.2;
-
-      keyLightRef.current.color.setHex(0xf97316); // Golden sunset sun
-      keyLightRef.current.position.set(7, 4, 5);
-      keyLightRef.current.intensity = 3.6;
-
-      rimLightRef.current.color.setHex(0xfbbf24);
-      rimLightRef.current.position.set(-6, 2, -5);
-      rimLightRef.current.intensity = 3.0;
-
-      fillLightRef.current.color.setHex(0xa855f7);
-      fillLightRef.current.position.set(3, -2, -3);
-      fillLightRef.current.intensity = 1.2;
-    } else {
-      // Night / Cyberpunk
-      scene.fog = new THREE.FogExp2(0x020617, 0.028);
-      ambientLightRef.current.color.setHex(0x1e293b);
-      ambientLightRef.current.intensity = 0.9;
-
-      keyLightRef.current.color.setHex(0x38bdf8); // Moonlight
-      keyLightRef.current.position.set(5, 7, 5);
-      keyLightRef.current.intensity = 2.2;
-
-      rimLightRef.current.color.setHex(0x00e5ff); // Neon cyan rim
-      rimLightRef.current.position.set(-5, 2, -4);
-      rimLightRef.current.intensity = 3.8;
-
-      fillLightRef.current.color.setHex(0x6366f1);
-      fillLightRef.current.position.set(4, -3, -2);
-      fillLightRef.current.intensity = 1.4;
-    }
-  }, []);
-
-  // Update Turbine Materials dynamically
-  const applyTurbineMaterial = useCallback((theme: MaterialTheme) => {
-    // 1. SolidWorks CAD Mesh
-    if (cadMeshRef.current) {
-      if (theme === 'stealth') {
-        // High-Contrast Aerospace Titanium & Slate (Razor sharp contrast against any sky!)
-        cadMeshRef.current.material = new THREE.MeshPhysicalMaterial({
-          color: 0x1e293b,
-          metalness: 0.85,
-          roughness: 0.22,
-          clearcoat: 0.95,
-          clearcoatRoughness: 0.08,
-          reflectivity: 0.95,
-          wireframe: false,
-        });
-      } else if (theme === 'titanium') {
-        // Anodized Silver Titanium
-        cadMeshRef.current.material = new THREE.MeshPhysicalMaterial({
-          color: 0x94a3b8,
-          metalness: 0.92,
-          roughness: 0.18,
-          clearcoat: 0.9,
-          clearcoatRoughness: 0.1,
-          reflectivity: 0.9,
-          wireframe: false,
-        });
-      } else if (theme === 'pearl') {
-        // Studio Pearl White with defined shadows
-        cadMeshRef.current.material = new THREE.MeshPhysicalMaterial({
-          color: 0xf8fafc,
-          metalness: 0.18,
-          roughness: 0.25,
-          clearcoat: 0.9,
-          clearcoatRoughness: 0.1,
-          reflectivity: 0.85,
-          wireframe: false,
-        });
-      } else if (theme === 'cfd') {
-        // Aerodynamic Pressure Differential Simulation (Bernoulli Venturi Flow)
-        cadMeshRef.current.material = new THREE.MeshStandardMaterial({
-          color: 0x0284c7,
-          emissive: 0x0369a1,
-          emissiveIntensity: 0.35,
-          roughness: 0.3,
-          metalness: 0.7,
-          wireframe: false,
-        });
-      } else if (theme === 'wireframe') {
-        // Full Holographic Engineering CAD Wireframe (17,503 Polygons)
-        cadMeshRef.current.material = new THREE.MeshBasicMaterial({
-          color: 0x00e5ff,
-          wireframe: true,
-        });
-      }
-    }
-
-    // 2. Procedural Fallback Mesh
-    if (mainSphereMeshRef.current) {
-      if (theme === 'wireframe') {
-        mainSphereMeshRef.current.material = new THREE.MeshBasicMaterial({
-          color: 0x00e5ff,
-          wireframe: true,
-        });
-      } else if (theme === 'stealth') {
-        mainSphereMeshRef.current.material = new THREE.MeshStandardMaterial({
-          color: 0x1e293b,
-          roughness: 0.25,
-          metalness: 0.75,
-        });
-      } else {
-        mainSphereMeshRef.current.material = new THREE.MeshStandardMaterial({
-          color: theme === 'pearl' ? 0xf8fafc : 0x0284c7,
-          roughness: 0.3,
-          metalness: 0.6,
-        });
-      }
-    }
-  }, []);
-
-  // Main Scene Initialization
+  // Main Scene Setup
   useEffect(() => {
     if (!containerRef.current) return;
     const container = containerRef.current;
     const width = container.clientWidth;
-    const heightPx = container.clientHeight || 560;
+    const heightPx = container.clientHeight || 620;
 
-    // 1. Scene
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
-    // 2. Perspective Camera (Targeting dead-center (0, 0, 0))
+    // Atmospheric Fog
+    scene.fog = new THREE.FogExp2(0xe0f2fe, 0.018);
+
     const camera = new THREE.PerspectiveCamera(42, width / heightPx, 0.1, 100);
     camera.position.set(0, 0.25, 3.25);
     cameraRef.current = camera;
 
-    // 3. WebGL Renderer
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
@@ -536,7 +648,7 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 1.18;
     rendererRef.current = renderer;
 
     while (container.firstChild) {
@@ -544,46 +656,41 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     }
     container.appendChild(renderer.domElement);
 
-    // 4. OrbitControls for smooth, natural 360° rotation
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.06;
-    controls.target.set(0, 0, 0); // ROTATE RIGHT AROUND DEAD-CENTER TURBINE!
+    controls.target.set(0, 0, 0);
     controls.minDistance = 1.3;
     controls.maxDistance = 6.5;
-    controls.maxPolarAngle = Math.PI / 2 + 0.28; // Keep camera above building horizon
+    controls.maxPolarAngle = Math.PI / 2 + 0.28;
     controlsRef.current = controls;
 
-    // 5. Lighting Setup
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.6);
-    ambientLightRef.current = ambientLight;
+    renderer.domElement.style.touchAction = 'pan-y';
+
+    // Cinematic Daylight Studio Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.9);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xffffff, 3.2);
-    keyLight.position.set(6, 9, 6);
+    const keyLight = new THREE.DirectionalLight(0xfffaed, 3.6);
+    keyLight.position.set(9, 14, 8);
     keyLight.castShadow = true;
-    keyLightRef.current = keyLight;
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight(0x0284c7, 2.8);
-    rimLight.position.set(-6, 3, -5);
-    rimLightRef.current = rimLight;
+    const rimLight = new THREE.DirectionalLight(0x0284c7, 2.6);
+    rimLight.position.set(-8, 5, -6);
     scene.add(rimLight);
 
-    const fillLight = new THREE.DirectionalLight(0xbae6fd, 1.0);
-    fillLight.position.set(5, -2, -3);
-    fillLightRef.current = fillLight;
+    const fillLight = new THREE.DirectionalLight(0xbae6fd, 1.2);
+    fillLight.position.set(6, -2, -4);
     scene.add(fillLight);
 
-    updateAtmosphere(timeOfDay, scene);
-
-    // 6. Central Rotor Group (Positioned at dead-center (0, 0, 0)!)
+    // Central Rotor Group
     const rotorGroup = new THREE.Group();
     rotorGroup.position.set(0, 0, 0);
     rotorGroupRef.current = rotorGroup;
     scene.add(rotorGroup);
 
-    // 7. Procedural CAD Model Fallback (Also centered at (0, 0, 0))
+    // Procedural Fallback Rotor
     const proceduralGroup = new THREE.Group();
     proceduralGroup.position.set(0, 0, 0);
     proceduralGroupRef.current = proceduralGroup;
@@ -601,7 +708,7 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     mainSphereMeshRef.current = mainSphere;
     proceduralGroup.add(mainSphere);
 
-    // Helical Venturi cross ducts
+    // Helical Venturi ducts
     const ventMat = new THREE.MeshStandardMaterial({
       color: 0x00e5ff,
       emissive: 0x004755,
@@ -652,12 +759,207 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     internalCoreMeshRef.current = internalCore;
     proceduralGroup.add(internalCore);
 
-    // 8. LOAD ACTUAL SOLIDWORKS CAD STL MODEL (/models/OWind_Body.stl)
+    // Solid Titanium Slate CAD Material
+    const solidCadMat = new THREE.MeshPhysicalMaterial({
+      color: 0x1e293b,
+      metalness: 0.85,
+      roughness: 0.22,
+      clearcoat: 0.95,
+      clearcoatRoughness: 0.08,
+      reflectivity: 0.95,
+    });
+    solidCadMatRef.current = solidCadMat;
+
+    // Holographic X-Ray CAD Material
+    const xrayCadMat = new THREE.MeshPhysicalMaterial({
+      color: 0x0284c7,
+      emissive: 0x0369a1,
+      emissiveIntensity: 0.45,
+      transparent: true,
+      opacity: 0.24,
+      roughness: 0.08,
+      metalness: 0.15,
+      clearcoat: 1.0,
+      transmission: 0.72,
+      depthWrite: true,
+    });
+    xrayCadMatRef.current = xrayCadMat;
+
+    // --- INTERNAL MECHANICS ASSEMBLY (Revealed in X-Ray View) ---
+    // 1. Stationary Core Assembly (shaft, bearings, stator copper coils, MPPT PCB)
+    const internalMechGroup = new THREE.Group();
+    internalMechGroup.name = 'stationary-internal-mechanics';
+    internalMechGroup.visible = false;
+    internalMechanicsGroupRef.current = internalMechGroup;
+    scene.add(internalMechGroup);
+
+    // 2. Rotating Mechanics Assembly (attached to rotorGroup to turn with the turbine!)
+    const rotatingMechGroup = new THREE.Group();
+    rotatingMechGroup.name = 'rotating-internal-mechanics';
+    rotatingMechGroup.visible = false;
+    rotatingMagnetsRef.current = rotatingMechGroup;
+    rotorGroup.add(rotatingMechGroup);
+
+    // Central Stainless Steel Drive Spindle / Axle
+    const shaftGeo = new THREE.CylinderGeometry(0.045, 0.045, 1.85, 32);
+    const shaftMat = new THREE.MeshStandardMaterial({
+      color: 0xe2e8f0,
+      metalness: 0.95,
+      roughness: 0.12,
+    });
+    const shaft = new THREE.Mesh(shaftGeo, shaftMat);
+    internalMechGroup.add(shaft);
+
+    // Dual High-Precision Sealed Ceramic Bearings
+    const bearingMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.92, roughness: 0.18 });
+    const brassCageMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.85, roughness: 0.25 });
+
+    [0.78, -0.78].forEach((bearingY) => {
+      const bRing = new THREE.Mesh(new THREE.CylinderGeometry(0.095, 0.095, 0.08, 24), bearingMat);
+      bRing.position.y = bearingY;
+      internalMechGroup.add(bRing);
+
+      const cage = new THREE.Mesh(new THREE.TorusGeometry(0.075, 0.015, 12, 24), brassCageMat);
+      cage.rotation.x = Math.PI / 2;
+      cage.position.y = bearingY;
+      internalMechGroup.add(cage);
+    });
+
+    // Stationary 12-Pole Stator Plate & Copper Induction Coils (y = -0.15)
+    const statorDiscMat = new THREE.MeshStandardMaterial({ color: 0x0f766e, metalness: 0.4, roughness: 0.4 });
+    const statorDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.035, 32), statorDiscMat);
+    statorDisc.position.y = -0.15;
+    internalMechGroup.add(statorDisc);
+
+    const copperMat = new THREE.MeshStandardMaterial({
+      color: 0xd97706,
+      metalness: 0.95,
+      roughness: 0.22,
+      emissive: 0xb45309,
+      emissiveIntensity: 0.4,
+    });
+    const ironCoreMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8, roughness: 0.3 });
+
+    for (let c = 0; c < 12; c++) {
+      const angle = (c * Math.PI * 2) / 12;
+      const radius = 0.26;
+      const coil = new THREE.Mesh(new THREE.TorusGeometry(0.052, 0.02, 16, 24), copperMat);
+      coil.position.set(Math.cos(angle) * radius, -0.15, Math.sin(angle) * radius);
+      coil.rotation.x = Math.PI / 2;
+      internalMechGroup.add(coil);
+
+      const core = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.045, 12), ironCoreMat);
+      core.position.set(Math.cos(angle) * radius, -0.15, Math.sin(angle) * radius);
+      internalMechGroup.add(core);
+    }
+
+    // Synchronous MPPT Circuit Board & Microcontroller (y = -0.34)
+    const pcbMat = new THREE.MeshStandardMaterial({ color: 0x064e3b, metalness: 0.3, roughness: 0.4 });
+    const pcbBoard = new THREE.Mesh(new THREE.CylinderGeometry(0.33, 0.33, 0.015, 32), pcbMat);
+    pcbBoard.position.y = -0.34;
+    internalMechGroup.add(pcbBoard);
+
+    const smtMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.7, roughness: 0.3 });
+    const goldMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.92, roughness: 0.2 });
+
+    const inductor = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.045, 0.08), smtMat);
+    inductor.position.set(0.12, -0.315, 0.1);
+    internalMechGroup.add(inductor);
+
+    const mcu = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.02, 0.09), smtMat);
+    mcu.position.set(-0.1, -0.325, -0.08);
+    internalMechGroup.add(mcu);
+
+    const goldBus = new THREE.Mesh(new THREE.RingGeometry(0.18, 0.22, 32), goldMat);
+    goldBus.rotation.x = -Math.PI / 2;
+    goldBus.position.y = -0.33;
+    internalMechGroup.add(goldBus);
+
+    // Active Flashing MPPT Telemetry LED
+    const mpptLedMat = new THREE.MeshBasicMaterial({ color: 0x10b981, transparent: true, opacity: 1.0 });
+    const mpptLed = new THREE.Mesh(new THREE.SphereGeometry(0.018, 8, 8), mpptLedMat);
+    mpptLed.position.set(-0.18, -0.32, 0.12);
+    mpptLedMeshRef.current = mpptLed;
+    internalMechGroup.add(mpptLed);
+
+    // Pulsing Induction Flux Glow Ring around Stator
+    const fluxMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.6 });
+    const fluxRing = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.012, 12, 32), fluxMat);
+    fluxRing.rotation.x = Math.PI / 2;
+    fluxRing.position.y = -0.15;
+    fluxRingMeshRef.current = fluxRing;
+    internalMechGroup.add(fluxRing);
+
+    // Rotating NdFeB Permanent Magnet Rotor Discs (sandwiching the stator coils)
+    const magnetDiscMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.95, roughness: 0.15 });
+    const magNMat = new THREE.MeshStandardMaterial({ color: 0xef4444, metalness: 0.85, roughness: 0.25, emissive: 0x991b1b, emissiveIntensity: 0.25 });
+    const magSMat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, metalness: 0.85, roughness: 0.25, emissive: 0x1e40af, emissiveIntensity: 0.25 });
+
+    [-0.07, -0.23].forEach((discY) => {
+      const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.38, 0.022, 32), magnetDiscMat);
+      disc.position.y = discY;
+      rotatingMechGroup.add(disc);
+
+      for (let m = 0; m < 12; m++) {
+        const angle = (m * Math.PI * 2) / 12;
+        const magRadius = 0.26;
+        const isNorth = m % 2 === 0;
+        const mag = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.042, 0.042, 0.026, 16),
+          isNorth ? magNMat : magSMat
+        );
+        mag.position.set(Math.cos(angle) * magRadius, discY, Math.sin(angle) * magRadius);
+        rotatingMechGroup.add(mag);
+      }
+    });
+
+    // Internal Bernoulli Venturi Aerodynamic Flow Vanes (6 guide channels)
+    const vaneMat = new THREE.MeshPhysicalMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.35,
+      roughness: 0.1,
+      metalness: 0.2,
+      clearcoat: 1.0,
+      side: THREE.DoubleSide,
+    });
+    for (let v = 0; v < 6; v++) {
+      const vAngle = (v * Math.PI * 2) / 6;
+      const vaneGeo = new THREE.CylinderGeometry(0.2, 0.65, 0.42, 12, 1, true, vAngle, Math.PI / 4.5);
+      const vane = new THREE.Mesh(vaneGeo, vaneMat);
+      vane.position.set(0, v % 2 === 0 ? 0.2 : -0.05, 0);
+      vane.rotation.y = vAngle;
+      rotatingMechGroup.add(vane);
+    }
+
+    // Electrical Power Flow Particles (Downwards through Mast)
+    const powerCount = 90;
+    const pGeo = new THREE.BufferGeometry();
+    const pPos = new Float32Array(powerCount * 3);
+    for (let i = 0; i < powerCount; i++) {
+      pPos[i * 3] = (Math.random() - 0.5) * 0.035;
+      pPos[i * 3 + 1] = -0.15 - Math.random() * 1.25; // between -0.15 and -1.40
+      pPos[i * 3 + 2] = (Math.random() - 0.5) * 0.035;
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    const powerParticlesMat = new THREE.PointsMaterial({
+      color: 0x38bdf8,
+      size: 0.055,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending,
+    });
+    const powerParticles = new THREE.Points(pGeo, powerParticlesMat);
+    powerParticles.visible = false;
+    powerConduitParticlesRef.current = powerParticles;
+    scene.add(powerParticles);
+
+    // Load SolidWorks CAD Model
     const stlLoader = new STLLoader();
     stlLoader.load(
       '/models/OWind_Body.stl',
       (geometry) => {
-        geometry.center(); // Center geometry vertices at (0, 0, 0)
+        geometry.center();
         geometry.computeVertexNormals();
         geometry.computeBoundingBox();
 
@@ -666,20 +968,11 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
         const sizeY = box.max.y - box.min.y;
         const sizeZ = box.max.z - box.min.z;
         const maxDim = Math.max(sizeX, sizeY, sizeZ);
-        const scaleFactor = 1.95 / maxDim; // Substantial, beautifully centered presence!
+        const scaleFactor = 1.95 / maxDim;
 
-        const cadMat = new THREE.MeshPhysicalMaterial({
-          color: 0x1e293b, // Default high-contrast titanium slate
-          metalness: 0.85,
-          roughness: 0.22,
-          clearcoat: 0.95,
-          clearcoatRoughness: 0.08,
-          reflectivity: 0.95,
-        });
-
-        const cadMesh = new THREE.Mesh(geometry, cadMat);
+        const cadMesh = new THREE.Mesh(geometry, solidCadMat);
         cadMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
-        cadMesh.position.set(0, 0, 0); // DEAD-CENTER IN SCENE!
+        cadMesh.position.set(0, 0, 0);
         cadMesh.castShadow = true;
         cadMesh.receiveShadow = true;
         cadMeshRef.current = cadMesh;
@@ -687,41 +980,58 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
         rotorGroup.add(cadMesh);
         setCadModelLoaded(true);
 
+        // Blueprint Wireframe Mesh Shell for X-Ray
+        const wireframeMat = new THREE.MeshBasicMaterial({
+          color: 0x38bdf8,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.15,
+        });
+        const wireframeMesh = new THREE.Mesh(geometry, wireframeMat);
+        wireframeMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
+        wireframeMesh.position.set(0, 0, 0);
+        wireframeMesh.visible = false;
+        cadWireframeRef.current = wireframeMesh;
+        rotorGroup.add(wireframeMesh);
+
         proceduralGroup.visible = false;
         cadMesh.visible = true;
       },
       undefined,
       (error) => {
-        console.warn('Could not load /models/OWind_Body.stl, using procedural CAD fallback:', error);
+        console.warn('Using procedural CAD fallback:', error);
         proceduralGroup.visible = true;
       }
     );
 
-    // 9. Environment Groups (Rooftop Parapet & City Skyline)
-    const envGroup = new THREE.Group();
-    environmentGroupRef.current = envGroup;
-    scene.add(envGroup);
+    // Environmental Groups
+    const skylineGroup = new THREE.Group();
+    skylineGroupRef.current = skylineGroup;
+    scene.add(skylineGroup);
+    buildSkyline(skylineGroup);
 
     const parapetGroup = new THREE.Group();
     parapetGroupRef.current = parapetGroup;
-    envGroup.add(parapetGroup);
-    buildRooftopParapet(parapetGroup, timeOfDay);
+    scene.add(parapetGroup);
+    buildRooftopParapet(parapetGroup);
 
-    const skylineGroup = new THREE.Group();
-    skylineGroupRef.current = skylineGroup;
-    envGroup.add(skylineGroup);
-    buildSkyline(skylineGroup, timeOfDay);
+    const celestialGroup = new THREE.Group();
+    celestialGroupRef.current = celestialGroup;
+    scene.add(celestialGroup);
+    buildCelestialAtmosphere(celestialGroup);
 
-    // Minimal Studio Grid Helper
-    const grid = new THREE.GridHelper(8, 32, 0x0284c7, 0xcbd5e1);
-    grid.position.y = -1.25;
-    grid.visible = false;
-    studioGridRef.current = grid;
-    scene.add(grid);
+    const cloudsGroup = new THREE.Group();
+    cloudsGroupRef.current = cloudsGroup;
+    scene.add(cloudsGroup);
+    buildSkyClouds(cloudsGroup);
 
-    // 10. Live Dynamic Wind Vector Simulation
-    // A) Horizontal Canyon Wind Streamlines
-    const hCount = 220;
+    const trafficGroup = new THREE.Group();
+    trafficGroupRef.current = trafficGroup;
+    scene.add(trafficGroup);
+    buildHighwayTraffic(trafficGroup);
+
+    // Dynamic Wind Particles
+    const hCount = 200;
     const hGeo = new THREE.BufferGeometry();
     const hPos = new Float32Array(hCount * 3);
     const hVel = new Float32Array(hCount * 3);
@@ -749,20 +1059,20 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     windParticlesRef.current = windParticles;
     scene.add(windParticles);
 
-    // B) Vertical Building Facade Updrafts (Rising up the building facade into the turbine!)
-    const uCount = 140;
+    // Facade Updraft Particles
+    const uCount = 130;
     const uGeo = new THREE.BufferGeometry();
     const uPos = new Float32Array(uCount * 3);
     const uVel = new Float32Array(uCount * 3);
 
     for (let i = 0; i < uCount; i++) {
       uPos[i * 3] = (Math.random() - 0.5) * 3.5;
-      uPos[i * 3 + 1] = -5.0 + Math.random() * 4.5; // Updraft rising from street canyon
+      uPos[i * 3 + 1] = -5.0 + Math.random() * 4.5;
       uPos[i * 3 + 2] = 0.5 + Math.random() * 0.8;
 
       uVel[i * 3] = (Math.random() - 0.5) * 0.005;
-      uVel[i * 3 + 1] = 0.024 + Math.random() * 0.015; // Strong vertical rush!
-      uVel[i * 3 + 2] = -0.008; // Curves over parapet lip into turbine
+      uVel[i * 3 + 1] = 0.024 + Math.random() * 0.015;
+      uVel[i * 3 + 2] = -0.008;
     }
     uGeo.setAttribute('position', new THREE.BufferAttribute(uPos, 3));
 
@@ -776,28 +1086,72 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     updraftParticlesRef.current = updraftParticles;
     scene.add(updraftParticles);
 
-    // 11. Animation Loop
+    // Animation Loop
     let animationFrameId: number;
     const clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       const delta = clock.getDelta();
+      const elapsedTime = clock.getElapsedTime();
 
-      // Smooth OrbitControls update
       controls.update();
 
-      // Dynamic Turbine Rotation proportional to Live RPM
+      // Rotor rotation proportional to RPM
       if (rotorGroupRef.current) {
         const radPerSec = (currentRPMRef.current / 60) * 0.85;
         rotorGroupRef.current.rotation.y += radPerSec * delta;
       }
 
-      // Wind Particle Flow Simulation
+      // Anemometer cups spin with wind speed
+      if (anemometerRotorRef.current) {
+        anemometerRotorRef.current.rotation.y += activeWindSpeed * 3.4 * delta;
+      }
+
+      // HVAC fan
+      if (hvacFanRotorRef.current) {
+        hvacFanRotorRef.current.rotation.y += 9.5 * delta;
+      }
+
+      // Obstruction lights
+      const beaconAlpha = Math.sin(elapsedTime * 4.2) > 0.1 ? 1.0 : 0.2;
+      beaconMaterialsRef.current.forEach((mat) => {
+        mat.opacity = beaconAlpha;
+      });
+
+      // Drifting clouds
+      if (cloudsGroupRef.current) {
+        const cloudDriftSpeed = 0.45 * (activeWindSpeed / 3.42) * delta;
+        cloudsGroupRef.current.children.forEach((cluster) => {
+          cluster.position.x += cloudDriftSpeed;
+          if (cluster.position.x > 32) {
+            cluster.position.x = -32;
+          }
+        });
+      }
+
+      // Highway traffic trails
+      if (trafficParticlesRef.current) {
+        const positions = trafficParticlesRef.current.geometry.attributes.position.array as Float32Array;
+        const count = positions.length / 3;
+        for (let i = 0; i < count; i++) {
+          const isHeadlight = i < count / 2;
+          const speed = (isHeadlight ? 0.08 : -0.075) * (1 + (i % 3) * 0.2);
+          positions[i * 3] += speed;
+
+          if (isHeadlight && positions[i * 3] > 26) {
+            positions[i * 3] = -26;
+          } else if (!isHeadlight && positions[i * 3] < -26) {
+            positions[i * 3] = 26;
+          }
+        }
+        trafficParticlesRef.current.geometry.attributes.position.needsUpdate = true;
+      }
+
+      // Wind particles
       if (showAirflow) {
         const speedMultiplier = Math.max(0.6, currentRPMRef.current / 110);
 
-        // Horizontal canyon stream
         if (windParticlesRef.current) {
           const positions = windParticlesRef.current.geometry.attributes.position.array as Float32Array;
           for (let i = 0; i < hCount; i++) {
@@ -806,7 +1160,6 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
             positions[idx + 1] += hVel[idx + 1] * speedMultiplier;
             positions[idx + 2] += hVel[idx + 2] * speedMultiplier;
 
-            // Reset when passed or too far
             const d = Math.sqrt(positions[idx] * positions[idx] + positions[idx + 2] * positions[idx + 2]);
             if (d < 0.4 || positions[idx] < -3.5 || positions[idx + 2] < -3.5) {
               positions[idx] = 2.2 + Math.random() * 1.5;
@@ -817,7 +1170,6 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
           windParticlesRef.current.geometry.attributes.position.needsUpdate = true;
         }
 
-        // Vertical facade updraft
         if (updraftParticlesRef.current) {
           const positions = updraftParticlesRef.current.geometry.attributes.position.array as Float32Array;
           for (let i = 0; i < uCount; i++) {
@@ -826,7 +1178,6 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
             positions[idx + 1] += uVel[idx + 1] * speedMultiplier;
             positions[idx + 2] += uVel[idx + 2] * speedMultiplier;
 
-            // Reset when looped past turbine
             if (positions[idx + 1] > 1.8 || positions[idx + 2] < -1.5) {
               positions[idx] = (Math.random() - 0.5) * 3.5;
               positions[idx + 1] = -5.0 + Math.random() * 1.2;
@@ -837,16 +1188,48 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
         }
       }
 
+      // Update X-Ray Mechanics & Live Electrical Flux
+      if (internalMechanicsGroupRef.current && internalMechanicsGroupRef.current.visible) {
+        // Pulse MPPT status LED
+        if (mpptLedMeshRef.current) {
+          const ledIntensity = Math.sin(elapsedTime * 6.0) > 0.1 ? 1.0 : 0.25;
+          (mpptLedMeshRef.current.material as THREE.MeshBasicMaterial).opacity = ledIntensity;
+        }
+
+        // Pulse Electromagnetic Induction Flux Ring
+        if (fluxRingMeshRef.current) {
+          const powerFactor = Math.min(1.0, currentRPMRef.current / 380);
+          const fluxAlpha = 0.35 + Math.sin(elapsedTime * 8.0) * 0.25 * powerFactor;
+          (fluxRingMeshRef.current.material as THREE.MeshBasicMaterial).opacity = Math.max(0.2, fluxAlpha);
+        }
+
+        // Stream Power Conduit Particles downwards from generator to battery
+        if (powerConduitParticlesRef.current) {
+          const positions = powerConduitParticlesRef.current.geometry.attributes.position.array as Float32Array;
+          const count = positions.length / 3;
+          const streamSpeed = 0.018 * Math.max(0.5, currentRPMRef.current / 90);
+          for (let p = 0; p < count; p++) {
+            const idx = p * 3;
+            positions[idx + 1] -= streamSpeed * (1 + (p % 3) * 0.35);
+            if (positions[idx + 1] < -1.35) {
+              positions[idx + 1] = -0.15 - Math.random() * 0.08;
+              positions[idx] = (Math.random() - 0.5) * 0.04;
+              positions[idx + 2] = (Math.random() - 0.5) * 0.04;
+            }
+          }
+          powerConduitParticlesRef.current.geometry.attributes.position.needsUpdate = true;
+        }
+      }
+
       renderer.render(scene, camera);
     };
 
     animate();
 
-    // Resize Handler
     const handleResize = () => {
       if (!containerRef.current || !rendererRef.current || !cameraRef.current) return;
       const w = containerRef.current.clientWidth;
-      const h = containerRef.current.clientHeight || 560;
+      const h = containerRef.current.clientHeight || 620;
       cameraRef.current.aspect = w / h;
       cameraRef.current.updateProjectionMatrix();
       rendererRef.current.setSize(w, h);
@@ -861,40 +1244,6 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     };
   }, []);
 
-  // Update Atmosphere and Environment
-  useEffect(() => {
-    if (!sceneRef.current) return;
-    updateAtmosphere(timeOfDay, sceneRef.current);
-
-    if (skylineGroupRef.current) {
-      buildSkyline(skylineGroupRef.current, timeOfDay);
-    }
-    if (parapetGroupRef.current) {
-      buildRooftopParapet(parapetGroupRef.current, timeOfDay);
-    }
-  }, [timeOfDay, updateAtmosphere]);
-
-  // Update Environment View Mode (Rooftop vs Tunnel vs Studio)
-  useEffect(() => {
-    if (environmentGroupRef.current && studioGridRef.current) {
-      if (environment === 'rooftop') {
-        environmentGroupRef.current.visible = true;
-        studioGridRef.current.visible = false;
-        if (skylineGroupRef.current) skylineGroupRef.current.visible = true;
-        if (parapetGroupRef.current) parapetGroupRef.current.visible = true;
-      } else if (environment === 'tunnel') {
-        environmentGroupRef.current.visible = true;
-        if (skylineGroupRef.current) skylineGroupRef.current.visible = false;
-        if (parapetGroupRef.current) parapetGroupRef.current.visible = true;
-        studioGridRef.current.visible = true;
-      } else {
-        // Minimal Studio
-        environmentGroupRef.current.visible = false;
-        studioGridRef.current.visible = true;
-      }
-    }
-  }, [environment]);
-
   // Update Airflow visibility
   useEffect(() => {
     if (windParticlesRef.current && updraftParticlesRef.current) {
@@ -907,14 +1256,54 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
   useEffect(() => {
     if (controlsRef.current) {
       controlsRef.current.autoRotate = autoRotate;
-      controlsRef.current.autoRotateSpeed = 2.4;
+      controlsRef.current.autoRotateSpeed = 2.2;
     }
   }, [autoRotate]);
 
-  // Update Material Shading
+  // Handle X-Ray View Material & Mesh Toggles
   useEffect(() => {
-    applyTurbineMaterial(materialTheme);
-  }, [materialTheme, applyTurbineMaterial]);
+    // 1. Update CAD Mesh Material and Wireframe
+    if (cadMeshRef.current && solidCadMatRef.current && xrayCadMatRef.current) {
+      cadMeshRef.current.material = isXray ? xrayCadMatRef.current : solidCadMatRef.current;
+      if (cadWireframeRef.current) {
+        cadWireframeRef.current.visible = isXray && !isExploded;
+      }
+    }
+
+    // 2. Fallback procedural sphere material
+    if (mainSphereMeshRef.current) {
+      if (isXray) {
+        mainSphereMeshRef.current.material = new THREE.MeshPhysicalMaterial({
+          color: 0x0284c7,
+          emissive: 0x0284c7,
+          emissiveIntensity: 0.35,
+          transparent: true,
+          opacity: 0.28,
+          roughness: 0.1,
+          metalness: 0.2,
+          clearcoat: 1.0,
+        });
+      } else {
+        mainSphereMeshRef.current.material = new THREE.MeshPhysicalMaterial({
+          color: 0x1e293b,
+          metalness: 0.85,
+          roughness: 0.22,
+          clearcoat: 0.95,
+        });
+      }
+    }
+
+    // 3. Internal Mechanics & Power Conduit visibility
+    if (internalMechanicsGroupRef.current) {
+      internalMechanicsGroupRef.current.visible = isXray && !isExploded;
+    }
+    if (rotatingMagnetsRef.current) {
+      rotatingMagnetsRef.current.visible = isXray && !isExploded;
+    }
+    if (powerConduitParticlesRef.current) {
+      powerConduitParticlesRef.current.visible = isXray && !isExploded;
+    }
+  }, [isXray, isExploded]);
 
   // Handle Exploded View Toggle
   useEffect(() => {
@@ -922,6 +1311,7 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
 
     if (isExploded) {
       if (cadMeshRef.current) cadMeshRef.current.visible = false;
+      if (cadWireframeRef.current) cadWireframeRef.current.visible = false;
       if (proceduralGroupRef.current) proceduralGroupRef.current.visible = true;
 
       mainSphereMeshRef.current.scale.set(1.4, 1.4, 1.4);
@@ -950,284 +1340,311 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     }
   }, [isExploded]);
 
-  // Camera Focus Position Presets
-  const setCameraPreset = (preset: 'center' | 'edge' | 'skyline') => {
+  const handleResetCamera = () => {
     soundFx.playClick();
     if (!cameraRef.current || !controlsRef.current) return;
-
-    if (preset === 'center') {
-      // Focus Right on Turbine Center
-      cameraRef.current.position.set(0, 0.2, 3.1);
-      controlsRef.current.target.set(0, 0, 0);
-    } else if (preset === 'edge') {
-      // Look Down at Facade Updrafts & Parapet Lip
-      cameraRef.current.position.set(1.6, 1.4, 2.4);
-      controlsRef.current.target.set(0, -0.3, 0);
-    } else if (preset === 'skyline') {
-      // Wide Angle Panorama with Skyline in Background
-      cameraRef.current.position.set(-2.4, 0.4, 2.0);
-      controlsRef.current.target.set(0, 0, 0);
-    }
+    cameraRef.current.position.set(0, 0.2, 3.1);
+    controlsRef.current.target.set(0, 0, 0);
   };
 
-  const handleZoom = (direction: 'in' | 'out') => {
-    soundFx.playClick();
-    if (!cameraRef.current || !controlsRef.current) return;
-    const factor = direction === 'in' ? -0.4 : 0.4;
-    cameraRef.current.position.z = Math.max(1.3, Math.min(6.5, cameraRef.current.position.z + factor));
-  };
+  // Dynamic electrical generation calculations
+  const generatedPower = Number((0.5 * 1.225 * Math.PI * Math.pow(0.48, 2) * 0.38 * Math.pow(activeWindSpeed, 3) * 0.818).toFixed(1));
+  const livePower = manualWindOverride !== null ? Math.max(1.2, generatedPower) : (telemetry.power > 0 ? telemetry.power : Math.max(1.2, generatedPower));
+  const liveVoltage = 3.70; // 3.7V Synchronous LiFePO4 bus
+  const liveCurrent = Number((livePower / liveVoltage).toFixed(2));
+  const liveTorque = Number((livePower / Math.max(1, (effectiveRPM * 2 * Math.PI) / 60)).toFixed(2));
 
   return (
     <div
-      className={`relative w-full rounded-2xl overflow-hidden border border-stone-200/90 shadow-[0_12px_40px_rgb(0,0,0,0.06)] group select-none transition-colors duration-500 ${
-        timeOfDay === 'night'
-          ? 'bg-gradient-to-b from-[#090d1a] via-[#040711] to-[#02050c]'
-          : timeOfDay === 'sunset'
-          ? 'bg-gradient-to-b from-[#381b28] via-[#241320] to-[#140b15]'
-          : 'bg-gradient-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0]'
-      }`}
       style={{ height }}
+      className="relative w-full rounded-2xl overflow-hidden border border-cyan-400/30 shadow-[0_20px_50px_rgba(2,132,199,0.16)] group select-none transition-colors duration-500 bg-gradient-to-b from-[#0284c7] via-[#38bdf8]/65 to-[#e0f2fe]"
     >
-      {/* 3D Canvas Container */}
-      <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
+      {/* Radiant Sun/Sky Aurora Glow Behind Turbine for Cinematic Depth */}
+      <div className="absolute top-[8%] left-1/2 -translate-x-1/2 w-[600px] h-[340px] bg-gradient-to-b from-amber-200/30 via-cyan-300/25 to-transparent blur-[90px] pointer-events-none rounded-full" />
+      <div className="absolute -bottom-8 left-0 right-0 h-36 bg-gradient-to-t from-sky-200/50 via-cyan-100/25 to-transparent pointer-events-none" />
 
-      {/* TOP BAR: Real-Time CAD Meta Badge (Left) & Wind Controls (Right) */}
-      <div className="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2.5 z-10 pointer-events-none">
-        {/* Left Status Pill */}
-        <div className="flex flex-wrap items-center gap-2 pointer-events-auto">
-          <div className="bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-stone-200 flex items-center gap-2 text-xs font-mono text-stone-800 shadow-md">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-500 animate-ping" />
+      {/* 3D Canvas Container */}
+      <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing relative z-0" />
+
+      {/* TOP STATUS PILL & VIEW MODE SWITCHER */}
+      <div className="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 z-10 pointer-events-none">
+        <div className="flex items-center gap-2 pointer-events-auto">
+          <div className="bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full border border-stone-200/90 flex items-center gap-2 text-xs font-sans text-stone-800 shadow-md">
+            <span className={`w-2.5 h-2.5 rounded-full ${isXray ? 'bg-amber-400 animate-ping' : 'bg-cyan-500 animate-ping'}`} />
             <span className="font-bold tracking-tight">
-              {cadModelLoaded ? 'SOLIDWORKS CAD MESH' : 'O-WIND 3D ROTOR'}
+              {isXray ? 'X-RAY MECHANICS TWIN' : (cadModelLoaded ? 'SOLIDWORKS CAD TWIN' : 'O-WIND ROTOR')}
             </span>
             <span className="text-stone-300">|</span>
             <span className="text-stone-900 font-extrabold">{effectiveRPM} RPM</span>
-            <span className="text-stone-300">|</span>
-            <span className="text-cyan-700 font-semibold uppercase text-[11px]">{environment}</span>
-          </div>
-
-          {cadModelLoaded && (
-            <div className="hidden sm:flex bg-emerald-50/95 backdrop-blur-md px-2.5 py-1 rounded-full border border-emerald-300 text-[10px] font-mono text-emerald-800 items-center gap-1.5 shadow-sm">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-              <span>17,503 POLYS · CENTERED</span>
-            </div>
-          )}
-        </div>
-
-        {/* Right Wind Simulation Controls */}
-        <div className="flex items-center gap-2 pointer-events-auto">
-          <div className="bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full border border-stone-200 font-mono text-xs text-stone-700 flex items-center gap-2.5 shadow-md">
-            <Wind className="w-3.5 h-3.5 text-cyan-600 animate-pulse" />
-            <span className="text-[11px] text-stone-500 font-medium">Speed:</span>
-            <input
-              type="range"
-              min="1.0"
-              max="8.5"
-              step="0.2"
-              value={activeWindSpeed}
-              onChange={(e) => setManualWindOverride(parseFloat(e.target.value))}
-              className="w-16 sm:w-20 accent-stone-900 h-1.5 bg-stone-200 rounded-lg cursor-pointer"
-              title="Drag to change urban wind speed"
-            />
-            <strong className="text-stone-900 text-xs w-11 text-right font-extrabold">
-              {activeWindSpeed.toFixed(1)} m/s
-            </strong>
-            {manualWindOverride !== null && (
-              <button
-                onClick={() => setManualWindOverride(null)}
-                className="text-[10px] text-stone-600 hover:text-stone-950 px-2 py-0.5 rounded-full bg-stone-100 hover:bg-stone-200 transition font-semibold"
-                title="Reset to live stream"
-              >
-                Auto
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* CENTER HINT OVERLAY (Fades out when hovered) */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <span className="px-3 py-1 rounded-full bg-stone-900/60 backdrop-blur-md text-[11px] font-mono text-white/90 shadow-lg">
-          360° Drag to Orbit · Scroll to Zoom
-        </span>
-      </div>
-
-      {/* BOTTOM FLOATING CONTROL DOCKS (Left & Right) */}
-      {showControls && (
-        <div className="absolute bottom-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2.5 z-10 pointer-events-auto">
-          {/* Left Dock: Turbine Material & Shading Switcher */}
-          <div className="flex items-center gap-1 bg-white/95 backdrop-blur-md p-1.5 rounded-full border border-stone-200 shadow-lg">
-            <span className="text-[10px] font-mono uppercase text-stone-400 px-2 font-bold hidden sm:inline">
-              Material:
+            <span className="text-stone-300 hidden sm:inline">|</span>
+            <span className="text-cyan-700 font-bold text-[11px] hidden sm:inline tracking-wide">
+              {isXray ? `${livePower.toFixed(1)}W GENERATING` : 'LIVE PARAPET'}
             </span>
-            <button
-              onClick={() => {
-                soundFx.playClick();
-                setMaterialTheme('stealth');
-              }}
-              className={`px-3 py-1 text-xs rounded-full font-mono transition-all ${
-                materialTheme === 'stealth'
-                  ? 'bg-stone-900 text-white shadow-sm font-bold'
-                  : 'text-stone-600 hover:text-stone-950'
-              }`}
-              title="Aerospace Titanium & Slate (High contrast)"
-            >
-              Titanium
-            </button>
-            <button
-              onClick={() => {
-                soundFx.playClick();
-                setMaterialTheme('cfd');
-              }}
-              className={`px-3 py-1 text-xs rounded-full font-mono transition-all ${
-                materialTheme === 'cfd'
-                  ? 'bg-cyan-600 text-white shadow-sm font-bold'
-                  : 'text-stone-600 hover:text-stone-950'
-              }`}
-              title="Aerodynamic Bernoulli Pressure Heatmap"
-            >
-              CFD Aero
-            </button>
-            <button
-              onClick={() => {
-                soundFx.playClick();
-                setMaterialTheme('pearl');
-              }}
-              className={`px-3 py-1 text-xs rounded-full font-mono transition-all ${
-                materialTheme === 'pearl'
-                  ? 'bg-stone-900 text-white shadow-sm font-bold'
-                  : 'text-stone-600 hover:text-stone-950'
-              }`}
-              title="Lustrous Pearl White"
-            >
-              Pearl
-            </button>
-            <button
-              onClick={() => {
-                soundFx.playClick();
-                setMaterialTheme('wireframe');
-              }}
-              className={`px-3 py-1 text-xs rounded-full font-mono transition-all ${
-                materialTheme === 'wireframe'
-                  ? 'bg-cyan-700 text-white shadow-sm font-bold'
-                  : 'text-stone-600 hover:text-stone-950'
-              }`}
-              title="Holographic Wireframe CAD (17,503 Polygons)"
-            >
-              Wireframe
-            </button>
           </div>
 
-          {/* Right Dock: Environment, Time of Day & Camera Presets */}
-          <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-full border border-stone-200 shadow-lg">
-            {/* Environment Toggle: Rooftop / Tunnel / Studio */}
+          {/* Quick Solid CAD vs X-Ray Toggle Pills */}
+          <div className="hidden sm:flex items-center gap-1 bg-white/95 backdrop-blur-md p-1 rounded-full border border-stone-200/90 shadow-sm text-xs font-sans">
             <button
+              type="button"
               onClick={() => {
                 soundFx.playClick();
-                const next: EnvironmentType =
-                  environment === 'rooftop' ? 'tunnel' : environment === 'tunnel' ? 'studio' : 'rooftop';
-                setEnvironment(next);
+                setIsXray(false);
+                setIsExploded(false);
               }}
-              className="flex items-center gap-1.5 px-3 py-1 text-xs rounded-full font-mono font-semibold bg-stone-100 hover:bg-stone-200 text-stone-800 transition"
-              title="Toggle Live Environment (Rooftop Cityscape / Wind Tunnel / Studio)"
-            >
-              <Building2 className="w-3.5 h-3.5 text-cyan-600" />
-              <span className="capitalize">{environment}</span>
-            </button>
-
-            {/* Time of Day Toggle */}
-            <button
-              onClick={() => {
-                soundFx.playClick();
-                const nextTod: TimeOfDay =
-                  timeOfDay === 'day' ? 'sunset' : timeOfDay === 'sunset' ? 'night' : 'day';
-                setTimeOfDay(nextTod);
-              }}
-              className="p-1.5 text-stone-700 hover:text-stone-950 hover:bg-stone-100 rounded-full transition"
-              title={`Switch Atmosphere (Current: ${timeOfDay})`}
-            >
-              {timeOfDay === 'day' ? (
-                <Sun className="w-4 h-4 text-amber-500" />
-              ) : timeOfDay === 'sunset' ? (
-                <Sunset className="w-4 h-4 text-orange-500" />
-              ) : (
-                <Moon className="w-4 h-4 text-indigo-400" />
-              )}
-            </button>
-
-            <div className="w-px h-4 bg-stone-300 mx-0.5" />
-
-            {/* Toggle Airflow Streamlines */}
-            <button
-              onClick={() => {
-                soundFx.playClick();
-                setShowAirflow(!showAirflow);
-              }}
-              className={`p-1.5 rounded-full transition ${
-                showAirflow ? 'bg-cyan-50 text-cyan-700' : 'text-stone-500 hover:text-stone-900'
+              className={`px-2.5 py-1 rounded-full transition text-[11px] font-bold cursor-pointer ${
+                !isXray && !isExploded ? 'bg-stone-900 text-white shadow-xs' : 'text-stone-600 hover:text-stone-900'
               }`}
-              title="Toggle Wind Streamlines & Updrafts"
             >
-              <Wind className="w-4 h-4" />
+              Solid CAD
             </button>
-
-            {/* Toggle Auto Orbit */}
             <button
+              type="button"
+              onClick={() => {
+                soundFx.playClick();
+                setIsXray(true);
+                setIsExploded(false);
+              }}
+              className={`px-2.5 py-1 rounded-full transition text-[11px] font-bold flex items-center gap-1 cursor-pointer ${
+                isXray ? 'bg-cyan-600 text-white shadow-xs' : 'text-cyan-700 hover:bg-cyan-50'
+              }`}
+            >
+              <Zap className="w-3 h-3 text-amber-300" />
+              <span>X-Ray Mechanics</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Center / Orbit Hint (Desktop Only) */}
+        <div className="hidden lg:block pointer-events-none">
+          <span className="px-3 py-1 rounded-full bg-stone-900/60 backdrop-blur-md text-[11px] font-sans font-medium text-white/90 shadow-md border border-white/10">
+            360° Drag to Orbit · Scroll to Zoom
+          </span>
+        </div>
+      </div>
+
+      {/* FLOATING X-RAY LIVE GENERATION & MECHANICS HUD CARD */}
+      {isXray && (
+        <div className="absolute top-14 sm:top-16 right-3 sm:right-4 z-20 pointer-events-auto max-w-[275px] sm:max-w-[315px] animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="bg-slate-900/90 backdrop-blur-xl border border-cyan-400/50 rounded-2xl p-3 sm:p-3.5 text-white shadow-2xl shadow-cyan-950/40 font-sans space-y-2.5">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-cyan-500/20 pb-2">
+              <div className="flex items-center gap-1.5 text-cyan-300 text-xs font-bold tracking-wide">
+                <Zap className="w-4 h-4 text-amber-300 animate-pulse" />
+                <span>FLUX GENERATION HUD</span>
+              </div>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-bold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                81.8% MPPT LOCK
+              </span>
+            </div>
+
+            {/* Main Power Output Readout */}
+            <div className="bg-slate-950/80 rounded-xl p-2.5 border border-cyan-500/30 flex items-center justify-between">
+              <div>
+                <span className="text-[9px] text-cyan-400/80 tracking-widest uppercase block font-sans font-bold">RECTIFIED POWER</span>
+                <div className="text-2xl sm:text-3xl font-black text-cyan-300 tracking-tight font-display flex items-baseline gap-1">
+                  {livePower.toFixed(1)}
+                  <span className="text-xs font-sans font-bold text-cyan-400">W</span>
+                </div>
+              </div>
+              <div className="text-right text-[11px] space-y-0.5 text-slate-300 font-sans">
+                <div className="font-semibold text-stone-200">{liveVoltage.toFixed(2)} V <span className="text-slate-500 text-[10px]">DC BUS</span></div>
+                <div className="text-emerald-400 font-bold">{liveCurrent.toFixed(2)} A <span className="text-slate-500 text-[10px]">CURRENT</span></div>
+              </div>
+            </div>
+
+            {/* Mechanics Metrics Row */}
+            <div className="grid grid-cols-2 gap-1.5 text-[10px]">
+              <div className="p-2 rounded-lg bg-slate-800/80 border border-slate-700/60 font-sans">
+                <span className="text-slate-400 text-[9px] block font-medium">AXLE TORQUE</span>
+                <span className="text-amber-300 font-bold">{liveTorque.toFixed(2)} N·m</span>
+              </div>
+              <div className="p-2 rounded-lg bg-slate-800/80 border border-slate-700/60 font-sans">
+                <span className="text-slate-400 text-[9px] block font-medium">ALTERNATOR</span>
+                <span className="text-cyan-300 font-bold">12-Pole PMG</span>
+              </div>
+            </div>
+
+            {/* Interactive Mechanics Hotspot Buttons */}
+            <div>
+              <div className="text-[10px] text-slate-400 mb-1 flex items-center justify-between">
+                <span>INSPECT SUBSYSTEM:</span>
+                <span className="text-cyan-400 text-[9px]">Tap to isolate</span>
+              </div>
+              <div className="grid grid-cols-2 gap-1 text-[10px]">
+                <button
+                  type="button"
+                  onClick={() => setSelectedHotspot(selectedHotspot === 'generator' ? null : 'generator')}
+                  className={`p-1.5 rounded-lg border text-left transition font-semibold cursor-pointer ${
+                    selectedHotspot === 'generator'
+                      ? 'bg-cyan-500/30 border-cyan-400 text-cyan-200'
+                      : 'bg-slate-800/60 border-slate-700/60 text-slate-300 hover:bg-slate-800'
+                  }`}
+                >
+                  ⚡ 12-Pole PMG
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedHotspot(selectedHotspot === 'mppt' ? null : 'mppt')}
+                  className={`p-1.5 rounded-lg border text-left transition font-semibold cursor-pointer ${
+                    selectedHotspot === 'mppt'
+                      ? 'bg-emerald-500/30 border-emerald-400 text-emerald-200'
+                      : 'bg-slate-800/60 border-slate-700/60 text-slate-300 hover:bg-slate-800'
+                  }`}
+                >
+                  🔋 MPPT Board
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedHotspot(selectedHotspot === 'bearings' ? null : 'bearings')}
+                  className={`p-1.5 rounded-lg border text-left transition font-semibold cursor-pointer ${
+                    selectedHotspot === 'bearings'
+                      ? 'bg-purple-500/30 border-purple-400 text-purple-200'
+                      : 'bg-slate-800/60 border-slate-700/60 text-slate-300 hover:bg-slate-800'
+                  }`}
+                >
+                  ⚙️ Bearings
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedHotspot(selectedHotspot === 'vanes' ? null : 'vanes')}
+                  className={`p-1.5 rounded-lg border text-left transition font-semibold cursor-pointer ${
+                    selectedHotspot === 'vanes'
+                      ? 'bg-sky-500/30 border-sky-400 text-sky-200'
+                      : 'bg-slate-800/60 border-slate-700/60 text-slate-300 hover:bg-slate-800'
+                  }`}
+                >
+                  🌀 Venturi Vanes
+                </button>
+              </div>
+
+              {/* Hotspot details tooltip */}
+              {selectedHotspot && (
+                <div className="mt-2 p-2 rounded-lg bg-cyan-950/90 border border-cyan-500/40 text-[10px] text-cyan-200 font-sans leading-relaxed animate-in fade-in duration-200">
+                  {selectedHotspot === 'generator' && (
+                    <p><strong>12-Pole Axial PMG:</strong> Dual NdFeB magnet discs sandwich stationary copper coils to produce 3-phase AC with zero cogging torque.</p>
+                  )}
+                  {selectedHotspot === 'mppt' && (
+                    <p><strong>Synchronous MPPT PCB:</strong> Active high-frequency buck-boost converter rectifies variable wind voltage directly into 3.7V LiFePO4 batteries.</p>
+                  )}
+                  {selectedHotspot === 'bearings' && (
+                    <p><strong>Dual Ceramic Bearings:</strong> Sealed ABEC-7 hybrid ceramic races withstand monsoons and urban dust for 15+ years maintenance-free.</p>
+                  )}
+                  {selectedHotspot === 'vanes' && (
+                    <p><strong>Bernoulli Cross-Ducts:</strong> 6 internal spiral flow channels channel omnidirectional winds into single-axis shaft rotation.</p>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* BOTTOM FLOATING CONTROLS: Ultra-Clean, Single Responsive Glassmorphic Dock */}
+      {showControls && (
+        <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-10 pointer-events-auto max-w-[calc(100%-16px)] sm:max-w-none">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-white/95 backdrop-blur-2xl p-1.5 sm:p-2 rounded-full border border-stone-200/90 shadow-xl shadow-stone-900/10 text-xs font-sans">
+            {/* 1. Wind Speed Interactive Slider */}
+            <div className="flex items-center gap-1.5 sm:gap-2 px-2 py-1 rounded-full bg-stone-100/80 border border-stone-200/60">
+              <Wind className="w-3.5 h-3.5 text-cyan-600 animate-pulse shrink-0" />
+              <input
+                type="range"
+                min="1.0"
+                max="8.5"
+                step="0.2"
+                value={activeWindSpeed}
+                onChange={(e) => setManualWindOverride(parseFloat(e.target.value))}
+                className="w-14 sm:w-20 accent-stone-900 h-1.5 bg-stone-200 rounded-lg cursor-pointer"
+                title="Adjust Wind Velocity"
+              />
+              <span className="font-extrabold text-stone-900 text-[11px] sm:text-xs min-w-[2.8rem] text-right">
+                {activeWindSpeed.toFixed(1)}m/s
+              </span>
+            </div>
+
+            {/* 2. Auto Orbit 360° Showroom */}
+            <button
+              type="button"
               onClick={() => {
                 soundFx.playClick();
                 setAutoRotate(!autoRotate);
               }}
-              className={`p-1.5 rounded-full transition ${
-                autoRotate ? 'bg-purple-100 text-purple-700 font-bold' : 'text-stone-500 hover:text-stone-900'
+              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full transition font-semibold text-[11px] sm:text-xs cursor-pointer ${
+                autoRotate
+                  ? 'bg-purple-100 text-purple-800 font-bold'
+                  : 'bg-stone-100 hover:bg-stone-200 text-stone-700'
               }`}
-              title="Toggle 360° Auto-Orbit Showroom"
+              title="Toggle 360° Auto-Orbit"
             >
-              {autoRotate ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              {autoRotate ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+              <span className="hidden sm:inline">Orbit</span>
             </button>
 
-            <div className="w-px h-4 bg-stone-300 mx-0.5" />
-
-            {/* Camera Presets: Center, Edge, Skyline */}
+            {/* 3. Streamlines Toggle */}
             <button
-              onClick={() => setCameraPreset('center')}
-              className="px-2.5 py-1 text-[11px] font-mono rounded-full text-stone-700 hover:bg-stone-100 transition"
-              title="Center View right on Turbine"
+              type="button"
+              onClick={() => {
+                soundFx.playClick();
+                setShowAirflow(!showAirflow);
+              }}
+              className={`p-1.5 sm:px-2.5 sm:py-1.5 rounded-full transition text-[11px] sm:text-xs font-semibold flex items-center gap-1 cursor-pointer ${
+                showAirflow
+                  ? 'bg-cyan-100 text-cyan-800 font-bold'
+                  : 'bg-stone-100 hover:bg-stone-200 text-stone-500'
+              }`}
+              title="Toggle Wind Streamlines & Updrafts"
             >
-              Center
-            </button>
-            <button
-              onClick={() => setCameraPreset('edge')}
-              className="px-2.5 py-1 text-[11px] font-mono rounded-full text-stone-700 hover:bg-stone-100 transition hidden sm:inline"
-              title="Parapet Updraft Edge Angle"
-            >
-              Updraft
-            </button>
-            <button
-              onClick={() => setCameraPreset('skyline')}
-              className="px-2.5 py-1 text-[11px] font-mono rounded-full text-stone-700 hover:bg-stone-100 transition hidden md:inline"
-              title="City Skyline Panorama Angle"
-            >
-              Skyline
+              <Wind className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">Airflow</span>
             </button>
 
-            <div className="w-px h-4 bg-stone-300 mx-0.5" />
-
-            {/* Zoom In/Out */}
+            {/* 4. X-Ray View Mode Toggle */}
             <button
-              onClick={() => handleZoom('in')}
-              className="p-1.5 text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-full transition"
-              title="Zoom In"
-              aria-label="Zoom in"
+              type="button"
+              onClick={() => {
+                soundFx.playClick();
+                setIsXray(!isXray);
+                if (isExploded) setIsExploded(false);
+              }}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition text-[11px] sm:text-xs font-bold cursor-pointer ${
+                isXray
+                  ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30 ring-2 ring-cyan-300'
+                  : 'bg-stone-900 hover:bg-black text-white shadow-sm'
+              }`}
+              title="Toggle Internal Mechanics & Live Electrical Generation X-Ray"
             >
-              <ZoomIn className="w-3.5 h-3.5" />
+              <Zap className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+              <span>{isXray ? 'Solid CAD' : 'X-Ray View'}</span>
             </button>
+
+            {/* 5. Exploded View Toggle */}
             <button
-              onClick={() => handleZoom('out')}
-              className="p-1.5 text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-full transition"
-              title="Zoom Out"
-              aria-label="Zoom out"
+              type="button"
+              onClick={() => {
+                soundFx.playClick();
+                setIsExploded(!isExploded);
+                if (isXray) setIsXray(false);
+              }}
+              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full transition text-[11px] sm:text-xs font-bold cursor-pointer ${
+                isExploded
+                  ? 'bg-amber-600 text-white shadow-sm'
+                  : 'bg-stone-100 hover:bg-stone-200 text-stone-700'
+              }`}
+              title="Inspect Exploded Assembly"
             >
-              <ZoomOut className="w-3.5 h-3.5" />
+              <Layers className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">{isExploded ? 'Collapsed' : 'Explode'}</span>
+            </button>
+
+            {/* 6. Reset Camera Center */}
+            <button
+              type="button"
+              onClick={handleResetCamera}
+              className="p-1.5 sm:p-2 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 transition cursor-pointer"
+              title="Reset View to Dead-Center"
+              aria-label="Reset Camera"
+            >
+              <Rotate3d className="w-3.5 h-3.5 text-stone-700" />
             </button>
           </div>
         </div>

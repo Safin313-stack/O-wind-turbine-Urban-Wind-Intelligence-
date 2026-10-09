@@ -51,8 +51,10 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        sans: ['"Plus Jakarta Sans"', '"Inter"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', '"Outfit"', 'system-ui', '-apple-system', 'sans-serif'],
+        tech: ['"Plus Jakarta Sans"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'Fira Code', 'monospace'],
       },
       animation: {
         'spin-slow': 'spin 12s linear infinite',
@@ -61,8 +63,25 @@ export default {
         'float': 'float 6s ease-in-out infinite',
         'flow': 'flow 2s linear infinite',
         'border-beam': 'border-beam calc(var(--duration)*1s) infinite linear',
+        'aurora': 'aurora 20s ease-in-out infinite alternate',
+        'aurora-spin': 'aurora-spin 28s linear infinite',
+        'gradient-pulse': 'gradient-pulse 8s ease-in-out infinite',
       },
       keyframes: {
+        'aurora': {
+          '0%': { transform: 'translate(0px, 0px) scale(1)' },
+          '50%': { transform: 'translate(40px, -30px) scale(1.15)' },
+          '100%': { transform: 'translate(-30px, 40px) scale(0.95)' },
+        },
+        'aurora-spin': {
+          '0%': { transform: 'rotate(0deg) scale(1)' },
+          '50%': { transform: 'rotate(180deg) scale(1.12)' },
+          '100%': { transform: 'rotate(360deg) scale(1)' },
+        },
+        'gradient-pulse': {
+          '0%, 100%': { opacity: '0.85', transform: 'scale(1)' },
+          '50%': { opacity: '1', transform: 'scale(1.08)' },
+        },
         'border-beam': {
           '100%': {
             offsetDistance: '100%',

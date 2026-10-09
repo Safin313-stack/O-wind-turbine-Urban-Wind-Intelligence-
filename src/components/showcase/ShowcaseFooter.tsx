@@ -18,7 +18,7 @@ export const ShowcaseFooter: React.FC = () => {
   };
 
   return (
-    <footer className="border-t border-stone-200/80 bg-[#FAF9F6]/90 backdrop-blur-xl py-12 px-4 sm:px-6 lg:px-8">
+    <footer className="border-t border-stone-200/80 bg-[#F8FAFC]/90 backdrop-blur-xl py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Left: Brand & Tagline */}
         <div className="space-y-2 text-center md:text-left">
@@ -28,7 +28,7 @@ export const ShowcaseFooter: React.FC = () => {
                 <Wind className="w-3.5 h-3.5 text-cyan-600" />
               </div>
             </div>
-            <span className="font-sans font-black text-base text-stone-900 tracking-tight">
+            <span className="font-display font-black text-base text-stone-900 tracking-tight">
               O-WIND <span className="text-cyan-600">AI</span>
             </span>
           </div>
@@ -38,7 +38,7 @@ export const ShowcaseFooter: React.FC = () => {
         </div>
 
         {/* Center: Clean Nav Links */}
-        <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-stone-600">
+        <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-sans font-semibold text-stone-600">
           <a href="#overview" className="hover:text-stone-950 transition-colors">Overview</a>
           <a href="#prototype" className="hover:text-stone-950 transition-colors">3D Prototype</a>
           <a href="#aerodynamics" className="hover:text-stone-950 transition-colors">Aerodynamics</a>
@@ -55,7 +55,7 @@ export const ShowcaseFooter: React.FC = () => {
               href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-mono text-stone-700 hover:text-stone-950 transition shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-sans font-bold text-stone-700 hover:text-stone-950 transition shadow-sm"
             >
               <GithubIcon className="w-3.5 h-3.5 text-stone-900" />
               <span>GitHub Repository</span>
@@ -65,7 +65,7 @@ export const ShowcaseFooter: React.FC = () => {
           <Magnetic intensity={0.3}>
             <button
               onClick={scrollToTop}
-              className="p-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-stone-600 hover:text-stone-900 transition shadow-sm"
+              className="p-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-stone-600 hover:text-stone-900 transition shadow-sm cursor-pointer"
               aria-label="Back to top"
               title="Back to top"
             >
@@ -75,7 +75,7 @@ export const ShowcaseFooter: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-stone-200/60 text-center text-[11px] font-mono text-stone-500">
+      <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-stone-200/60 text-center text-[11px] font-sans text-stone-500">
         <p>© 2026 O-WIND AI Project · Urban Clean Energy & Environmental Intelligence.</p>
       </div>
     </footer>
