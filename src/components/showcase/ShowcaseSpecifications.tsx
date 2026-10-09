@@ -23,7 +23,6 @@ interface SpecCardItem {
   accent: 'cyan' | 'emerald' | 'purple' | 'sky';
   sub1: SubMetric;
   sub2: SubMetric;
-  cadRef: string;
 }
 
 export const ShowcaseSpecifications: React.FC = () => {
@@ -38,7 +37,6 @@ export const ShowcaseSpecifications: React.FC = () => {
       accent: 'cyan',
       sub1: { label: 'Cut-in Breeze', value: '1.48 m/s' },
       sub2: { label: 'Directional Yaw', value: 'Zero Motors' },
-      cadRef: 'CAD Twin v1.4',
     },
     {
       id: 'power',
@@ -50,7 +48,6 @@ export const ShowcaseSpecifications: React.FC = () => {
       accent: 'emerald',
       sub1: { label: 'Battery Buffer', value: 'LiFePO4 24/7' },
       sub2: { label: 'Conditioning', value: '3.7V MPPT' },
-      cadRef: 'Synchronous Bus',
     },
     {
       id: 'intelligence',
@@ -62,7 +59,6 @@ export const ShowcaseSpecifications: React.FC = () => {
       accent: 'purple',
       sub1: { label: 'Edge Siting AI', value: 'ESP32 Neural' },
       sub2: { label: 'Telemetry Mesh', value: '10 km LoRa' },
-      cadRef: 'Edge-CFD v3.1',
     },
     {
       id: 'safety',
@@ -74,7 +70,6 @@ export const ShowcaseSpecifications: React.FC = () => {
       accent: 'sky',
       sub1: { label: 'Enclosed Rotor', value: '100% Bird-Safe' },
       sub2: { label: 'Rooftop Clamp', value: 'IP65 Weatherproof' },
-      cadRef: 'Parapet Mount',
     },
   ];
 
@@ -214,12 +209,6 @@ export const ShowcaseSpecifications: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Card Bottom Tag */}
-                  <div className="pt-3 mt-3 border-t border-stone-100 flex items-center justify-between text-[11px] font-sans text-stone-500">
-                    <span className="text-stone-400 font-medium">BENCHMARK</span>
-                    <span className="font-bold text-stone-700">{card.cadRef}</span>
                   </div>
                 </div>
               </Tilt>
