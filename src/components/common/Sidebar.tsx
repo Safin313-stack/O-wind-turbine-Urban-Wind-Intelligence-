@@ -18,7 +18,6 @@ import {
   ChevronRight,
   Menu,
   X,
-  Trophy,
   Globe
 } from 'lucide-react';
 
@@ -35,7 +34,6 @@ export const Sidebar: React.FC = () => {
     activePage, 
     setActivePage, 
     isLiveMode, 
-    setIsCompetitionModeOpen, 
     isMobileMenuOpen, 
     setIsMobileMenuOpen 
   } = useTelemetry();
@@ -161,27 +159,6 @@ export const Sidebar: React.FC = () => {
             );
           })}
         </nav>
-
-        {/* Quick Competition Launcher inside Sidebar */}
-        <div className="p-3 mx-3 mb-2 rounded-xl bg-gradient-to-b from-purple-950/40 to-space-900 border border-purple-500/30">
-          <div className="flex items-center gap-2 mb-1.5">
-            <Trophy className="w-4 h-4 text-purple-400" />
-            <span className="text-xs font-mono font-bold text-white">5-Min Judge Demo</span>
-          </div>
-          <p className="text-[11px] text-slate-400 mb-2 leading-tight">
-            Launch guided 8-stage interactive visual sequence.
-          </p>
-          <button
-            onClick={() => {
-              setIsCompetitionModeOpen(true);
-              setIsMobileMenuOpen(false);
-            }}
-            className="w-full py-1.5 px-2.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/40 border border-purple-500/40 text-purple-200 text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition"
-          >
-            <span>Start Judge Mode</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
 
         {/* Bottom System Status */}
         <div className="p-4 border-t border-slate-800/80 bg-space-950/80">

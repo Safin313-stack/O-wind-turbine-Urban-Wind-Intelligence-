@@ -125,9 +125,7 @@ const AppContent: React.FC = () => {
             <span>O-WIND AI Platform · Active Microgrid Node: Dhaka, Bangladesh</span>
           </div>
           <div className="flex items-center gap-3">
-            <span>Press <kbd className="px-1.5 py-0.5 rounded bg-space-900 border border-slate-700 text-slate-300">C</kbd> for Judge Demo</span>
-            <span>·</span>
-            <span>University Sustainable Technology Competition 2026</span>
+            <span>University Sustainable Technology 2026</span>
           </div>
         </footer>
       </div>
