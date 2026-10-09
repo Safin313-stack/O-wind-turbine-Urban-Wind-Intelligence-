@@ -17,7 +17,7 @@ export const Showcase3DStage: React.FC = () => {
             The Omnidirectional O-Wind Prototype
           </h2>
           <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
-            Directly rendered from the physical SolidWorks CAD model (<code className="text-cyan-800 bg-cyan-50 px-1.5 py-0.5 rounded font-mono text-xs">omni-directional-wind-turbine-1</code>). Drag to rotate 360°, inspect the internal aerodynamic Venturi ducts, and test rotational velocity.
+            Directly rendered from the physical SolidWorks CAD model (<code className="text-cyan-800 bg-cyan-50 px-1.5 py-0.5 rounded font-mono text-xs">omni-directional-wind-turbine-1</code>). Perfectly centered in a <strong>live urban rooftop simulation</strong> overlooking a modern high-rise skyline with dynamic vertical updrafts and 360° fluid streamlines.
           </p>
         </div>
 
@@ -32,21 +32,23 @@ export const Showcase3DStage: React.FC = () => {
               <span className="text-stone-900 font-bold tracking-wide">SOLIDWORKS CAD GEOMETRY</span>
               <span className="text-stone-300 hidden sm:inline">|</span>
               <span className="text-cyan-700 font-semibold hidden sm:inline">17,503 Polygons</span>
+              <span className="text-stone-300 hidden md:inline">|</span>
+              <span className="text-emerald-700 font-semibold hidden md:inline">Dead-Centered Focal Axis</span>
             </div>
 
             <div className="flex items-center gap-2 text-stone-500">
               <span className="px-3 py-1 rounded-full bg-stone-100 border border-stone-200 text-[11px] font-medium text-stone-700">
-                Drag to Orbit · Scroll to Zoom
+                Smooth 360° Orbit · Wheel Zoom
               </span>
-              <span className="px-3 py-1 rounded-full bg-stone-100 border border-stone-200 text-[11px] font-medium text-stone-700 hidden md:inline">
-                Touch Enabled
+              <span className="px-3 py-1 rounded-full bg-cyan-50 border border-cyan-200 text-[11px] font-semibold text-cyan-800 hidden md:inline">
+                Live City Parapet
               </span>
             </div>
           </div>
 
           {/* 3D Model Viewer Component */}
           <div className="relative w-full rounded-2xl overflow-hidden shadow-inner">
-            <Turbine3DViewer height="520px" showControls={true} />
+            <Turbine3DViewer height="620px" showControls={true} />
           </div>
 
           {/* Aerodynamic Engineering Hotspots with Tilt and Spotlight */}
