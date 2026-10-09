@@ -128,9 +128,9 @@ export const ShowcaseSpecifications: React.FC = () => {
             <span>ENGINEERING ARCHITECTURE</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 tracking-tight font-display leading-[1.08]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 tracking-tight font-display leading-[1.15] sm:leading-[1.18]">
             Technical Blueprint,{' '}
-            <span className="bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent inline-block">
+            <span className="bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent inline-block pb-1.5">
               Validated.
             </span>
           </h2>

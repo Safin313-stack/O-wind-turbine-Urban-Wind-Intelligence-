@@ -25,10 +25,10 @@ export const ShowcaseHero: React.FC = () => {
           </span>
         </div>
 
-        {/* Hero Title with Distinctive Display Typography & Zero Ghosting */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] font-black text-stone-900 tracking-[-0.03em] leading-[1.08] font-display max-w-4xl mx-auto">
-          Turning Urban Wind Into <br className="hidden sm:inline" />
-          <span className="bg-gradient-to-r from-cyan-600 via-sky-500 via-indigo-600 to-violet-600 bg-clip-text text-transparent inline-block">
+        {/* Hero Title with Distinctive Display Typography & Uncut Descenders */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-stone-900 tracking-tight leading-[1.15] sm:leading-[1.18] font-display max-w-4xl mx-auto">
+          Turning Urban Wind Into
+          <span className="block mt-1 sm:mt-2 pb-2 sm:pb-3.5 bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent">
             Intelligent Clean Energy
           </span>
         </h1>

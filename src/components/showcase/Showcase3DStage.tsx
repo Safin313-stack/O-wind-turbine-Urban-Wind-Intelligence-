@@ -16,9 +16,9 @@ export const Showcase3DStage: React.FC = () => {
             <span className="w-2 h-2 rounded-full bg-cyan-500 animate-ping" />
             <span>SOLIDWORKS TWIN · X-RAY FLUX TELEMETRY</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-stone-900 tracking-tight font-display leading-[1.08]">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-stone-900 tracking-tight font-display leading-[1.15] sm:leading-[1.18]">
             Kinetic Aerodynamics,{' '}
-            <span className="bg-gradient-to-r from-cyan-600 via-sky-500 to-indigo-600 bg-clip-text text-transparent inline-block">
+            <span className="bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent inline-block pb-1.5">
               Unmasked.
             </span>
           </h2>
