@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { 
   Building2, 
   Cpu, 
-  Activity, 
+  Anchor, 
   Layers, 
+  Zap,
   Maximize2, 
   CheckCircle2, 
-  ArrowUpRight,
   Sparkles,
   X
 } from 'lucide-react';
-import { InView, Spotlight, BorderBeam, Tilt } from '../motion-primitives';
+import { InView, Spotlight, BorderBeam } from '../motion-primitives';
 
 interface GalleryItem {
   id: string;
@@ -26,76 +26,93 @@ interface GalleryItem {
 }
 
 export const ShowcaseVisualGallery: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('turbine-mount');
+  const [activeTab, setActiveTab] = useState<string>('trace-hybrid');
   const [lightboxImage, setLightboxImage] = useState<GalleryItem | null>(null);
 
   const galleryItems: GalleryItem[] = [
     {
-      id: 'turbine-mount',
-      category: 'PHYSICAL DEPLOYMENT',
-      badge: 'FIELD BENCHMARK',
-      badgeColor: 'bg-cyan-50 text-cyan-800 border-cyan-200',
-      title: 'Rooftop Parapet Clamped Installation',
-      subtitle: 'Real-world high-altitude installation on a modern high-rise parapet lip, harvesting 360° omnidirectional air currents and building facade updrafts.',
+      id: 'trace-hybrid',
+      category: 'HYBRID ARCHITECTURE',
+      badge: 'TRACE-HYBRID SCHEMATIC',
+      badgeColor: 'bg-amber-50 text-amber-900 border-amber-300',
+      title: 'Advanced Trace-Hybrid Energy Generation System',
+      subtitle: 'Integrated multi-source schematic combining O-Wind generator coils (orange), bifacial solar panels with front/back reflection sensors, TPV integrated core, C-SPR concentrators, and MPPT controller.',
+      imageSrc: '/images/trace_hybrid_architecture.png',
+      icon: Zap,
+      highlight: 'O-Wind Coils · Bifacial Solar · TPV Core · MPPT · BMS · C-SPR Array',
+      specs: [
+        { label: 'Primary Generation', value: 'O-Wind Generator Coils + Bifacial Solar' },
+        { label: 'Thermal Harvesting', value: 'TPV Core with Heat/Temp Sensors' },
+        { label: 'Optical Concentrator', value: 'C-SPR Concentrator Array Light Pathway' },
+        { label: 'Power & Storage', value: 'MPPT Multi-Input & Inverter / BMS' },
+      ],
+    },
+    {
+      id: 'dual-deployment',
+      category: 'FIELD DEPLOYMENT',
+      badge: 'DUAL FIELD BENCHMARK',
+      badgeColor: 'bg-cyan-50 text-cyan-900 border-cyan-300',
+      title: 'Marine Floating & Urban Dhaka Rooftop Deployment',
+      subtitle: 'Side-by-side photographic engineering comparison: Offshore marine floating platform with coral seabed mooring, and Dhaka urban high-rise rooftop parapet installation with IP67 microcontroller.',
       imageSrc: '/images/turbine_rooftop_installation.jpg',
       icon: Building2,
-      highlight: '360° Omni Intake · Zero Yaw Motors · <24 dB Silent',
+      highlight: 'Coastal Floating Mooring · Dhaka High-Rise Rooftop · ESP32 IP67 Control',
       specs: [
-        { label: 'Deployment Location', value: 'Skyscraper Parapet Lip' },
-        { label: 'Intake Mechanism', value: 'Spherical Bernoulli Venturi' },
-        { label: 'Yaw Motors Required', value: 'Zero (Static Spindle)' },
-        { label: 'Acoustic Level', value: '<24 dB (Whisper Silent)' },
+        { label: 'Marine Deployment', value: 'Submerged Coral Reef Anchor Mooring' },
+        { label: 'Urban Deployment', value: 'High-Rise Rooftop Flange Clamped' },
+        { label: 'Embedded Controller', value: 'IP67-Rated ESP32 / Arduino Hub' },
+        { label: 'Photovoltaic Array', value: 'Dual Tilting Bifacial Solar Panels' },
       ],
     },
     {
-      id: 'ai-cfd',
-      category: 'AI NEURAL SITING',
-      badge: 'AI CFD SIMULATION',
-      badgeColor: 'bg-purple-50 text-purple-800 border-purple-200',
-      title: 'Facade Updraft Neural Flow Modeling',
-      subtitle: 'Deep-learning accelerated computational fluid dynamics (CFD) revealing wind streamlines rising vertically up the building facade and accelerating over the parapet.',
-      imageSrc: '/images/ai_cfd_simulation.jpg',
+      id: 'urban-schematic',
+      category: 'ROOFTOP BLUEPRINT',
+      badge: 'URBAN CROSS-SECTION',
+      badgeColor: 'bg-purple-50 text-purple-900 border-purple-300',
+      title: 'Urban High-Rise Rooftop Cutaway Blueprint',
+      subtitle: 'Detailed mechanical cross-section showing mounting flange anchored into reinforced concrete building slab, conduit access, vibration monitoring, and ESP32 IoT telemetry.',
+      imageSrc: '/images/rooftop_engineering_schematic.png',
       icon: Cpu,
-      highlight: '+40% Acceleration at Lip · 18,750 Neural Iterations',
+      highlight: 'Concrete Slab Anchored · Vibration Dampened · IoT Telemetry',
       specs: [
-        { label: 'Max Accelerated Flow', value: '18.7 m/s @ Lip' },
-        { label: 'Optimization Engine', value: 'Physics-Informed Neural Net' },
-        { label: 'Pressure Contours', value: 'Bernoulli Differential' },
-        { label: 'Placement Lift', value: '+40% Wind Velocity Gain' },
+        { label: 'Structural Anchoring', value: 'Reinforced Concrete Building Slab Flange' },
+        { label: 'Sensory Array', value: 'TPV Heat, Vibration Sensor, RPM Data' },
+        { label: 'Power & Data Trunk', value: 'Central Building Service Access Conduit' },
+        { label: 'Smart IoT Hub', value: 'WiFi/GSM IoT Module (ESP32 Integrated)' },
       ],
     },
     {
-      id: 'wind-tunnel',
-      category: 'LAB BENCHMARK',
-      badge: 'WIND TUNNEL TESTING',
-      badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-      title: 'Laser Velocimetry & Smoke Stream Validation',
-      subtitle: 'Physical scale prototype evaluated under controlled aerodynamic flow; precision smoke tracer streams confirm internal Venturi suction and ultra-low cut-in speed.',
-      imageSrc: '/images/wind_tunnel_testing.jpg',
-      icon: Activity,
-      highlight: '1.48 m/s Cut-in Breeze · 0.496 W Initial Power',
+      id: 'marine-schematic',
+      category: 'OFFSHORE BLUEPRINT',
+      badge: 'MARINE CUTAWAY',
+      badgeColor: 'bg-emerald-50 text-emerald-900 border-emerald-300',
+      title: 'Offshore Floating Platform & Submerged Power Station',
+      subtitle: 'Detailed cutaway schematic of the floating hexagonal pontoon, underwater central mooring tension sensors, water-leak detection, and submerged LiFePO4 battery storage.',
+      imageSrc: '/images/floating_marine_schematic.png',
+      icon: Anchor,
+      highlight: 'Floating Pontoon · Underwater Tension Rig · LiFePO4 Pack',
       specs: [
-        { label: 'Cut-in Wind Speed', value: '1.48 m/s (Light Breeze)' },
-        { label: 'Flow Visualization', value: 'Smoke Stream Tracers' },
-        { label: 'Particle Tracking', value: 'Laser Doppler Velocimetry' },
-        { label: 'Output @ 1.48 m/s', value: '0.496 W Baseline' },
+        { label: 'Floating Pontoon', value: 'Hexagonal Hull with Leak Sensors' },
+        { label: 'Mooring Rig', value: 'Central Underwater Tension Sensors' },
+        { label: 'Battery Storage', value: 'Submerged LiFePO4 Battery Pack' },
+        { label: 'Control Unit', value: 'Translucent ESP32 Control Hub' },
       ],
     },
     {
-      id: 'cad-twin',
-      category: 'SOLIDWORKS CAD TWIN',
+      id: 'cad-rotor',
+      category: 'VENTURI ROTOR CAD',
       badge: 'MECHANICAL ASSEMBLY',
-      badgeColor: 'bg-sky-50 text-sky-800 border-sky-200',
-      title: '1:1 Internal Generator & Rotor Assembly',
-      subtitle: 'Precision mechanical assembly showing internal 12-pole permanent magnet generator (PMG), dual ceramic low-friction bearings, and enclosed safety geometry.',
-      imageSrc: '/images/prototype_cad_reference.png',
+      badgeColor: 'bg-sky-50 text-sky-900 border-sky-300',
+      title: '1:1 Venturi Rotor & Internal Generator Cutaway',
+      subtitle: 'High-precision mechanical cutaway showing the spherical aerodynamic Venturi shell, multi-directional rotor blades, permanent magnet stator/rotor assembly, and dual bearing block.',
+      imageSrc: '/images/rotor_generator_blueprint.png',
       icon: Layers,
-      highlight: '12-Pole Direct PMG · Dual Ceramic Bearings · 0.48m Radius',
+      highlight: 'Venturi Shell · 360° Omnidirectional · Direct-Drive PMG',
       specs: [
-        { label: 'Outer Diameter', value: '0.48 m Compact Envelope' },
-        { label: 'Generator Type', value: '12-Pole Direct-Drive PMG' },
-        { label: 'Bearing Assembly', value: 'Dual Ceramic Low-Friction' },
-        { label: 'Safety Enclosure', value: '100% Bird-Safe Enclosed' },
+        { label: 'Aerodynamic Shell', value: 'Venturi Effect Outer Spherical Shell' },
+        { label: 'Internal Rotor', value: 'Multi-Directional Blades (Translucent Grey)' },
+        { label: 'Generator Type', value: 'Permanent Magnet Stator & Rotor Assembly' },
+        { label: 'Instrumentation', value: 'Hall Effect RPM Sensor & Shaft Torque Sensor' },
       ],
     },
   ];
@@ -155,11 +172,11 @@ export const ShowcaseVisualGallery: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
             {/* Visual Image Viewport with Hover Zoom and Fullscreen Button */}
-            <div className="lg:col-span-7 relative group rounded-2xl overflow-hidden border border-stone-200/80 bg-stone-950 shadow-inner">
+            <div className="lg:col-span-7 relative group rounded-2xl overflow-hidden border border-stone-200/80 bg-stone-950 shadow-inner flex items-center justify-center min-h-[300px] sm:min-h-[420px]">
               <img
                 src={currentItem.imageSrc}
                 alt={currentItem.title}
-                className="w-full h-[280px] sm:h-[380px] md:h-[440px] object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                className="w-full h-[300px] sm:h-[400px] md:h-[460px] object-contain p-2 sm:p-4 transition-transform duration-700 group-hover:scale-[1.02]"
                 loading="lazy"
               />
 
@@ -234,7 +251,7 @@ export const ShowcaseVisualGallery: React.FC = () => {
         </div>
 
         {/* Thumbnail Navigation Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-6">
           {galleryItems.map((item) => {
             const isSelected = item.id === activeTab;
             return (
