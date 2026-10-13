@@ -11,6 +11,7 @@ import {
   X
 } from 'lucide-react';
 import { InView, Spotlight, BorderBeam } from '../motion-primitives';
+import { getAssetUrl } from '../../utils/assets';
 
 interface GalleryItem {
   id: string;
@@ -37,7 +38,7 @@ export const ShowcaseVisualGallery: React.FC = () => {
       badgeColor: 'bg-amber-50 text-amber-900 border-amber-300',
       title: 'Advanced Trace-Hybrid Energy Generation System',
       subtitle: 'Integrated multi-source schematic combining O-Wind generator coils (orange), bifacial solar panels with front/back reflection sensors, TPV integrated core, C-SPR concentrators, and MPPT controller.',
-      imageSrc: '/images/trace_hybrid_architecture.png',
+      imageSrc: getAssetUrl('images/trace_hybrid_architecture.png'),
       icon: Zap,
       highlight: 'O-Wind Coils · Bifacial Solar · TPV Core · MPPT · BMS · C-SPR Array',
       specs: [
@@ -54,7 +55,7 @@ export const ShowcaseVisualGallery: React.FC = () => {
       badgeColor: 'bg-cyan-50 text-cyan-900 border-cyan-300',
       title: 'Marine Floating & Urban Dhaka Rooftop Deployment',
       subtitle: 'Side-by-side photographic engineering comparison: Offshore marine floating platform with coral seabed mooring, and Dhaka urban high-rise rooftop parapet installation with IP67 microcontroller.',
-      imageSrc: '/images/turbine_rooftop_installation.jpg',
+      imageSrc: getAssetUrl('images/turbine_rooftop_installation.jpg'),
       icon: Building2,
       highlight: 'Coastal Floating Mooring · Dhaka High-Rise Rooftop · ESP32 IP67 Control',
       specs: [
@@ -71,7 +72,7 @@ export const ShowcaseVisualGallery: React.FC = () => {
       badgeColor: 'bg-purple-50 text-purple-900 border-purple-300',
       title: 'Urban High-Rise Rooftop Cutaway Blueprint',
       subtitle: 'Detailed mechanical cross-section showing mounting flange anchored into reinforced concrete building slab, conduit access, vibration monitoring, and ESP32 IoT telemetry.',
-      imageSrc: '/images/rooftop_engineering_schematic.png',
+      imageSrc: getAssetUrl('images/rooftop_engineering_schematic.png'),
       icon: Cpu,
       highlight: 'Concrete Slab Anchored · Vibration Dampened · IoT Telemetry',
       specs: [
@@ -88,7 +89,7 @@ export const ShowcaseVisualGallery: React.FC = () => {
       badgeColor: 'bg-emerald-50 text-emerald-900 border-emerald-300',
       title: 'Offshore Floating Platform & Submerged Power Station',
       subtitle: 'Detailed cutaway schematic of the floating hexagonal pontoon, underwater central mooring tension sensors, water-leak detection, and submerged LiFePO4 battery storage.',
-      imageSrc: '/images/floating_marine_schematic.png',
+      imageSrc: getAssetUrl('images/floating_marine_schematic.png'),
       icon: Anchor,
       highlight: 'Floating Pontoon · Underwater Tension Rig · LiFePO4 Pack',
       specs: [
@@ -105,7 +106,7 @@ export const ShowcaseVisualGallery: React.FC = () => {
       badgeColor: 'bg-sky-50 text-sky-900 border-sky-300',
       title: '1:1 Venturi Rotor & Internal Generator Cutaway',
       subtitle: 'High-precision mechanical cutaway showing the spherical aerodynamic Venturi shell, multi-directional rotor blades, permanent magnet stator/rotor assembly, and dual bearing block.',
-      imageSrc: '/images/rotor_generator_blueprint.png',
+      imageSrc: getAssetUrl('images/rotor_generator_blueprint.png'),
       icon: Layers,
       highlight: 'Venturi Shell · 360° Omnidirectional · Direct-Drive PMG',
       specs: [

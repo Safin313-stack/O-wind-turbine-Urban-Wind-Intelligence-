@@ -1,6 +1,7 @@
 import React from 'react';
 import { BookOpen, ShieldCheck, CheckCircle2, ChevronRight, Cpu, Layers, Gauge, BatteryCharging } from 'lucide-react';
 import { InView, BorderBeam, Spotlight, Disclosure } from '../motion-primitives';
+import { getAssetUrl } from '../../utils/assets';
 
 export const ShowcaseAbout: React.FC = () => {
   const pipelineStages = [
@@ -9,7 +10,7 @@ export const ShowcaseAbout: React.FC = () => {
       title: 'Trace-Hybrid Architecture',
       metric: 'Wind + Solar + TPV Core',
       icon: Layers,
-      image: '/images/trace_hybrid_architecture.png',
+      image: getAssetUrl('images/trace_hybrid_architecture.png'),
       desc: 'Integrated system combining O-Wind generator coils, dual bifacial PV panels, TPV thermal core, and C-SPR concentrators.',
       tag: 'Integrated Schematic',
     },
@@ -18,7 +19,7 @@ export const ShowcaseAbout: React.FC = () => {
       title: '1:1 Venturi CAD Blueprint',
       metric: '1:1 Mechanical Twin',
       icon: Cpu,
-      image: '/images/rotor_generator_blueprint.png',
+      image: getAssetUrl('images/rotor_generator_blueprint.png'),
       desc: 'Precision spherical Venturi shell with multi-directional rotor blades, 12-pole PMG stator, and dual ceramic bearings.',
       tag: '0.48m Outer Radius',
     },
@@ -27,7 +28,7 @@ export const ShowcaseAbout: React.FC = () => {
       title: 'Urban Parapet Cutaway',
       metric: '+40% Facade Updraft',
       icon: Gauge,
-      image: '/images/rooftop_engineering_schematic.png',
+      image: getAssetUrl('images/rooftop_engineering_schematic.png'),
       desc: 'Reinforced concrete parapet flange mounting, vibration damping base, and IoT telemetry trunk conduit.',
       tag: 'Dhaka Rooftop Cutaway',
     },
@@ -36,7 +37,7 @@ export const ShowcaseAbout: React.FC = () => {
       title: 'Field Deployment Validation',
       metric: '24/7 LiFePO4 Buffer',
       icon: BatteryCharging,
-      image: '/images/turbine_rooftop_installation.jpg',
+      image: getAssetUrl('images/turbine_rooftop_installation.jpg'),
       desc: 'Photographic field validation across coastal marine floating moorings and high-rise Dhaka rooftop installations.',
       tag: 'Marine & Urban Tested',
     },

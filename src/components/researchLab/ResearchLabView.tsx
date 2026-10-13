@@ -22,6 +22,7 @@ import {
   Info,
   BookOpen
 } from 'lucide-react';
+import { getAssetUrl } from '../../utils/assets';
 
 export const ResearchLabView: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'how-it-works' | 'cad-specs' | 'timeline' | 'testing'>('how-it-works');
@@ -247,7 +248,7 @@ export const ResearchLabView: React.FC = () => {
                 </span>
                 <div className="rounded-lg overflow-hidden border border-slate-800 bg-space-950">
                   <img
-                    src="/images/prototype_cad_reference.png"
+                    src={getAssetUrl('images/prototype_cad_reference.png')}
                     alt="SolidWorks O-Wind CAD Snapshot"
                     className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition"
                   />

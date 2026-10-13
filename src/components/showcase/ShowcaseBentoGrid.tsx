@@ -1,6 +1,7 @@
 import React from 'react';
 import { Wind, Zap, Cpu, CloudSun, ShieldCheck, Sparkles, Compass, Radio } from 'lucide-react';
 import { InView, Tilt, Spotlight, BorderBeam } from '../motion-primitives';
+import { getAssetUrl } from '../../utils/assets';
 
 export const ShowcaseBentoGrid: React.FC = () => {
   return (
@@ -231,7 +232,7 @@ export const ShowcaseBentoGrid: React.FC = () => {
                   {/* VISUAL 3: Real Urban Rooftop Installation & Siting Blueprint */}
                   <div className="my-2.5 relative rounded-2xl overflow-hidden h-28 border border-purple-200/90 bg-stone-900 shadow-inner group-hover:border-purple-400 transition-colors">
                     <img 
-                      src="/images/rooftop_engineering_schematic.png" 
+                      src={getAssetUrl('images/rooftop_engineering_schematic.png')} 
                       alt="Urban Rooftop Installation & Siting Blueprint" 
                       className="w-full h-full object-contain p-1 group-hover:scale-105 transition-transform duration-500" 
                       loading="lazy"

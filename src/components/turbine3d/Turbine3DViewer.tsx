@@ -4,6 +4,7 @@ import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { useTelemetry } from '../../context/TelemetryContext';
 import { soundFx } from '../../utils/audio';
+import { getAssetUrl } from '../../utils/assets';
 import { 
   Rotate3d, 
   Wind, 
@@ -944,9 +945,14 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     powerConduitParticlesRef.current = powerParticles;
     scene.add(powerParticles);
 
-    // Load SolidWorks CAD Model from snapshot
+    // Load SolidWorks CAD Model from snapshot with multi-tier candidate resolution
     const stlLoader = new STLLoader();
-    const modelUrl = `${import.meta.env.BASE_URL}models/OWind_Body.stl`;
+    const candidateUrls = [
+      getAssetUrl('models/OWind_Body.stl'),
+      '/O-wind-turbine-Urban-Wind-Intelligence-/models/OWind_Body.stl',
+      './models/OWind_Body.stl',
+      '/models/OWind_Body.stl',
+    ];
 
     const setupCadGeometry = (geometry: THREE.BufferGeometry) => {
       geometry.center();
@@ -991,27 +997,29 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
       cadMesh.visible = true;
     };
 
-    stlLoader.load(
-      modelUrl,
-      (geometry) => {
-        setupCadGeometry(geometry);
-      },
-      undefined,
-      (error) => {
-        console.warn('Primary STL load error, attempting fallback URL:', error);
-        stlLoader.load(
-          './models/OWind_Body.stl',
-          (geometry) => {
-            setupCadGeometry(geometry);
-          },
-          undefined,
-          (err2) => {
-            console.warn('Using procedural CAD fallback:', err2);
-            proceduralGroup.visible = true;
-          }
-        );
+    const loadCandidate = (index: number) => {
+      if (index >= candidateUrls.length) {
+        console.warn('All SolidWorks STL candidates failed, activating procedural fallback.');
+        if (proceduralGroupRef.current) {
+          proceduralGroupRef.current.visible = true;
+        }
+        return;
       }
-    );
+      const targetUrl = candidateUrls[index];
+      stlLoader.load(
+        targetUrl,
+        (geometry) => {
+          setupCadGeometry(geometry);
+        },
+        undefined,
+        (err) => {
+          console.warn(`Candidate STL URL failed [${index}] (${targetUrl}):`, err);
+          loadCandidate(index + 1);
+        }
+      );
+    };
+
+    loadCandidate(0);
 
     // Environmental Groups
     const skylineGroup = new THREE.Group();
