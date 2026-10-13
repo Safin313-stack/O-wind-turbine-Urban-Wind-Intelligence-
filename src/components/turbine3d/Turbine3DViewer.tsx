@@ -690,57 +690,45 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     rotorGroupRef.current = rotorGroup;
     scene.add(rotorGroup);
 
-    // Procedural Fallback Rotor
+    // Procedural Fallback Rotor (Hidden by default, authentic white styling)
     const proceduralGroup = new THREE.Group();
     proceduralGroup.position.set(0, 0, 0);
+    proceduralGroup.visible = false;
     proceduralGroupRef.current = proceduralGroup;
     rotorGroup.add(proceduralGroup);
 
-    const shellMat = new THREE.MeshStandardMaterial({
-      color: 0x1e293b,
-      roughness: 0.25,
-      metalness: 0.75,
-      transparent: true,
-      opacity: 0.95,
+    const shellMat = new THREE.MeshPhysicalMaterial({
+      color: 0xf8fafc,
+      roughness: 0.28,
+      metalness: 0.08,
+      clearcoat: 0.5,
     });
     const mainSphere = new THREE.Mesh(new THREE.SphereGeometry(0.95, 36, 36), shellMat);
     mainSphere.position.set(0, 0, 0);
     mainSphereMeshRef.current = mainSphere;
     proceduralGroup.add(mainSphere);
 
-    // Helical Venturi ducts
-    const ventMat = new THREE.MeshStandardMaterial({
-      color: 0x00e5ff,
-      emissive: 0x004755,
-      emissiveIntensity: 0.6,
-      roughness: 0.25,
-      metalness: 0.8,
+    // Aerodynamic Venturi scoops (clean pearl white)
+    const ventMat = new THREE.MeshPhysicalMaterial({
+      color: 0xe2e8f0,
+      roughness: 0.32,
+      metalness: 0.05,
+      clearcoat: 0.3,
     });
 
     ventGroupsRef.current = [];
-    for (let i = 0; i < 6; i++) {
-      const angle = (i * Math.PI) / 3;
+    for (let i = 0; i < 4; i++) {
+      const angle = (i * Math.PI) / 2;
       const ventRing = new THREE.Group();
       ventRing.rotation.y = angle;
-      ventRing.rotation.x = Math.PI * 0.18 * Math.sin(angle);
+      ventRing.rotation.x = Math.PI * 0.15;
 
       const ventDuct = new THREE.Mesh(
-        new THREE.TorusGeometry(0.92, 0.08, 16, 48, Math.PI * 0.75),
+        new THREE.TorusGeometry(0.92, 0.06, 16, 48, Math.PI * 0.75),
         ventMat
       );
       ventDuct.rotation.z = Math.PI * 0.35;
       ventRing.add(ventDuct);
-
-      const scoopMat = new THREE.MeshStandardMaterial({
-        color: 0xf59e0b,
-        emissive: 0x78350f,
-        emissiveIntensity: 0.4,
-        roughness: 0.3,
-      });
-      const scoop = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.35, 12), scoopMat);
-      scoop.position.set(0.78 * Math.cos(angle), 0.38 * Math.sin(angle * 2), 0.45 * Math.sin(angle));
-      scoop.rotation.z = -Math.PI / 4;
-      ventRing.add(scoop);
 
       ventGroupsRef.current.push(ventRing);
       proceduralGroup.add(ventRing);
@@ -749,9 +737,9 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     const internalCore = new THREE.Mesh(
       new THREE.IcosahedronGeometry(0.42, 1),
       new THREE.MeshStandardMaterial({
-        color: 0xa855f7,
-        emissive: 0x581c87,
-        emissiveIntensity: 0.8,
+        color: 0x38bdf8,
+        emissive: 0x0284c7,
+        emissiveIntensity: 0.4,
         wireframe: true,
       })
     );
@@ -759,29 +747,31 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     internalCoreMeshRef.current = internalCore;
     proceduralGroup.add(internalCore);
 
-    // Solid Titanium Slate CAD Material
+    // Solid Aerodynamic Pearl-White Composite CAD Material matching SolidWorks O-Wind Prototype (pasted_image_3.png)
     const solidCadMat = new THREE.MeshPhysicalMaterial({
-      color: 0x1e293b,
-      metalness: 0.85,
-      roughness: 0.22,
-      clearcoat: 0.95,
-      clearcoatRoughness: 0.08,
-      reflectivity: 0.95,
+      color: 0xf8fafc,
+      roughness: 0.28,
+      metalness: 0.08,
+      clearcoat: 0.6,
+      clearcoatRoughness: 0.12,
+      reflectivity: 0.9,
+      side: THREE.DoubleSide,
     });
     solidCadMatRef.current = solidCadMat;
 
     // Holographic X-Ray CAD Material
     const xrayCadMat = new THREE.MeshPhysicalMaterial({
-      color: 0x0284c7,
-      emissive: 0x0369a1,
+      color: 0x38bdf8,
+      emissive: 0x0284c7,
       emissiveIntensity: 0.45,
       transparent: true,
-      opacity: 0.24,
-      roughness: 0.08,
+      opacity: 0.32,
+      roughness: 0.1,
       metalness: 0.15,
       clearcoat: 1.0,
-      transmission: 0.72,
+      transmission: 0.76,
       depthWrite: true,
+      side: THREE.DoubleSide,
     });
     xrayCadMatRef.current = xrayCadMat;
 
@@ -954,53 +944,72 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
     powerConduitParticlesRef.current = powerParticles;
     scene.add(powerParticles);
 
-    // Load SolidWorks CAD Model
+    // Load SolidWorks CAD Model from snapshot
     const stlLoader = new STLLoader();
+    const modelUrl = `${import.meta.env.BASE_URL}models/OWind_Body.stl`;
+
+    const setupCadGeometry = (geometry: THREE.BufferGeometry) => {
+      geometry.center();
+      // Re-align SolidWorks model: in OWind_Body.stl, the rotational spindle axis is along X.
+      // Rotating by 90 deg around Z aligns the spindle axis perfectly with the vertical Y-axis!
+      geometry.rotateZ(Math.PI / 2);
+      geometry.computeVertexNormals();
+      geometry.computeBoundingBox();
+
+      const box = geometry.boundingBox!;
+      const sizeX = box.max.x - box.min.x;
+      const sizeY = box.max.y - box.min.y;
+      const sizeZ = box.max.z - box.min.z;
+      const maxDim = Math.max(sizeX, sizeY, sizeZ);
+      const scaleFactor = 1.95 / maxDim;
+
+      const cadMesh = new THREE.Mesh(geometry, solidCadMat);
+      cadMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
+      cadMesh.position.set(0, 0, 0);
+      cadMesh.castShadow = true;
+      cadMesh.receiveShadow = true;
+      cadMeshRef.current = cadMesh;
+
+      rotorGroup.add(cadMesh);
+      setCadModelLoaded(true);
+
+      // Blueprint Wireframe Mesh Shell for X-Ray
+      const wireframeMat = new THREE.MeshBasicMaterial({
+        color: 0x00e5ff,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.18,
+      });
+      const wireframeMesh = new THREE.Mesh(geometry, wireframeMat);
+      wireframeMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
+      wireframeMesh.position.set(0, 0, 0);
+      wireframeMesh.visible = false;
+      cadWireframeRef.current = wireframeMesh;
+      rotorGroup.add(wireframeMesh);
+
+      proceduralGroup.visible = false;
+      cadMesh.visible = true;
+    };
+
     stlLoader.load(
-      '/models/OWind_Body.stl',
+      modelUrl,
       (geometry) => {
-        geometry.center();
-        geometry.computeVertexNormals();
-        geometry.computeBoundingBox();
-
-        const box = geometry.boundingBox!;
-        const sizeX = box.max.x - box.min.x;
-        const sizeY = box.max.y - box.min.y;
-        const sizeZ = box.max.z - box.min.z;
-        const maxDim = Math.max(sizeX, sizeY, sizeZ);
-        const scaleFactor = 1.95 / maxDim;
-
-        const cadMesh = new THREE.Mesh(geometry, solidCadMat);
-        cadMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
-        cadMesh.position.set(0, 0, 0);
-        cadMesh.castShadow = true;
-        cadMesh.receiveShadow = true;
-        cadMeshRef.current = cadMesh;
-
-        rotorGroup.add(cadMesh);
-        setCadModelLoaded(true);
-
-        // Blueprint Wireframe Mesh Shell for X-Ray
-        const wireframeMat = new THREE.MeshBasicMaterial({
-          color: 0x38bdf8,
-          wireframe: true,
-          transparent: true,
-          opacity: 0.15,
-        });
-        const wireframeMesh = new THREE.Mesh(geometry, wireframeMat);
-        wireframeMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
-        wireframeMesh.position.set(0, 0, 0);
-        wireframeMesh.visible = false;
-        cadWireframeRef.current = wireframeMesh;
-        rotorGroup.add(wireframeMesh);
-
-        proceduralGroup.visible = false;
-        cadMesh.visible = true;
+        setupCadGeometry(geometry);
       },
       undefined,
       (error) => {
-        console.warn('Using procedural CAD fallback:', error);
-        proceduralGroup.visible = true;
+        console.warn('Primary STL load error, attempting fallback URL:', error);
+        stlLoader.load(
+          './models/OWind_Body.stl',
+          (geometry) => {
+            setupCadGeometry(geometry);
+          },
+          undefined,
+          (err2) => {
+            console.warn('Using procedural CAD fallback:', err2);
+            proceduralGroup.visible = true;
+          }
+        );
       }
     );
 
@@ -1307,38 +1316,34 @@ export const Turbine3DViewer: React.FC<Turbine3DViewerProps> = ({
 
   // Handle Exploded View Toggle
   useEffect(() => {
-    if (!mainSphereMeshRef.current || !internalCoreMeshRef.current) return;
-
     if (isExploded) {
-      if (cadMeshRef.current) cadMeshRef.current.visible = false;
-      if (cadWireframeRef.current) cadWireframeRef.current.visible = false;
-      if (proceduralGroupRef.current) proceduralGroupRef.current.visible = true;
-
-      mainSphereMeshRef.current.scale.set(1.4, 1.4, 1.4);
-      internalCoreMeshRef.current.scale.set(1.3, 1.3, 1.3);
-
-      ventGroupsRef.current.forEach((vent, i) => {
-        const factor = 0.38;
-        vent.position.set(
-          Math.cos((i * Math.PI) / 3) * factor,
-          i % 2 === 0 ? 0.25 : -0.25,
-          Math.sin((i * Math.PI) / 3) * factor
-        );
-      });
-    } else {
-      mainSphereMeshRef.current.scale.set(1, 1, 1);
-      internalCoreMeshRef.current.scale.set(1, 1, 1);
-
-      ventGroupsRef.current.forEach((vent) => {
-        vent.position.set(0, 0, 0);
-      });
-
       if (cadMeshRef.current) {
-        cadMeshRef.current.visible = true;
-        if (proceduralGroupRef.current) proceduralGroupRef.current.visible = false;
+        cadMeshRef.current.position.y = 0.48;
+      }
+      if (cadWireframeRef.current) {
+        cadWireframeRef.current.position.y = 0.48;
+      }
+      if (internalMechanicsGroupRef.current) {
+        internalMechanicsGroupRef.current.visible = true;
+      }
+      if (rotatingMagnetsRef.current) {
+        rotatingMagnetsRef.current.visible = true;
+      }
+    } else {
+      if (cadMeshRef.current) {
+        cadMeshRef.current.position.y = 0;
+      }
+      if (cadWireframeRef.current) {
+        cadWireframeRef.current.position.y = 0;
+      }
+      if (internalMechanicsGroupRef.current) {
+        internalMechanicsGroupRef.current.visible = isXray;
+      }
+      if (rotatingMagnetsRef.current) {
+        rotatingMagnetsRef.current.visible = isXray;
       }
     }
-  }, [isExploded]);
+  }, [isExploded, isXray]);
 
   const handleResetCamera = () => {
     soundFx.playClick();
