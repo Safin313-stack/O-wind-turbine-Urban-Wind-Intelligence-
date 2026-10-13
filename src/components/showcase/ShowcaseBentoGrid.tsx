@@ -1,126 +1,137 @@
-import React from 'react';
-import { Wind, Zap, Cpu, CloudSun, ShieldCheck, Sparkles, Compass, Radio } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  Wind, 
+  ShieldCheck, 
+  Sparkles, 
+  Compass, 
+  CheckCircle2, 
+  Layers, 
+  Gauge, 
+  ArrowUpRight,
+  Activity
+} from 'lucide-react';
 import { InView, Tilt, Spotlight, BorderBeam } from '../motion-primitives';
-import { getAssetUrl } from '../../utils/assets';
+import { HOW_IT_WORKS_STAGES, EXPERIMENTAL_DATA_RECORDS } from '../../data/researchData';
 
 export const ShowcaseBentoGrid: React.FC = () => {
+  const [activeWorkflowStage, setActiveWorkflowStage] = useState<number>(1);
+  const currentStage = HOW_IT_WORKS_STAGES.find((s) => s.step === activeWorkflowStage) || HOW_IT_WORKS_STAGES[0];
+
   return (
-    <section id="technology" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <section id="technology" className="py-12 sm:py-20 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <InView>
-        {/* Section Header: Minimal & Data-Driven */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-900 text-xs font-sans font-bold tracking-wide">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-600" />
-            <span>SYSTEM ARCHITECTURE</span>
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 space-y-2.5">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#22262C] border border-[#2E343D] text-[#FF8A24] text-[10px] sm:text-xs font-mono font-bold tracking-wide shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#FF8A24]" />
+            <span>CORE ARCHITECTURE · MOBILE BENTO GRID</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 tracking-tight font-display leading-[1.16]">
-            Five Technological{' '}
-            <span className="bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent inline-block pb-1">
-              Vectors.
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#F5F5F2] tracking-tight font-display leading-[1.15]">
+            Engineering Anatomy,{' '}
+            <span className="text-gradient-orange inline-block pb-1">
+              Deconstructed.
             </span>
           </h2>
 
-          <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed max-w-2xl mx-auto">
-            From fluid dynamics to neural edge siting and autonomous microgrids.
+          <p className="text-xs sm:text-sm text-[#A7ADB5] font-sans leading-relaxed max-w-2xl mx-auto px-2">
+            Explore the fluid physics, omnidirectional aerodynamics, mechanical components, 8-stage energy flow, and verified test results.
           </p>
         </div>
 
-        {/* Bento Grid: Highly Visual Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+        {/* Master Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 sm:gap-5">
           
           {/* ============================================================ */}
-          {/* PILLAR 1: AERODYNAMICS (Large 7 cols with Radial Flow Visual) */}
+          {/* CARD 1: HOW THE TURBINE WORKS (Large 8 cols, Bernoulli Duct) */}
           {/* ============================================================ */}
-          <div className="md:col-span-7">
-            <Tilt rotationFactor={3} className="h-full">
-              <div className="bg-white/95 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border-2 border-cyan-200/90 hover:border-cyan-400 transition-all shadow-sm flex flex-col justify-between h-full relative overflow-hidden group">
-                <BorderBeam size={220} duration={14} colorFrom="#0284c7" colorTo="#38bdf8" />
-                <Spotlight fill="rgba(2, 132, 199, 0.12)" size={240} />
+          <div className="md:col-span-8">
+            <Tilt rotationFactor={2} className="h-full">
+              <div className="bg-[#22262C] border border-[#2E343D] hover:border-[#FF8A24]/40 p-4 sm:p-7 rounded-2xl sm:rounded-3xl flex flex-col justify-between h-full relative overflow-hidden group shadow-lg transition-all duration-300">
+                <BorderBeam size={220} duration={14} colorFrom="#FF8A24" colorTo="#06b6d4" />
+                <Spotlight fill="rgba(255, 138, 36, 0.08)" size={240} />
 
                 <div>
-                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
+                  <div className="flex items-center justify-between mb-3 pb-3 border-b border-[#2E343D]">
                     <div className="flex items-center gap-2.5">
-                      <div className="p-2 rounded-xl bg-cyan-50 border border-cyan-200 text-cyan-700">
+                      <div className="p-2 rounded-xl bg-[#17191D] border border-[#2E343D] text-[#FF8A24]">
                         <Wind className="w-4 h-4" />
                       </div>
                       <div>
-                        <span className="text-[10px] font-sans font-bold text-cyan-800 uppercase tracking-wider block">
+                        <span className="text-[10px] font-mono font-bold text-[#FF8A24] uppercase tracking-wider block">
                           01 · FLUID DYNAMICS
                         </span>
-                        <h3 className="text-base sm:text-lg font-black text-stone-900">
-                          360° Omnidirectional Venturi Rotor
+                        <h3 className="text-sm sm:text-lg font-bold text-[#F5F5F2] font-display">
+                          How the Turbine Works: Bernoulli Pressure Lift
                         </h3>
                       </div>
                     </div>
-                    <span className="text-xs font-mono font-bold text-cyan-700 bg-cyan-50 px-2.5 py-1 rounded-full border border-cyan-200">
-                      1.48 m/s Cut-in
+                    <span className="text-[10px] sm:text-xs font-mono font-bold text-[#FF8A24] bg-[#17191D] px-2.5 py-1 rounded-full border border-[#2E343D]">
+                      +1.4x Airspeed Boost
                     </span>
                   </div>
 
-                  {/* VISUAL 1: Interactive Radial 360° Airflow Diagram */}
-                  <div className="my-3 p-3.5 rounded-2xl bg-gradient-to-b from-cyan-50/40 to-sky-50/20 border border-cyan-100 flex flex-col sm:flex-row items-center gap-4">
+                  <p className="text-xs sm:text-sm text-[#A7ADB5] font-sans leading-relaxed mb-3">
+                    Unlike flat blades that stall when wind shifts, the spherical O-Wind rotor features cross-ducted helical apertures. Air entering the windward duct accelerates through contracted internal channels, producing a localized Bernoulli low-pressure zone on the leeward face. This geometry ensures the resultant torque always acts in a uniform direction on the central shaft.
+                  </p>
+
+                  {/* Visual Bernoulli Diagram with Flow Vectors */}
+                  <div className="p-3.5 rounded-xl sm:rounded-2xl bg-[#17191D] border border-[#2E343D] flex flex-col sm:flex-row items-center gap-4 my-2">
                     <svg className="w-32 h-32 shrink-0" viewBox="0 0 120 120" fill="none">
-                      {/* Outer Compass Guide */}
-                      <circle cx="60" cy="60" r="54" stroke="#bae6fd" strokeWidth="1" strokeDasharray="3 3" />
+                      <circle cx="60" cy="60" r="54" stroke="#2E343D" strokeWidth="1" strokeDasharray="3 3" />
                       
-                      {/* 8 Omnidirectional Flow Arrows Converging Inward */}
-                      <path d="M 60 12 L 60 38" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
-                      <polygon points="60,42 56,34 64,34" fill="#0284c7" />
+                      {/* Flow Vectors Inward */}
+                      <path d="M 60 12 L 60 38" stroke="#FF8A24" strokeWidth="2.5" strokeLinecap="round" />
+                      <polygon points="60,42 56,34 64,34" fill="#FF8A24" />
 
-                      <path d="M 60 108 L 60 82" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
-                      <polygon points="60,78 56,86 64,86" fill="#0284c7" />
+                      <path d="M 60 108 L 60 82" stroke="#FF8A24" strokeWidth="2.5" strokeLinecap="round" />
+                      <polygon points="60,78 56,86 64,86" fill="#FF8A24" />
 
-                      <path d="M 12 60 L 38 60" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
-                      <polygon points="42,60 34,56 34,64" fill="#0284c7" />
+                      <path d="M 12 60 L 38 60" stroke="#06b6d4" strokeWidth="2" strokeLinecap="round" />
+                      <polygon points="42,60 34,56 34,64" fill="#06b6d4" />
 
-                      <path d="M 108 60 L 82 60" stroke="#0284c7" strokeWidth="2" strokeLinecap="round" />
-                      <polygon points="78,60 86,56 86,64" fill="#0284c7" />
+                      <path d="M 108 60 L 82 60" stroke="#06b6d4" strokeWidth="2" strokeLinecap="round" />
+                      <polygon points="78,60 86,56 86,64" fill="#06b6d4" />
 
                       {/* Diagonal Vectors */}
-                      <path d="M 26 26 L 44 44" stroke="#38bdf8" strokeWidth="1.5" />
-                      <polygon points="47,47 39,43 43,39" fill="#38bdf8" />
+                      <path d="M 26 26 L 44 44" stroke="#FF8A24" strokeWidth="1.5" strokeDasharray="2 2" />
+                      <path d="M 94 94 L 76 76" stroke="#FF8A24" strokeWidth="1.5" strokeDasharray="2 2" />
 
-                      <path d="M 94 94 L 76 76" stroke="#38bdf8" strokeWidth="1.5" />
-                      <polygon points="73,73 81,77 77,81" fill="#38bdf8" />
-
-                      <path d="M 26 94 L 44 76" stroke="#38bdf8" strokeWidth="1.5" />
-                      <polygon points="47,73 43,81 39,77" fill="#38bdf8" />
-
-                      <path d="M 94 26 L 76 44" stroke="#38bdf8" strokeWidth="1.5" />
-                      <polygon points="73,47 77,39 81,43" fill="#38bdf8" />
-
-                      {/* Center Turbine Hub */}
-                      <circle cx="60" cy="60" r="18" fill="#e0f2fe" stroke="#0284c7" strokeWidth="2" />
-                      <circle cx="60" cy="60" r="6" fill="#0369a1" />
-                      <text x="60" y="63" textAnchor="middle" fill="#0369a1" fontSize="7" fontWeight="bold">360°</text>
+                      {/* Center Turbine Spindle */}
+                      <circle cx="60" cy="60" r="18" fill="#22262C" stroke="#FF8A24" strokeWidth="2" />
+                      <circle cx="60" cy="60" r="6" fill="#FF8A24" />
+                      <text x="60" y="63" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontWeight="bold">360°</text>
                     </svg>
 
-                    <div className="flex-1 space-y-2 text-xs">
-                      <div className="flex items-center justify-between pb-1.5 border-b border-cyan-100">
-                        <span className="text-stone-500 font-sans">Horizontal Ingestion:</span>
-                        <span className="font-bold text-stone-900 font-mono">Any Azimuth (0°–360°)</span>
+                    <div className="flex-1 space-y-1.5 text-xs w-full">
+                      <div className="flex items-center justify-between pb-1 border-b border-[#2E343D]">
+                        <span className="text-[#A7ADB5]">Governing Equation:</span>
+                        <span className="font-mono font-bold text-[#FF8A24]">P₁ + ½ρv₁² = P₂ + ½ρv₂²</span>
                       </div>
-                      <div className="flex items-center justify-between pb-1.5 border-b border-cyan-100">
-                        <span className="text-stone-500 font-sans">Vertical Ingestion:</span>
-                        <span className="font-bold text-stone-900 font-mono">45°–90° Facade Updrafts</span>
+                      <div className="flex items-center justify-between pb-1 border-b border-[#2E343D]">
+                        <span className="text-[#A7ADB5]">Horizontal Capture:</span>
+                        <span className="font-mono text-[#F5F5F2]">Any Azimuth (0°–360°)</span>
+                      </div>
+                      <div className="flex items-center justify-between pb-1 border-b border-[#2E343D]">
+                        <span className="text-[#A7ADB5]">Vertical Capture:</span>
+                        <span className="font-mono text-[#F5F5F2]">45°–90° Facade Updrafts</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-stone-500 font-sans">Bernoulli Boost:</span>
-                        <span className="font-bold text-cyan-700 font-mono">+1.4x Flow Velocity</span>
+                        <span className="text-[#A7ADB5]">Torque Direction:</span>
+                        <span className="font-mono text-emerald-400 font-bold">Unidirectional CW</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-stone-100 text-xs font-sans">
-                  <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
-                    <span className="text-[10px] text-stone-500 font-bold uppercase block">ROTATION AXIS</span>
-                    <span className="font-extrabold text-stone-900">Fixed Static Spindle</span>
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#2E343D] text-xs font-sans">
+                  <div className="p-2.5 rounded-xl bg-[#17191D] border border-[#2E343D]">
+                    <span className="text-[10px] text-[#A7ADB5] font-mono uppercase block">CUT-IN THRESHOLD</span>
+                    <span className="font-bold text-[#F5F5F2] font-mono">1.48 m/s Ambient Flow</span>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
-                    <span className="text-[10px] text-stone-500 font-bold uppercase block">STEERING MOTORS</span>
-                    <span className="font-extrabold text-emerald-700">0 (Zero Yaw Needed)</span>
+                  <div className="p-2.5 rounded-xl bg-[#17191D] border border-[#2E343D]">
+                    <span className="text-[10px] text-[#A7ADB5] font-mono uppercase block">STEERING MOTORS</span>
+                    <span className="font-bold text-emerald-400 font-mono">0 (Zero Yaw Wear)</span>
                   </div>
                 </div>
               </div>
@@ -128,244 +139,303 @@ export const ShowcaseBentoGrid: React.FC = () => {
           </div>
 
           {/* ============================================================ */}
-          {/* PILLAR 2: ENERGY (5 cols with Diurnal Solar/Wind Waveform)    */}
-          {/* ============================================================ */}
-          <div className="md:col-span-5">
-            <Tilt rotationFactor={3} className="h-full">
-              <div className="bg-white/95 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border-2 border-emerald-200/90 hover:border-emerald-400 transition-all shadow-sm flex flex-col justify-between h-full relative overflow-hidden group">
-                <BorderBeam size={180} duration={12} colorFrom="#059669" colorTo="#10b981" />
-                <Spotlight fill="rgba(16, 185, 129, 0.12)" size={220} />
-
-                <div>
-                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-stone-100">
-                    <div className="flex items-center gap-2.5">
-                      <div className="p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700">
-                        <Zap className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-sans font-bold text-emerald-800 uppercase tracking-wider block">
-                          02 · MICROGRID
-                        </span>
-                        <h3 className="text-base sm:text-lg font-black text-stone-900">
-                          24/7 Diurnal Power Balancing
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* VISUAL 2: Diurnal Solar vs Night Wind Waveform SVG */}
-                  <div className="my-3 p-3.5 rounded-2xl bg-emerald-50/40 border border-emerald-100">
-                    <div className="flex items-center justify-between text-[11px] font-sans font-bold text-stone-700 mb-1.5">
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" /> Solar PV (Day)
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" /> O-Wind (Night Updrafts)
-                      </span>
-                    </div>
-
-                    <svg className="w-full h-24" viewBox="0 0 280 80" fill="none">
-                      {/* Timeline Axis */}
-                      <line x1="10" y1="65" x2="270" y2="65" stroke="#cbd5e1" strokeWidth="1" />
-                      <text x="15" y="76" fill="#64748b" fontSize="8" fontWeight="bold">6 AM</text>
-                      <text x="135" y="76" fill="#64748b" fontSize="8" fontWeight="bold">12 PM</text>
-                      <text x="215" y="76" fill="#047857" fontSize="8" fontWeight="bold">7–11 PM (OUTAGE)</text>
-
-                      {/* Solar PV Curve (Midday bell curve) */}
-                      <path
-                        d="M 20 65 Q 130 15 200 65"
-                        stroke="#f59e0b"
-                        strokeWidth="2.5"
-                        fill="rgba(245, 158, 11, 0.12)"
-                      />
-
-                      {/* O-Wind Curve (Evening Thermal Peak) */}
-                      <path
-                        d="M 180 65 Q 225 18 265 45"
-                        stroke="#10b981"
-                        strokeWidth="2.5"
-                        fill="rgba(16, 185, 129, 0.15)"
-                      />
-
-                      {/* Highlighted Outage Gap Filled Tag */}
-                      <rect x="200" y="8" width="65" height="18" rx="4" fill="#059669" />
-                      <text x="206" y="20" fill="#ffffff" fontSize="8" fontWeight="bold">WIND PEAK</text>
-                    </svg>
-
-                    <div className="text-[10px] font-sans text-stone-500 text-center mt-1">
-                      Solar powers daytime; O-Wind powers 7–11 PM evening grid blackouts.
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/80 flex items-center justify-between text-xs font-sans">
-                  <span className="text-stone-500">Powertrain Efficiency:</span>
-                  <span className="font-extrabold text-emerald-700 font-mono">81.8% Synchronous MPPT</span>
-                </div>
-              </div>
-            </Tilt>
-          </div>
-
-          {/* ============================================================ */}
-          {/* PILLAR 3: AI SITING (4 cols with Parapet Updraft Vector Diagram)*/}
+          {/* CARD 2: OMNIDIRECTIONAL CAPTURE (4 cols, 3D Vector Inflow)   */}
           {/* ============================================================ */}
           <div className="md:col-span-4">
-            <Tilt rotationFactor={4} className="h-full">
-              <div className="bg-white/95 backdrop-blur-2xl p-5 sm:p-6 rounded-3xl border-2 border-purple-200/90 hover:border-purple-400 transition-all shadow-sm flex flex-col justify-between h-full relative overflow-hidden group">
-                <Spotlight fill="rgba(168, 85, 247, 0.12)" size={180} />
+            <Tilt rotationFactor={2} className="h-full">
+              <div className="bg-[#22262C] border border-[#2E343D] hover:border-cyan-500/40 p-4 sm:p-6 rounded-2xl sm:rounded-3xl flex flex-col justify-between h-full relative overflow-hidden group shadow-lg transition-all duration-300">
+                <Spotlight fill="rgba(6, 182, 212, 0.08)" size={180} />
 
                 <div>
-                  <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-stone-100">
+                  <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-[#2E343D]">
                     <div className="flex items-center gap-2">
-                      <div className="p-1.5 rounded-lg bg-purple-50 border border-purple-200 text-purple-700">
-                        <Cpu className="w-4 h-4" />
+                      <div className="p-1.5 rounded-lg bg-[#17191D] border border-[#2E343D] text-cyan-400">
+                        <Compass className="w-4 h-4" />
                       </div>
-                      <h3 className="text-sm font-black text-stone-900">
-                        Neural Parapet Siting
+                      <h3 className="text-sm font-bold text-[#F5F5F2] font-display">
+                        Omnidirectional Wind Capture
                       </h3>
                     </div>
-                    <span className="text-[10px] font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
-                      +40% Lift
+                    <span className="text-[10px] font-mono font-bold text-cyan-400 bg-[#17191D] px-2 py-0.5 rounded-full border border-[#2E343D]">
+                      Dual-Axis
                     </span>
                   </div>
 
-                  {/* VISUAL 3: Real Urban Rooftop Installation & Siting Blueprint */}
-                  <div className="my-2.5 relative rounded-2xl overflow-hidden h-28 border border-purple-200/90 bg-stone-900 shadow-inner group-hover:border-purple-400 transition-colors">
-                    <img 
-                      src={getAssetUrl('images/rooftop_engineering_schematic.png')} 
-                      alt="Urban Rooftop Installation & Siting Blueprint" 
-                      className="w-full h-full object-contain p-1 group-hover:scale-105 transition-transform duration-500" 
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none" />
-                    <div className="absolute top-2 left-2 flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                      <span className="text-[9px] font-mono font-bold text-white bg-black/60 px-2 py-0.5 rounded-full backdrop-blur-xs border border-white/10">
-                        ROOFTOP SCHEMATIC
-                      </span>
+                  <p className="text-xs text-[#A7ADB5] font-sans leading-relaxed mb-3">
+                    Urban street canyons generate unpredictable winds with rapid directional shifts and strong thermal updrafts along building faces.
+                  </p>
+
+                  <div className="space-y-2 text-xs font-sans">
+                    <div className="p-2.5 rounded-xl bg-[#17191D] border border-[#2E343D] space-y-1">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="text-[#F5F5F2] font-semibold">Horizontal Cross-Gales</span>
+                        <span className="text-cyan-400 font-mono font-bold">100% Ingested</span>
+                      </div>
+                      <div className="h-1.5 w-full bg-[#22262C] rounded-full overflow-hidden">
+                        <div className="h-full bg-cyan-400 rounded-full w-full" />
+                      </div>
                     </div>
-                    <div className="absolute bottom-1.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] font-mono">
-                      <span className="text-cyan-300 font-semibold">Flange Mount</span>
-                      <span className="text-purple-300 font-bold bg-purple-950/80 px-2 py-0.5 rounded border border-purple-400/30">+40% LIFT</span>
+
+                    <div className="p-2.5 rounded-xl bg-[#17191D] border border-[#2E343D] space-y-1">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="text-[#F5F5F2] font-semibold">Vertical Facade Updrafts</span>
+                        <span className="text-[#FF8A24] font-mono font-bold">+40% Lift</span>
+                      </div>
+                      <div className="h-1.5 w-full bg-[#22262C] rounded-full overflow-hidden">
+                        <div className="h-full bg-[#FF8A24] rounded-full w-[85%]" />
+                      </div>
                     </div>
                   </div>
-
-                  <p className="text-xs text-stone-600 font-sans mt-2">
-                    Edge AI locates high-velocity acceleration zones at the building lip, avoiding stagnant roof centers.
-                  </p>
                 </div>
 
-                <div className="pt-2 mt-2 border-t border-stone-100 text-[11px] font-sans font-bold text-purple-700">
-                  ✦ Edge-CFD Neural Placement
+                <div className="pt-3 mt-3 border-t border-[#2E343D] text-[11px] font-mono text-[#A7ADB5] flex items-center justify-between">
+                  <span>Traditional HAWT Loss:</span>
+                  <span className="text-red-400 font-bold">Stalls on shifts</span>
                 </div>
               </div>
             </Tilt>
           </div>
 
           {/* ============================================================ */}
-          {/* PILLAR 4: AIR SENTINEL (4 cols with PM2.5 Live Telemetry Bar)  */}
+          {/* CARD 3: TURBINE COMPONENTS & ANATOMY (6 cols)                */}
           {/* ============================================================ */}
-          <div className="md:col-span-4">
-            <Tilt rotationFactor={4} className="h-full">
-              <div className="bg-white/95 backdrop-blur-2xl p-5 sm:p-6 rounded-3xl border-2 border-sky-200/90 hover:border-sky-400 transition-all shadow-sm flex flex-col justify-between h-full relative overflow-hidden group">
-                <Spotlight fill="rgba(2, 132, 199, 0.12)" size={180} />
+          <div className="md:col-span-6">
+            <Tilt rotationFactor={2} className="h-full">
+              <div className="bg-[#22262C] border border-[#2E343D] hover:border-emerald-500/40 p-4 sm:p-6 rounded-2xl sm:rounded-3xl flex flex-col justify-between h-full relative overflow-hidden group shadow-lg transition-all duration-300">
+                <Spotlight fill="rgba(16, 185, 129, 0.08)" size={180} />
 
                 <div>
-                  <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-stone-100">
+                  <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-[#2E343D]">
                     <div className="flex items-center gap-2">
-                      <div className="p-1.5 rounded-lg bg-sky-50 border border-sky-200 text-sky-700">
-                        <CloudSun className="w-4 h-4" />
+                      <div className="p-1.5 rounded-lg bg-[#17191D] border border-[#2E343D] text-emerald-400">
+                        <Layers className="w-4 h-4" />
                       </div>
-                      <h3 className="text-sm font-black text-stone-900">
-                        Autonomous Air Sentinel
+                      <h3 className="text-sm sm:text-base font-bold text-[#F5F5F2] font-display">
+                        Turbine Components & Precision Materials
                       </h3>
                     </div>
-                    <span className="text-[10px] font-mono font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">
-                      Zero Grid
+                    <span className="text-[10px] font-mono font-bold text-emerald-400 bg-[#17191D] px-2 py-0.5 rounded-full border border-[#2E343D]">
+                      SolidWorks CAD
                     </span>
                   </div>
 
-                  {/* VISUAL 4: Laser Sensor Telemetry Visual Bar */}
-                  <div className="my-2 p-3 rounded-xl bg-sky-50/40 border border-sky-100 space-y-2">
-                    <div>
-                      <div className="flex items-center justify-between text-xs font-sans mb-1">
-                        <span className="text-stone-500 font-semibold">Dhaka PM2.5 Laser:</span>
-                        <span className="font-extrabold text-amber-600 font-mono">162 µg/m³</span>
-                      </div>
-                      <div className="w-full h-2 rounded-full bg-stone-200 overflow-hidden flex">
-                        <div className="w-[65%] bg-gradient-to-r from-emerald-400 via-amber-400 to-rose-500 rounded-full" />
-                      </div>
+                  <div className="grid grid-cols-2 gap-2 text-xs font-sans mb-3">
+                    <div className="p-2.5 rounded-xl bg-[#17191D] border border-[#2E343D]">
+                      <span className="text-[10px] text-[#A7ADB5] font-mono uppercase block">Rotor Shell</span>
+                      <strong className="text-[#F5F5F2] block mt-0.5">260mm PETG Shell</strong>
+                      <span className="text-[10px] text-[#A7ADB5] block">340g Gyroid core</span>
                     </div>
 
-                    <div className="flex items-center justify-between text-[11px] pt-1 text-stone-600 font-sans">
-                      <span className="flex items-center gap-1">
-                        <Radio className="w-3 h-3 text-sky-600" /> LoRa Mesh:
-                      </span>
-                      <span className="font-mono font-bold text-stone-900">10 km Range</span>
+                    <div className="p-2.5 rounded-xl bg-[#17191D] border border-[#2E343D]">
+                      <span className="text-[10px] text-[#A7ADB5] font-mono uppercase block">Bearings</span>
+                      <strong className="text-[#F5F5F2] block mt-0.5">Si3N4 Ceramic Hybrid</strong>
+                      <span className="text-[10px] text-[#A7ADB5] block">Flanged, low friction</span>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-[#17191D] border border-[#2E343D]">
+                      <span className="text-[10px] text-[#A7ADB5] font-mono uppercase block">Central Spindle</span>
+                      <strong className="text-[#F5F5F2] block mt-0.5">8mm Stainless Steel</strong>
+                      <span className="text-[10px] text-[#A7ADB5] block">Ground, vibration isolated</span>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-[#17191D] border border-[#2E343D]">
+                      <span className="text-[10px] text-[#A7ADB5] font-mono uppercase block">Generator</span>
+                      <strong className="text-[#F5F5F2] block mt-0.5">Direct-Drive PMG</strong>
+                      <span className="text-[10px] text-[#A7ADB5] block">12 NdFeB magnets, coreless</span>
                     </div>
                   </div>
-
-                  <p className="text-xs text-stone-600 font-sans mt-2">
-                    Self-powered laser sensors continuously log urban pollution patterns during grid power cuts.
-                  </p>
                 </div>
 
-                <div className="pt-2 mt-2 border-t border-stone-100 text-[11px] font-sans font-bold text-sky-700">
-                  ✦ Plantower Optical + BME680
+                <div className="pt-2 border-t border-[#2E343D] flex items-center justify-between text-[11px] font-sans">
+                  <span className="text-[#A7ADB5]">CAD Model:</span>
+                  <a href="#prototype" className="text-[#FF8A24] font-bold hover:underline flex items-center gap-1">
+                    <span>Inspect 3D Twin</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </a>
                 </div>
               </div>
             </Tilt>
           </div>
 
           {/* ============================================================ */}
-          {/* PILLAR 5: URBAN SAFETY (4 cols with Acoustic Decibel Scale)    */}
+          {/* CARD 4: ADVANTAGES VS LIMITATIONS (6 cols)                   */}
           {/* ============================================================ */}
-          <div className="md:col-span-4">
-            <Tilt rotationFactor={4} className="h-full">
-              <div className="bg-white/95 backdrop-blur-2xl p-5 sm:p-6 rounded-3xl border-2 border-amber-200/90 hover:border-amber-400 transition-all shadow-sm flex flex-col justify-between h-full relative overflow-hidden group">
-                <Spotlight fill="rgba(245, 158, 11, 0.12)" size={180} />
+          <div className="md:col-span-6">
+            <Tilt rotationFactor={2} className="h-full">
+              <div className="bg-[#22262C] border border-[#2E343D] hover:border-amber-500/40 p-4 sm:p-6 rounded-2xl sm:rounded-3xl flex flex-col justify-between h-full relative overflow-hidden group shadow-lg transition-all duration-300">
+                <Spotlight fill="rgba(245, 158, 11, 0.08)" size={180} />
 
                 <div>
-                  <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-stone-100">
+                  <div className="flex items-center justify-between mb-3 pb-2.5 border-b border-[#2E343D]">
                     <div className="flex items-center gap-2">
-                      <div className="p-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-700">
+                      <div className="p-1.5 rounded-lg bg-[#17191D] border border-[#2E343D] text-amber-400">
                         <ShieldCheck className="w-4 h-4" />
                       </div>
-                      <h3 className="text-sm font-black text-stone-900">
-                        Rooftop Safety & Sound
+                      <h3 className="text-sm sm:text-base font-bold text-[#F5F5F2] font-display">
+                        Engineering Advantages & Limitations
                       </h3>
                     </div>
-                    <span className="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                      &lt; 24 dB
+                    <span className="text-[10px] font-mono font-bold text-amber-400 bg-[#17191D] px-2 py-0.5 rounded-full border border-[#2E343D]">
+                      Trade-Offs
                     </span>
                   </div>
 
-                  {/* VISUAL 5: Acoustic Noise Bar Chart Comparison */}
-                  <div className="my-2 p-3 rounded-xl bg-amber-50/40 border border-amber-100 space-y-1.5 text-xs font-sans">
-                    <div className="flex items-center justify-between text-[11px]">
-                      <span className="text-stone-500">City Traffic:</span>
-                      <span className="font-mono text-stone-700">75 dB</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans mb-3">
+                    {/* Advantages */}
+                    <div className="p-3 rounded-xl bg-[#17191D] border border-emerald-500/20 space-y-1.5">
+                      <div className="flex items-center gap-1.5 text-emerald-400 font-bold text-[11px]">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                        <span>Key Advantages</span>
+                      </div>
+                      <ul className="space-y-1 text-[11px] text-[#A7ADB5]">
+                        <li>• Operates at &lt;28 dBA (residential whisper)</li>
+                        <li>• Enclosed sphere—bird-safe, zero exposed blades</li>
+                        <li>• Harvests 360° horizontal + vertical facade gusts</li>
+                        <li>• Low 1.48 m/s startup threshold</li>
+                      </ul>
                     </div>
-                    <div className="flex items-center justify-between text-[11px]">
-                      <span className="text-stone-500">Bladed Turbine:</span>
-                      <span className="font-mono text-red-600 font-bold">55 dB</span>
-                    </div>
-                    <div className="flex items-center justify-between text-[11px] font-bold text-emerald-800 bg-emerald-50/80 p-1 rounded-md border border-emerald-200">
-                      <span>O-Wind Rotor:</span>
-                      <span className="font-mono">&lt; 24 dB (Library Whisper)</span>
+
+                    {/* Limitations */}
+                    <div className="p-3 rounded-xl bg-[#17191D] border border-amber-500/20 space-y-1.5">
+                      <div className="flex items-center gap-1.5 text-amber-400 font-bold text-[11px]">
+                        <Activity className="w-3.5 h-3.5 shrink-0" />
+                        <span>Engineering Boundaries</span>
+                      </div>
+                      <ul className="space-y-1 text-[11px] text-[#A7ADB5]">
+                        <li>• Lower peak swept area than large utility blades</li>
+                        <li>• 18 m/s cut-out brake limit for storm protection</li>
+                        <li>• Sited specifically for rooftop parapets & lips</li>
+                        <li>• Generates mW–W scale for edge IoT & batteries</li>
+                      </ul>
                     </div>
                   </div>
-
-                  <p className="text-xs text-stone-600 font-sans mt-2">
-                    Enclosed sphere with zero exposed blades. Bird-safe, vibration-free, and clamped onto parapets.
-                  </p>
                 </div>
 
-                <div className="pt-2 mt-2 border-t border-stone-100 text-[11px] font-sans font-bold text-amber-700">
-                  ✦ IP65 Waterproof Enclosure
+                <div className="pt-2 border-t border-[#2E343D] text-[11px] font-mono text-[#A7ADB5]">
+                  Optimized for dense urban buildings, not open flat plains.
                 </div>
               </div>
             </Tilt>
+          </div>
+
+          {/* ============================================================ */}
+          {/* CARD 5: 8-STAGE WORKING-FLOW PIPELINE (Full Width 12 cols)   */}
+          {/* ============================================================ */}
+          <div className="md:col-span-12">
+            <div className="bg-[#22262C] border border-[#2E343D] p-4 sm:p-7 rounded-2xl sm:rounded-3xl relative overflow-hidden shadow-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-[#2E343D] gap-2">
+                <div>
+                  <span className="text-[10px] font-mono font-bold text-[#FF8A24] uppercase tracking-wider block">
+                    WORKING FLOW EXPLANATION
+                  </span>
+                  <h3 className="text-base sm:text-xl font-bold text-[#F5F5F2] font-display">
+                    From Inflow Aerodynamics to LiFePO4 Energy Storage
+                  </h3>
+                </div>
+                <span className="text-xs font-mono text-[#A7ADB5] bg-[#17191D] px-3 py-1 rounded-full border border-[#2E343D] self-start sm:self-auto">
+                  8-Stage Pipeline
+                </span>
+              </div>
+
+              {/* Stepper Tabs (Touch Scrollable on Mobile) */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-3 mb-4 no-scrollbar">
+                {HOW_IT_WORKS_STAGES.map((stage) => {
+                  const isSelected = stage.step === activeWorkflowStage;
+                  return (
+                    <button
+                      key={stage.id}
+                      type="button"
+                      onClick={() => setActiveWorkflowStage(stage.step)}
+                      className={`px-3 py-2 rounded-xl text-xs font-mono font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                        isSelected
+                          ? 'bg-[#FF8A24] text-white shadow-md shadow-[#FF8A24]/30'
+                          : 'bg-[#17191D] text-[#A7ADB5] hover:text-[#F5F5F2] border border-[#2E343D]'
+                      }`}
+                    >
+                      <span className="opacity-75">0{stage.step}</span>
+                      <span>{stage.shortTitle}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Active Stage Deep Dive */}
+              <div className="p-4 sm:p-5 rounded-xl bg-[#17191D] border border-[#2E343D] grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+                <div className="lg:col-span-8 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-[#FF8A24]/20 text-[#FF8A24] border border-[#FF8A24]/30">
+                      STAGE {currentStage.step} OF 8
+                    </span>
+                    <h4 className="text-sm sm:text-base font-bold text-[#F5F5F2] font-display">
+                      {currentStage.title}
+                    </h4>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#A7ADB5] font-sans leading-relaxed">
+                    {currentStage.scientificDetail}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {currentStage.keyComponents.map((comp, idx) => (
+                      <span key={idx} className="px-2 py-0.5 rounded-md bg-[#22262C] text-[#F5F5F2] border border-[#2E343D] text-[10px] font-mono">
+                        ✦ {comp}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="lg:col-span-4 p-3 rounded-xl bg-[#22262C] border border-[#2E343D] space-y-2 text-xs font-mono">
+                  {currentStage.equations && (
+                    <div>
+                      <span className="text-[10px] text-[#A7ADB5] block uppercase">Physics Formulation</span>
+                      <span className="text-xs font-bold text-[#FF8A24]">{currentStage.equations}</span>
+                    </div>
+                  )}
+                  <div>
+                    <span className="text-[10px] text-[#A7ADB5] block uppercase">Stage Efficiency Loss</span>
+                    <span className="text-xs font-bold text-emerald-400">{currentStage.efficiencyLoss}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ============================================================ */}
+          {/* CARD 6: ACTUAL EXPERIMENTAL RESULTS (Full Width 12 cols)     */}
+          {/* ============================================================ */}
+          <div className="md:col-span-12">
+            <div className="bg-[#22262C] border border-[#2E343D] p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 border-b border-[#2E343D] gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-[#17191D] border border-[#2E343D] text-emerald-400">
+                    <Gauge className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-sm sm:text-lg font-bold text-[#F5F5F2] font-display">
+                    Actual Experimental Prototype Records & Instrumentation
+                  </h3>
+                </div>
+                <span className="text-[10px] font-mono font-bold text-emerald-400 bg-[#17191D] px-2.5 py-1 rounded-full border border-[#2E343D] self-start sm:self-auto">
+                  Yokogawa WT310 Calibrated
+                </span>
+              </div>
+
+              {/* Experimental Records Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-sans">
+                {EXPERIMENTAL_DATA_RECORDS.slice(0, 3).map((record, i) => (
+                  <div key={i} className="p-3.5 rounded-xl bg-[#17191D] border border-[#2E343D] flex flex-col justify-between space-y-2">
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] font-mono text-[#A7ADB5] mb-1">
+                        <span>{record.trustLevel}</span>
+                        <span className="text-emerald-400">{record.condition}</span>
+                      </div>
+                      <strong className="text-sm font-bold text-[#F5F5F2] block">{record.metric}</strong>
+                      <div className="text-lg font-black text-[#FF8A24] font-mono mt-0.5">{record.value}</div>
+                    </div>
+                    <p className="text-[11px] text-[#A7ADB5] pt-2 border-t border-[#2E343D]">
+                      {record.notes}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
         </div>

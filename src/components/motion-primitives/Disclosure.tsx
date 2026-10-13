@@ -24,16 +24,16 @@ export function Disclosure({ items, defaultOpenId, className = '' }: DisclosureP
   };
 
   return (
-    <div className={`space-y-3.5 ${className}`}>
+    <div className={`space-y-3 ${className}`}>
       {items.map((item) => {
         const isOpen = openId === item.id;
         return (
           <div
             key={item.id}
-            className={`glass-card rounded-2xl border transition-all duration-300 overflow-hidden ${
+            className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
               isOpen
-                ? 'border-cyan-400/60 shadow-md shadow-cyan-950/5 ring-1 ring-cyan-400/20 bg-white/95'
-                : 'border-stone-200/80 hover:border-stone-300 bg-white/70'
+                ? 'border-[#FF8A24]/60 shadow-lg bg-[#22262C] ring-1 ring-[#FF8A24]/20'
+                : 'border-[#2E343D] hover:border-[#FF8A24]/40 bg-[#1C2026]'
             }`}
           >
             <button
@@ -44,14 +44,14 @@ export function Disclosure({ items, defaultOpenId, className = '' }: DisclosureP
               <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
                 {item.category && (
                   <span
-                    className={`inline-flex items-center justify-center shrink-0 whitespace-nowrap text-[11px] font-mono font-bold px-3 py-1 rounded-full border shadow-2xs tracking-wide uppercase ${
-                      item.categoryBadgeClass || 'bg-stone-100 text-stone-700 border-stone-200'
+                    className={`inline-flex items-center justify-center shrink-0 whitespace-nowrap text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border tracking-wide uppercase ${
+                      item.categoryBadgeClass || 'bg-[#22262C] text-[#FF8A24] border-[#FF8A24]/30'
                     }`}
                   >
                     {item.category}
                   </span>
                 )}
-                <h4 className="font-sans font-bold text-sm sm:text-base text-stone-900 group-hover:text-cyan-700 transition-colors leading-snug">
+                <h4 className="font-sans font-bold text-sm sm:text-base text-[#F5F5F2] group-hover:text-[#FF8A24] transition-colors leading-snug">
                   {item.title}
                 </h4>
               </div>
@@ -60,7 +60,7 @@ export function Disclosure({ items, defaultOpenId, className = '' }: DisclosureP
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 className={`p-1.5 rounded-full shrink-0 transition-colors mt-0.5 sm:mt-0 ${
-                  isOpen ? 'bg-cyan-100 text-cyan-800' : 'bg-stone-100 text-stone-600 group-hover:bg-stone-200'
+                  isOpen ? 'bg-[#FF8A24]/20 text-[#FF8A24]' : 'bg-[#22262C] text-[#A7ADB5] group-hover:bg-[#2E343D]'
                 }`}
               >
                 <ChevronDown className="w-4 h-4" />
@@ -81,7 +81,7 @@ export function Disclosure({ items, defaultOpenId, className = '' }: DisclosureP
                   }}
                   className="overflow-hidden"
                 >
-                  <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-1 text-sm text-stone-600 font-sans leading-relaxed border-t border-stone-100/90">
+                  <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-1 text-sm text-[#A7ADB5] font-sans leading-relaxed border-t border-[#2E343D]">
                     {item.content}
                   </div>
                 </motion.div>

@@ -8,6 +8,28 @@ export default {
   theme: {
     extend: {
       colors: {
+        charcoal: {
+          950: '#0E1012',
+          900: '#17191D', // Primary background: deep graphite
+          850: '#1C1F25',
+          800: '#22262C', // Secondary surface: dark slate
+          750: '#282C34',
+          700: '#2E343D', // Subtle border
+          600: '#3D4551',
+          500: '#525B69',
+        },
+        engine: {
+          orange: '#FF8A24', // Accent: engineering orange
+          hover: '#FFA14E',
+          active: '#E67417',
+          light: 'rgba(255, 138, 36, 0.12)',
+          border: 'rgba(255, 138, 36, 0.35)',
+        },
+        slateText: {
+          primary: '#F5F5F2', // Off-white
+          muted: '#A7ADB5',   // Muted gray
+          dim: '#6D7480',
+        },
         porcelain: {
           50: '#FAF9F6',
           100: '#F5F3EF',

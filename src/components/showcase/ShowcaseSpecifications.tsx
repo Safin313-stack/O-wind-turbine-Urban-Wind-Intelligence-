@@ -77,134 +77,132 @@ export const ShowcaseSpecifications: React.FC = () => {
     switch (accent) {
       case 'cyan':
         return {
-          border: 'border-cyan-200/90 hover:border-cyan-400',
-          badgeBg: 'bg-cyan-50 text-cyan-800 border-cyan-200',
-          iconBg: 'bg-cyan-50 text-cyan-700 border-cyan-200',
-          statColor: 'text-cyan-700',
-          beamFrom: '#0284c7',
-          beamTo: '#06b6d4',
-          spotlight: 'rgba(6, 182, 212, 0.12)',
+          border: 'border-[#2E343D] hover:border-[#FF8A24]/60',
+          badgeBg: 'bg-[#FF8A24]/10 text-[#FF8A24] border-[#FF8A24]/30',
+          iconBg: 'bg-[#1C2026] text-[#FF8A24] border-[#2E343D]',
+          statColor: 'text-[#FF8A24]',
+          beamFrom: '#FF8A24',
+          beamTo: '#FFA959',
+          spotlight: 'rgba(255, 138, 36, 0.08)',
         };
       case 'emerald':
         return {
-          border: 'border-emerald-200/90 hover:border-emerald-400',
-          badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-          iconBg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-          statColor: 'text-emerald-700',
+          border: 'border-[#2E343D] hover:border-emerald-500/60',
+          badgeBg: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+          iconBg: 'bg-[#1C2026] text-emerald-400 border-[#2E343D]',
+          statColor: 'text-emerald-400',
           beamFrom: '#059669',
           beamTo: '#10b981',
-          spotlight: 'rgba(16, 185, 129, 0.12)',
+          spotlight: 'rgba(16, 185, 129, 0.08)',
         };
       case 'purple':
         return {
-          border: 'border-purple-200/90 hover:border-purple-400',
-          badgeBg: 'bg-purple-50 text-purple-800 border-purple-200',
-          iconBg: 'bg-purple-50 text-purple-700 border-purple-200',
-          statColor: 'text-purple-700',
+          border: 'border-[#2E343D] hover:border-purple-500/60',
+          badgeBg: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
+          iconBg: 'bg-[#1C2026] text-purple-400 border-[#2E343D]',
+          statColor: 'text-purple-400',
           beamFrom: '#7c3aed',
           beamTo: '#a855f7',
-          spotlight: 'rgba(168, 85, 247, 0.12)',
+          spotlight: 'rgba(168, 85, 247, 0.08)',
         };
       case 'sky':
         return {
-          border: 'border-sky-200/90 hover:border-sky-400',
-          badgeBg: 'bg-sky-50 text-sky-800 border-sky-200',
-          iconBg: 'bg-sky-50 text-sky-700 border-sky-200',
-          statColor: 'text-sky-700',
+          border: 'border-[#2E343D] hover:border-cyan-500/60',
+          badgeBg: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+          iconBg: 'bg-[#1C2026] text-cyan-400 border-[#2E343D]',
+          statColor: 'text-cyan-400',
           beamFrom: '#0284c7',
           beamTo: '#38bdf8',
-          spotlight: 'rgba(2, 132, 199, 0.12)',
+          spotlight: 'rgba(6, 182, 212, 0.08)',
         };
     }
   };
 
   return (
-    <section id="specs" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
+    <section id="specs" className="py-12 sm:py-20 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
       <InView>
-        {/* Section Header: Clean, Simple & Legible */}
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14 space-y-3.5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-50/90 border border-cyan-200 text-cyan-900 text-xs font-sans font-bold tracking-wide shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-600" />
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 space-y-2.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#22262C] border border-[#2E343D] text-[#FF8A24] text-[11px] font-mono font-bold tracking-wide shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#FF8A24]" />
             <span>ENGINEERING ARCHITECTURE</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 tracking-tight font-display leading-[1.15] sm:leading-[1.18]">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-[#F5F5F2] tracking-tight font-display leading-[1.15]">
             Technical Blueprint,{' '}
-            <span className="bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent inline-block pb-1.5">
+            <span className="text-gradient-orange inline-block pb-1">
               Validated.
             </span>
           </h2>
 
-          <p className="text-sm sm:text-base text-stone-600 font-sans leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#A7ADB5] font-sans leading-relaxed">
             Four physical engineering benchmarks calibrated for high-density megacity deployment.
           </p>
         </div>
 
-        {/* ============================================================ */}
-        {/* SIDE BY SIDE CARDS: 4 IN A ROW ON DESKTOP, 2X2 ON TABLET     */}
-        {/* ============================================================ */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* SIDE BY SIDE CARDS: 4 IN A ROW ON DESKTOP, 2X2 ON TABLET */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {cards.map((card, index) => {
             const theme = getCardTheme(card.accent);
             const Icon = card.icon;
 
             return (
-              <Tilt key={card.id} rotationFactor={5} className="h-full">
+              <Tilt key={card.id} rotationFactor={4} className="h-full">
                 <div
-                  className={`bg-white/95 backdrop-blur-2xl p-6 rounded-3xl border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col justify-between h-full shadow-sm group ${theme.border}`}
-                  style={{ minHeight: '320px' }}
+                  className={`bg-[#22262C]/95 backdrop-blur-2xl p-5 rounded-2xl sm:rounded-3xl border transition-all duration-300 hover:shadow-2xl relative overflow-hidden flex flex-col justify-between h-full shadow-lg group ${theme.border}`}
+                  style={{ minHeight: '300px' }}
                 >
                   <BorderBeam size={160} duration={12} colorFrom={theme.beamFrom} colorTo={theme.beamTo} />
                   <Spotlight fill={theme.spotlight} size={180} />
 
                   <div>
                     {/* Top Row: Icon, Badge, and Index Number */}
-                    <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-stone-100">
+                    <div className="flex items-center justify-between pb-3 mb-3.5 border-b border-[#2E343D]">
                       <div className="flex items-center gap-2.5">
                         <div className={`p-2 rounded-xl border ${theme.iconBg} group-hover:scale-105 transition-transform`}>
                           <Icon className="w-4 h-4" />
                         </div>
                         <div>
-                          <span className={`text-[10px] font-sans font-bold tracking-wide px-2 py-0.5 rounded-full border ${theme.badgeBg}`}>
+                          <span className={`text-[10px] font-mono font-bold tracking-wide px-2 py-0.5 rounded-full border ${theme.badgeBg}`}>
                             {card.badge}
                           </span>
-                          <h3 className="font-sans font-bold text-sm text-stone-900 mt-1 leading-tight">
+                          <h3 className="font-sans font-bold text-xs sm:text-sm text-[#F5F5F2] mt-1 leading-tight">
                             {card.title}
                           </h3>
                         </div>
                       </div>
 
-                      <span className="text-xs font-sans font-bold text-stone-400 bg-stone-50 px-2 py-0.5 rounded-md border border-stone-200">
+                      <span className="text-xs font-mono font-bold text-[#A7ADB5] bg-[#1C2026] px-2 py-0.5 rounded-md border border-[#2E343D]">
                         0{index + 1}
                       </span>
                     </div>
 
-                    {/* Big Bold Hero Stat (High Contrast & Clear Readability) */}
-                    <div className="my-3 py-1">
-                      <div className={`text-4xl sm:text-5xl font-black font-sans tracking-tight ${theme.statColor}`}>
+                    {/* Big Bold Hero Stat */}
+                    <div className="my-2.5 py-1">
+                      <div className={`text-3xl sm:text-4xl font-black font-mono tracking-tight ${theme.statColor}`}>
                         {card.heroStat}
                       </div>
-                      <p className="text-xs sm:text-sm font-semibold text-stone-600 mt-1">
+                      <p className="text-xs font-semibold text-[#A7ADB5] mt-0.5">
                         {card.heroLabel}
                       </p>
                     </div>
 
                     {/* 2 Clean Sub-Metric Pills */}
-                    <div className="grid grid-cols-2 gap-2 pt-3 border-t border-stone-100 text-xs">
-                      <div className="p-2.5 rounded-2xl bg-stone-50 border border-stone-200/80">
-                        <span className="text-[10px] text-stone-500 block font-sans font-semibold uppercase tracking-wider leading-none mb-1">
+                    <div className="grid grid-cols-2 gap-2 pt-3 border-t border-[#2E343D] text-xs">
+                      <div className="p-2 rounded-xl bg-[#1C2026] border border-[#2E343D]">
+                        <span className="text-[10px] text-[#A7ADB5] block font-mono font-semibold uppercase tracking-wider leading-none mb-1">
                           {card.sub1.label}
                         </span>
-                        <span className="text-xs font-bold text-stone-900 block truncate">
+                        <span className="text-xs font-bold text-[#F5F5F2] block truncate font-mono">
                           {card.sub1.value}
                         </span>
                       </div>
 
-                      <div className="p-2.5 rounded-2xl bg-stone-50 border border-stone-200/80">
-                        <span className="text-[10px] text-stone-500 block font-sans font-semibold uppercase tracking-wider leading-none mb-1">
+                      <div className="p-2 rounded-xl bg-[#1C2026] border border-[#2E343D]">
+                        <span className="text-[10px] text-[#A7ADB5] block font-mono font-semibold uppercase tracking-wider leading-none mb-1">
                           {card.sub2.label}
                         </span>
-                        <span className="text-xs font-bold text-stone-900 block truncate">
+                        <span className="text-xs font-bold text-[#F5F5F2] block truncate font-mono">
                           {card.sub2.value}
                         </span>
                       </div>

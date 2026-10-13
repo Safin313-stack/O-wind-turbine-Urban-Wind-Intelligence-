@@ -30,70 +30,70 @@ export const ShowcaseNavbar: React.FC = () => {
 
   const navLinks = [
     { name: 'Overview', href: '#overview' },
-    { name: '3D Prototype', href: '#prototype' },
+    { name: 'How It Works', href: '#technology' },
+    { name: '3D CAD Twin', href: '#prototype' },
+    { name: 'Videos', href: '#videos' },
     { name: 'Aerodynamics', href: '#aerodynamics' },
-    { name: 'Pillars', href: '#technology' },
-    { name: 'Evidence', href: '#gallery' },
-    { name: 'Simulation', href: '#simulation' },
-    { name: 'Specifications', href: '#specs' },
-    { name: 'Pipeline', href: '#about' },
+    { name: 'Blueprints', href: '#gallery' },
+    { name: 'Simulator', href: '#simulation' },
+    { name: 'Specs', href: '#specs' },
   ];
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#F8FAFC]/85 backdrop-blur-2xl border-b border-stone-200/80 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] py-3.5'
-          : 'bg-transparent py-5'
+          ? 'bg-[#17191D]/90 backdrop-blur-xl border-b border-[#2E343D] shadow-lg shadow-black/40 py-2.5 sm:py-3'
+          : 'bg-transparent py-3.5 sm:py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Logo & Name */}
-        <a href="#overview" className="flex items-center gap-3 group">
-          <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 via-sky-400 to-indigo-600 p-[1.5px] shadow-sm group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center overflow-hidden">
-              <div className="w-4 h-4 border-2 border-cyan-600 border-t-transparent rounded-full animate-spin-slow" />
+        <a href="#overview" className="flex items-center gap-2.5 group">
+          <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-[#FF8A24] via-[#FFA14E] to-cyan-500 p-[1.5px] shadow-sm group-hover:scale-105 transition-transform">
+            <div className="w-full h-full bg-[#17191D] rounded-[10px] flex items-center justify-center overflow-hidden">
+              <div className="w-4 h-4 border-2 border-[#FF8A24] border-t-transparent rounded-full animate-spin-slow" />
             </div>
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-display font-black text-lg tracking-tight text-stone-900 group-hover:text-cyan-700 transition-colors">
+              <span className="font-display font-black text-base sm:text-lg tracking-tight text-[#F5F5F2] group-hover:text-[#FF8A24] transition-colors">
                 O-WIND
               </span>
-              <span className="px-1.5 py-0.2 rounded text-[10px] font-sans font-bold bg-cyan-100/90 text-cyan-800 border border-cyan-300/80">
+              <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-[#FF8A24]/15 text-[#FF8A24] border border-[#FF8A24]/30">
                 AI
               </span>
             </div>
-            <span className="text-[9px] text-stone-500 font-sans font-semibold hidden sm:block tracking-wider uppercase">
+            <span className="text-[8px] sm:text-[9px] text-[#A7ADB5] font-mono font-semibold hidden xs:block tracking-wider uppercase">
               URBAN WIND INTELLIGENCE
             </span>
           </div>
         </a>
 
         {/* Desktop Navigation Links with animated hover pill */}
-        <div className="hidden lg:flex items-center gap-1 bg-white/80 backdrop-blur-xl border border-stone-200/80 px-3 py-1.5 rounded-full shadow-sm">
+        <div className="hidden lg:flex items-center gap-0.5 bg-[#22262C]/85 backdrop-blur-xl border border-[#2E343D] px-2.5 py-1 rounded-full shadow-md">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="relative px-3.5 py-1.5 rounded-full text-xs font-sans font-semibold text-stone-600 hover:text-stone-950 transition-colors duration-200 group"
+              className="relative px-3 py-1 rounded-full text-xs font-sans font-semibold text-[#A7ADB5] hover:text-[#F5F5F2] transition-colors duration-200 group"
             >
               <span className="relative z-10">{link.name}</span>
-              <span className="absolute inset-0 rounded-full bg-stone-100 opacity-0 group-hover:opacity-100 transition-opacity -z-0" />
+              <span className="absolute inset-0 rounded-full bg-[#2E343D] opacity-0 group-hover:opacity-100 transition-opacity -z-0" />
             </a>
           ))}
         </div>
 
         {/* Right CTA: GitHub Repository & Command Center Button */}
-        <div className="hidden sm:flex items-center gap-2.5">
+        <div className="hidden sm:flex items-center gap-2">
           <Magnetic intensity={0.25}>
             <a
               href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-xs font-sans font-bold text-stone-700 hover:text-stone-950 transition-all shadow-sm group active:scale-[0.98]"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#22262C] hover:bg-[#282D35] border border-[#2E343D] text-xs font-sans font-bold text-[#F5F5F2] hover:text-white transition-all shadow-sm group active:scale-[0.98]"
             >
-              <GithubIcon className="w-3.5 h-3.5 text-stone-800 group-hover:scale-110 transition-transform" />
+              <GithubIcon className="w-3.5 h-3.5 text-[#A7ADB5] group-hover:text-white group-hover:scale-110 transition-transform" />
               <span>GitHub</span>
             </a>
           </Magnetic>
@@ -104,10 +104,10 @@ export const ShowcaseNavbar: React.FC = () => {
                 soundFx.playClick();
                 setViewMode('app');
               }}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-stone-900 hover:bg-black text-white text-xs font-sans font-bold shadow-md hover:shadow-lg transition-all active:scale-95"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#FF8A24] hover:bg-[#FFA14E] text-white text-xs font-sans font-bold shadow-md shadow-[#FF8A24]/20 hover:shadow-lg transition-all active:scale-95 cursor-pointer"
               title="Launch Dhaka Smart-City Command Center"
             >
-              <LayoutDashboard className="w-3.5 h-3.5 text-cyan-300" />
+              <LayoutDashboard className="w-3.5 h-3.5 text-white" />
               <span>Command Center</span>
             </button>
           </Magnetic>
@@ -116,10 +116,10 @@ export const ShowcaseNavbar: React.FC = () => {
         {/* Mobile Hamburger Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2.5 rounded-xl bg-white border border-stone-200 text-stone-700 hover:text-stone-950 transition active:scale-95"
+          className="lg:hidden p-2 rounded-xl bg-[#22262C] border border-[#2E343D] text-[#F5F5F2] hover:text-[#FF8A24] transition active:scale-95 cursor-pointer"
           aria-label="Toggle navigation menu"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5 text-cyan-600" /> : <Menu className="w-5 h-5" />}
+          {mobileMenuOpen ? <X className="w-5 h-5 text-[#FF8A24]" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
@@ -133,7 +133,7 @@ export const ShowcaseNavbar: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="lg:hidden fixed inset-0 bg-stone-900/30 backdrop-blur-sm z-40"
+              className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
             />
 
             {/* Slide-down Drawer */}
@@ -142,32 +142,32 @@ export const ShowcaseNavbar: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -16, scale: 0.98 }}
               transition={{ type: 'spring', damping: 24, stiffness: 280 }}
-              className="lg:hidden fixed inset-x-4 top-20 rounded-3xl bg-[#F8FAFC]/95 backdrop-blur-2xl border border-stone-200 p-5 shadow-2xl z-50 space-y-4 max-h-[calc(100vh-100px)] overflow-y-auto"
+              className="lg:hidden fixed inset-x-3 top-16 rounded-2xl bg-[#17191D] border border-[#2E343D] p-4 shadow-2xl z-50 space-y-3 max-h-[calc(100vh-80px)] overflow-y-auto"
             >
-              <div className="flex flex-col space-y-1">
+              <div className="flex flex-col space-y-0.5">
                 {navLinks.map((link) => (
                   <a
                     key={link.name}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-4 py-3 rounded-2xl text-sm font-sans font-semibold text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition active:bg-stone-200 flex items-center justify-between"
+                    className="px-3.5 py-2.5 rounded-xl text-xs font-sans font-semibold text-[#A7ADB5] hover:text-[#F5F5F2] hover:bg-[#22262C] transition active:bg-[#282D35] flex items-center justify-between"
                   >
                     <span>{link.name}</span>
-                    <span className="text-stone-400 text-xs">→</span>
+                    <span className="text-[#FF8A24] text-xs font-mono">→</span>
                   </a>
                 ))}
               </div>
 
-              <div className="pt-3 border-t border-stone-200 flex flex-col gap-2.5">
+              <div className="pt-2.5 border-t border-[#2E343D] flex flex-col gap-2">
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     soundFx.playClick();
                     setViewMode('app');
                   }}
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-stone-900 text-white text-xs font-sans font-bold transition active:scale-95 shadow-md"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#FF8A24] text-white text-xs font-sans font-bold transition active:scale-95 shadow-md shadow-[#FF8A24]/20 cursor-pointer"
                 >
-                  <LayoutDashboard className="w-4 h-4 text-cyan-300" />
+                  <LayoutDashboard className="w-3.5 h-3.5 text-white" />
                   <span>Launch Command Center</span>
                 </button>
 
@@ -176,17 +176,17 @@ export const ShowcaseNavbar: React.FC = () => {
                     href="https://github.com/Safin313-stack/O-wind-turbine-Urban-Wind-Intelligence-"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl bg-white border border-stone-200 text-xs font-sans font-bold text-stone-800 hover:text-stone-950 transition active:scale-95 shadow-sm"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-[#22262C] border border-[#2E343D] text-xs font-sans font-bold text-[#F5F5F2] hover:text-white transition active:scale-95"
                   >
-                    <GithubIcon className="w-3.5 h-3.5 text-stone-800" />
+                    <GithubIcon className="w-3.5 h-3.5 text-[#A7ADB5]" />
                     <span>GitHub</span>
                   </a>
                   <a
                     href="#prototype"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl bg-stone-100 border border-stone-200 text-stone-800 text-xs font-sans font-bold transition active:scale-95"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-[#22262C] border border-[#2E343D] text-[#F5F5F2] text-xs font-sans font-bold transition active:scale-95"
                   >
-                    <Box className="w-3.5 h-3.5 text-cyan-600" />
+                    <Box className="w-3.5 h-3.5 text-[#FF8A24]" />
                     <span>3D Twin</span>
                   </a>
                 </div>

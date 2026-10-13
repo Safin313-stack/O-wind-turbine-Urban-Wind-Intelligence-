@@ -28,16 +28,16 @@ export const WebsiteModeToggle: React.FC<WebsiteModeToggleProps> = ({
         aria-label="Mode Navigation"
         className={`fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-40 flex items-center gap-2 ${className}`}
       >
-        <div className="relative p-1 sm:p-1.5 rounded-full bg-space-900/95 backdrop-blur-2xl border-2 border-cyan-400/60 shadow-2xl shadow-cyan-950 flex items-center transition-all duration-300 hover:border-cyan-300 group hover:scale-105">
+        <div className="relative p-1 sm:p-1.5 rounded-full bg-[#17191D]/95 backdrop-blur-2xl border-2 border-[#2E343D] shadow-2xl flex items-center transition-all duration-300 hover:border-[#FF8A24]/60 group">
           {/* Animated Ambient Pulse Ring */}
-          <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-500 via-sky-400 to-indigo-500 opacity-60 blur-md group-hover:opacity-90 animate-pulse pointer-events-none" />
+          <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-[#FF8A24] to-[#FFA959] opacity-30 blur-md group-hover:opacity-70 animate-pulse pointer-events-none" />
 
           {/* Sliding Pill Indicator */}
           <div
             className={`absolute top-1 sm:top-1.5 bottom-1 sm:bottom-1.5 w-[calc(50%-4px)] sm:w-[calc(50%-6px)] rounded-full transition-all duration-300 ease-out shadow-lg ${
               isWebsite
-                ? 'left-1 sm:left-1.5 bg-gradient-to-r from-cyan-500 to-sky-500 shadow-cyan-500/40'
-                : 'left-[50%] bg-gradient-to-r from-blue-600 to-indigo-600 shadow-indigo-500/40'
+                ? 'left-1 sm:left-1.5 bg-[#FF8A24] shadow-[#FF8A24]/40'
+                : 'left-[50%] bg-[#2E343D] shadow-black/40'
             }`}
           />
 

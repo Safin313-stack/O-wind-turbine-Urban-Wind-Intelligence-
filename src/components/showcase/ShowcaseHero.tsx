@@ -1,183 +1,155 @@
 import React from 'react';
 import { ArrowRight, Compass, ShieldCheck, Zap, Cpu, Box } from 'lucide-react';
-import { InView, Magnetic, Tilt, Spotlight, BorderBeam } from '../motion-primitives';
+import { InView, Magnetic, Tilt, Spotlight } from '../motion-primitives';
 
 export const ShowcaseHero: React.FC = () => {
   return (
-    <section id="overview" className="relative pt-24 sm:pt-28 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
-      {/* Subtle Architectural Illumination */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-[850px] h-[350px] bg-sky-400/[0.035] blur-[80px] rounded-full pointer-events-none -z-10" />
+    <section id="overview" className="relative pt-16 sm:pt-24 pb-10 sm:pb-16 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
+      {/* Subtle Engineering Illumination */}
+      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-[600px] sm:w-[850px] h-[250px] sm:h-[350px] bg-[#FF8A24]/[0.04] blur-[80px] rounded-full pointer-events-none -z-10" />
 
-      <InView className="text-center max-w-6xl mx-auto space-y-6 sm:space-y-8">
-        <div className="max-w-3xl sm:max-w-4xl mx-auto space-y-4 sm:space-y-6">
-          {/* Sleek Light Pill Badge with Motion Primitives Border Beam */}
-          <div className="relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-stone-200/90 text-stone-700 text-[11px] sm:text-xs font-semibold shadow-xs hover:border-cyan-300 transition-colors max-w-full">
-            <BorderBeam size={90} duration={8} colorFrom="#0284c7" colorTo="#06b6d4" />
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
-            </span>
-            <span className="font-semibold text-stone-800 tracking-tight">
-              Next-Gen Urban Renewable Energy
-            </span>
-            <span className="text-stone-300 hidden sm:inline">·</span>
-            <span className="text-cyan-700 font-bold hidden sm:inline tracking-tight">
-              O-Wind Aerodynamics
-            </span>
-          </div>
-
-          {/* Hero Title with Balanced, Proportionate Typography */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[64px] font-black text-stone-900 tracking-tight leading-[1.18] sm:leading-[1.15] font-display max-w-3xl mx-auto">
-            Turning Urban Wind Into
-            <span className="block mt-1 sm:mt-1.5 pb-1.5 sm:pb-2.5 bg-gradient-to-r from-cyan-600 via-sky-600 to-indigo-600 bg-clip-text text-transparent">
-              Intelligent Clean Energy
-            </span>
-          </h1>
-
-          {/* Proportionate Value Proposition Subtitle */}
-          <p className="text-sm sm:text-base md:text-lg text-stone-600 font-normal leading-relaxed max-w-2xl mx-auto px-2">
-            Capturing 360° chaotic city wind and vertical rooftop updrafts to power autonomous edge microgrids.
-          </p>
-
-          {/* User-Friendly Feature Chips */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-0.5">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-50 border border-cyan-200/90 text-cyan-800 text-[11px] sm:text-xs font-semibold shadow-xs">
-              <span className="text-cyan-600 font-bold">✦</span> 360° Venturi Rotor
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/90 text-emerald-800 text-[11px] sm:text-xs font-semibold shadow-xs">
-              <span className="text-emerald-600 font-bold">✦</span> LiFePO4 Microgrid
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200/90 text-purple-800 text-[11px] sm:text-xs font-semibold shadow-xs">
-              <span className="text-purple-600 font-bold">✦</span> Real-Time Air Sentinel
-            </span>
-          </div>
-
-          {/* Motion Primitives Magnetic Action Pill Buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 sm:gap-3 pt-1.5 max-w-sm sm:max-w-none mx-auto w-full px-4 sm:px-0">
-            <Magnetic intensity={0.25} className="w-full sm:w-auto">
-              <a
-                href="#prototype"
-                className="flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-full bg-stone-900 hover:bg-black text-white font-sans text-xs sm:text-sm font-bold tracking-wide transition-all shadow-lg shadow-stone-900/10 hover:shadow-xl active:scale-[0.98] w-full"
-              >
-                <Box className="w-4 h-4 text-cyan-300" />
-                <span>INSPECT 3D CAD PROTOTYPE</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </Magnetic>
-
-            <Magnetic intensity={0.25} className="w-full sm:w-auto">
-              <a
-                href="#specs"
-                className="flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-full bg-white hover:bg-stone-50 border border-stone-300/80 hover:border-stone-400 text-stone-800 font-sans text-xs sm:text-sm font-bold tracking-wide transition-all shadow-sm active:scale-[0.98] w-full"
-              >
-                <span>TECHNICAL SPECIFICATIONS</span>
-              </a>
-            </Magnetic>
-          </div>
+      <InView className="text-center max-w-5xl mx-auto space-y-4 sm:space-y-6">
+        {/* Sleek Engineering Pill Badge */}
+        <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-[#22262C] border border-[#2E343D] text-[#A7ADB5] text-[10px] sm:text-xs font-mono font-semibold shadow-xs">
+          <span className="relative flex h-1.5 w-1.5 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF8A24] opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#FF8A24]" />
+          </span>
+          <span className="text-[#F5F5F2] font-bold">O-WIND INNOVATION</span>
+          <span className="text-[#3D4551]">·</span>
+          <span className="text-[#FF8A24] font-bold">360° Urban Aerodynamics</span>
         </div>
 
-        {/* Key Benchmark Stat Cards (Enlarged, Wider, and More Spacious) */}
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 pt-10 sm:pt-14 font-sans text-left">
-          {/* Card 1: Aerodynamics */}
-          <Tilt rotationFactor={5} className="h-full">
-            <div className="bg-white/95 backdrop-blur-2xl p-6 sm:p-7 rounded-3xl relative overflow-hidden group h-full border-2 border-stone-200/90 hover:border-cyan-400/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between min-h-[220px] sm:min-h-[240px]">
-              <Spotlight fill="rgba(2, 132, 199, 0.12)" size={220} />
+        {/* Hero Headline: Concise, Impactful & Proportionate for Smartphone Screens */}
+        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[58px] font-black text-[#F5F5F2] tracking-tight leading-[1.15] font-display max-w-3xl mx-auto">
+          Omnidirectional Wind Turbine
+          <span className="block mt-1 sm:mt-1.5 text-gradient-orange pb-1">
+            Intelligent Clean Energy
+          </span>
+        </h1>
+
+        {/* Short Purpose Explanation */}
+        <p className="text-xs sm:text-base text-[#A7ADB5] font-sans leading-relaxed max-w-2xl mx-auto px-1 sm:px-2">
+          Capturing 360° chaotic city wind and vertical building updrafts on a single axis to power autonomous edge microgrids and environmental sensors.
+        </p>
+
+        {/* Prominent Action CTAs: Touch-Friendly 44px Min Height */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 sm:gap-3 pt-1 max-w-xs sm:max-w-none mx-auto w-full">
+          <Magnetic intensity={0.25} className="w-full sm:w-auto">
+            <a
+              href="#technology"
+              className="flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-full bg-[#FF8A24] hover:bg-[#FFA14E] text-white font-sans text-xs sm:text-sm font-bold tracking-wide transition-all shadow-lg shadow-[#FF8A24]/20 hover:shadow-xl active:scale-[0.98] w-full cursor-pointer"
+            >
+              <span>Explore How It Works</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </Magnetic>
+
+          <Magnetic intensity={0.25} className="w-full sm:w-auto">
+            <a
+              href="#prototype"
+              className="flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-full bg-[#22262C] hover:bg-[#282D35] border border-[#2E343D] hover:border-[#FF8A24]/40 text-[#F5F5F2] hover:text-white font-sans text-xs sm:text-sm font-bold tracking-wide transition-all shadow-sm active:scale-[0.98] w-full cursor-pointer"
+            >
+              <Box className="w-4 h-4 text-[#FF8A24]" />
+              <span>Explore the Design</span>
+            </a>
+          </Magnetic>
+        </div>
+
+        {/* Compact Mobile-First Bento Stat Cards (2x2 on Mobile, 4x1 on Desktop) */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3.5 pt-6 sm:pt-10 font-sans text-left">
+          {/* Card 1: 360° Aerodynamics */}
+          <Tilt rotationFactor={3} className="h-full">
+            <div className="bg-[#22262C] border border-[#2E343D] hover:border-[#FF8A24]/40 p-3.5 sm:p-5 rounded-2xl relative overflow-hidden group h-full flex flex-col justify-between shadow-md transition-all duration-300">
+              <Spotlight fill="rgba(255, 138, 36, 0.08)" size={140} />
               <div>
-                <div className="flex items-center justify-between text-stone-500 mb-3 sm:mb-4">
-                  <span className="text-xs sm:text-[13px] uppercase tracking-wider font-bold text-stone-700 font-mono">AERODYNAMICS</span>
-                  <div className="p-2 sm:p-2.5 rounded-xl bg-cyan-50 border border-cyan-200/80 text-cyan-700 group-hover:scale-110 group-hover:rotate-45 transition-transform duration-300">
-                    <Compass className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                <div className="flex items-center justify-between text-[#A7ADB5] mb-2">
+                  <span className="text-[10px] sm:text-xs uppercase tracking-wider font-bold text-[#A7ADB5] font-mono">AERODYNAMICS</span>
+                  <div className="p-1 sm:p-1.5 rounded-lg bg-[#17191D] border border-[#2E343D] text-[#FF8A24]">
+                    <Compass className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <div className="text-3xl sm:text-4xl lg:text-[42px] font-black text-stone-900 tracking-tight font-display my-1 leading-none">
+                <div className="text-xl sm:text-3xl font-black text-[#F5F5F2] tracking-tight font-display leading-tight">
                   360°
                 </div>
-                
-                {/* Micro Visual: 360° Compass Radar */}
-                <div className="my-3.5 h-2 sm:h-2.5 w-full bg-cyan-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-cyan-500 to-sky-500 rounded-full w-full" />
+                <div className="my-2 h-1.5 w-full bg-[#17191D] rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-[#FF8A24] to-[#FFA14E] rounded-full w-full" />
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-stone-600 font-sans leading-relaxed pt-2.5 border-t border-stone-100">
+              <p className="text-[10px] sm:text-xs text-[#A7ADB5] font-sans pt-1 border-t border-[#2E343D]/60 leading-tight">
                 Dual-axis horizontal & vertical capture
               </p>
             </div>
           </Tilt>
 
           {/* Card 2: Cut-in Velocity */}
-          <Tilt rotationFactor={5} className="h-full">
-            <div className="bg-white/95 backdrop-blur-2xl p-6 sm:p-7 rounded-3xl relative overflow-hidden group h-full border-2 border-stone-200/90 hover:border-emerald-400/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between min-h-[220px] sm:min-h-[240px]">
-              <Spotlight fill="rgba(16, 185, 129, 0.12)" size={220} />
+          <Tilt rotationFactor={3} className="h-full">
+            <div className="bg-[#22262C] border border-[#2E343D] hover:border-emerald-500/40 p-3.5 sm:p-5 rounded-2xl relative overflow-hidden group h-full flex flex-col justify-between shadow-md transition-all duration-300">
+              <Spotlight fill="rgba(16, 185, 129, 0.08)" size={140} />
               <div>
-                <div className="flex items-center justify-between text-stone-500 mb-3 sm:mb-4">
-                  <span className="text-xs sm:text-[13px] uppercase tracking-wider font-bold text-stone-700 font-mono">CUT-IN VELOCITY</span>
-                  <div className="p-2 sm:p-2.5 rounded-xl bg-emerald-50 border border-emerald-200/80 text-emerald-700 group-hover:scale-110 transition-transform duration-300">
-                    <Zap className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                <div className="flex items-center justify-between text-[#A7ADB5] mb-2">
+                  <span className="text-[10px] sm:text-xs uppercase tracking-wider font-bold text-[#A7ADB5] font-mono">CUT-IN SPEED</span>
+                  <div className="p-1 sm:p-1.5 rounded-lg bg-[#17191D] border border-[#2E343D] text-emerald-400">
+                    <Zap className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <div className="text-3xl sm:text-4xl lg:text-[42px] font-black text-emerald-600 tracking-tight font-display my-1 leading-none">
+                <div className="text-xl sm:text-3xl font-black text-emerald-400 tracking-tight font-display leading-tight">
                   1.48 m/s
                 </div>
-                
-                {/* Micro Visual: Low Velocity Progress Bar */}
-                <div className="my-3.5 h-2 sm:h-2.5 w-full bg-emerald-100 rounded-full overflow-hidden flex">
-                  <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full w-[38%]" />
+                <div className="my-2 h-1.5 w-full bg-[#17191D] rounded-full overflow-hidden flex">
+                  <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full w-[42%]" />
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-stone-600 font-sans leading-relaxed pt-2.5 border-t border-stone-100">
+              <p className="text-[10px] sm:text-xs text-[#A7ADB5] font-sans pt-1 border-t border-[#2E343D]/60 leading-tight">
                 Generates in gentle rooftop breezes
               </p>
             </div>
           </Tilt>
 
           {/* Card 3: Ref. Benchmark */}
-          <Tilt rotationFactor={5} className="h-full">
-            <div className="bg-white/95 backdrop-blur-2xl p-6 sm:p-7 rounded-3xl relative overflow-hidden group h-full border-2 border-stone-200/90 hover:border-purple-400/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between min-h-[220px] sm:min-h-[240px]">
-              <Spotlight fill="rgba(168, 85, 247, 0.12)" size={220} />
+          <Tilt rotationFactor={3} className="h-full">
+            <div className="bg-[#22262C] border border-[#2E343D] hover:border-cyan-500/40 p-3.5 sm:p-5 rounded-2xl relative overflow-hidden group h-full flex flex-col justify-between shadow-md transition-all duration-300">
+              <Spotlight fill="rgba(6, 182, 212, 0.08)" size={140} />
               <div>
-                <div className="flex items-center justify-between text-stone-500 mb-3 sm:mb-4">
-                  <span className="text-xs sm:text-[13px] uppercase tracking-wider font-bold text-stone-700 font-mono">REF. BENCHMARK</span>
-                  <div className="p-2 sm:p-2.5 rounded-xl bg-purple-50 border border-purple-200/80 text-purple-700 group-hover:scale-110 transition-transform duration-300">
-                    <Cpu className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                <div className="flex items-center justify-between text-[#A7ADB5] mb-2">
+                  <span className="text-[10px] sm:text-xs uppercase tracking-wider font-bold text-[#A7ADB5] font-mono">PEAK POWER</span>
+                  <div className="p-1 sm:p-1.5 rounded-lg bg-[#17191D] border border-[#2E343D] text-cyan-400">
+                    <Cpu className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <div className="text-3xl sm:text-4xl lg:text-[42px] font-black text-purple-700 tracking-tight font-display my-1 leading-none">
+                <div className="text-xl sm:text-3xl font-black text-cyan-400 tracking-tight font-display leading-tight">
                   0.496 W
                 </div>
-
-                {/* Micro Visual: Power Output Pulse Bar */}
-                <div className="my-3.5 h-2 sm:h-2.5 w-full bg-purple-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full w-[65%]" />
+                <div className="my-2 h-1.5 w-full bg-[#17191D] rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-cyan-500 to-sky-400 rounded-full w-[65%]" />
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-stone-600 font-sans leading-relaxed pt-2.5 border-t border-stone-100">
-                Laboratory reference prototype test
+              <p className="text-[10px] sm:text-xs text-[#A7ADB5] font-sans pt-1 border-t border-[#2E343D]/60 leading-tight">
+                Yokogawa WT310 lab benchmark baseline
               </p>
             </div>
           </Tilt>
 
           {/* Card 4: Rooftop Safety */}
-          <Tilt rotationFactor={5} className="h-full">
-            <div className="bg-white/95 backdrop-blur-2xl p-6 sm:p-7 rounded-3xl relative overflow-hidden group h-full border-2 border-stone-200/90 hover:border-sky-400/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between min-h-[220px] sm:min-h-[240px]">
-              <Spotlight fill="rgba(2, 132, 199, 0.12)" size={220} />
+          <Tilt rotationFactor={3} className="h-full">
+            <div className="bg-[#22262C] border border-[#2E343D] hover:border-[#FF8A24]/40 p-3.5 sm:p-5 rounded-2xl relative overflow-hidden group h-full flex flex-col justify-between shadow-md transition-all duration-300">
+              <Spotlight fill="rgba(255, 138, 36, 0.08)" size={140} />
               <div>
-                <div className="flex items-center justify-between text-stone-500 mb-3 sm:mb-4">
-                  <span className="text-xs sm:text-[13px] uppercase tracking-wider font-bold text-stone-700 font-mono">ROOFTOP SAFETY</span>
-                  <div className="p-2 sm:p-2.5 rounded-xl bg-sky-50 border border-sky-200/80 text-sky-700 group-hover:scale-110 transition-transform duration-300">
-                    <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                <div className="flex items-center justify-between text-[#A7ADB5] mb-2">
+                  <span className="text-[10px] sm:text-xs uppercase tracking-wider font-bold text-[#A7ADB5] font-mono">ACOUSTICS</span>
+                  <div className="p-1 sm:p-1.5 rounded-lg bg-[#17191D] border border-[#2E343D] text-[#FF8A24]">
+                    <ShieldCheck className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <div className="text-3xl sm:text-4xl lg:text-[42px] font-black text-sky-700 tracking-tight font-display my-1 leading-none">
-                  Enclosed
+                <div className="text-xl sm:text-3xl font-black text-[#F5F5F2] tracking-tight font-display leading-tight">
+                  &lt; 28 dBA
                 </div>
-
-                {/* Micro Visual: Low Decibel Sound Bar */}
-                <div className="my-3.5 h-2 sm:h-2.5 w-full bg-sky-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-sky-500 to-cyan-500 rounded-full w-[28%]" />
+                <div className="my-2 h-1.5 w-full bg-[#17191D] rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-[#FF8A24] to-[#FFA14E] rounded-full w-[25%]" />
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-stone-600 font-sans leading-relaxed pt-2.5 border-t border-stone-100">
-                &lt; 24 dB whisper silent & bird-safe
+              <p className="text-[10px] sm:text-xs text-[#A7ADB5] font-sans pt-1 border-t border-[#2E343D]/60 leading-tight">
+                Whisper silent & bird-safe on parapets
               </p>
             </div>
           </Tilt>

@@ -11,6 +11,7 @@ import { ShowcaseBentoGrid } from './components/showcase/ShowcaseBentoGrid';
 import { ShowcaseSimulator } from './components/showcase/ShowcaseSimulator';
 import { ShowcaseSpecifications } from './components/showcase/ShowcaseSpecifications';
 import { ShowcaseVisualGallery } from './components/showcase/ShowcaseVisualGallery';
+import { ShowcaseVideoGallery } from './components/showcase/ShowcaseVideoGallery';
 import { ShowcaseAbout } from './components/showcase/ShowcaseAbout';
 import { ShowcaseFooter } from './components/showcase/ShowcaseFooter';
 import { ScrollProgress } from './components/motion-primitives';
@@ -41,7 +42,7 @@ const AppContent: React.FC = () => {
 
   if (viewMode === 'landing') {
     return (
-      <div className="min-h-screen bg-[#FAFAF9] text-stone-900 flex flex-col antialiased selection:bg-cyan-500/25 selection:text-cyan-950 relative overflow-x-hidden animate-fade-in font-sans">
+      <div className="min-h-screen bg-[#17191D] text-[#F5F5F2] flex flex-col antialiased selection:bg-[#FF8A24]/30 selection:text-white relative overflow-x-hidden animate-fade-in font-sans">
         {/* Precision Architectural Engineering Background */}
         <AuroraBackground />
 
@@ -62,10 +63,13 @@ const AppContent: React.FC = () => {
           {/* 3. Aerodynamics: Why Traditional Turbines Fail vs O-Wind Solution */}
           <ShowcaseProblemSolution />
 
-          {/* 4. Motion Primitives Bento Grid: 5 Core Technological Pillars */}
+          {/* 4. Master Bento Grid: Core Physics, Components, Stepper & Real Telemetry */}
           <ShowcaseBentoGrid />
 
-          {/* 5. Physical Turbine & AI Visual Evidence Gallery */}
+          {/* 5. Mobile Video Showcase & Lab Demonstrations */}
+          <ShowcaseVideoGallery />
+
+          {/* 6. Physical Turbine & AI Visual Evidence Gallery */}
           <ShowcaseVisualGallery />
 
           {/* 6. Interactive Physics & Edge Microgrid Simulator */}
